@@ -1,9 +1,2086 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
-  <meta http-equiv="refresh" content="0; url=Homepage.html">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAMCO Used Equipment – Homepage Mockup v2 (Yellow)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root {
+  --y:        #FFD100;
+  --y-dark:   #E6BC00;
+  --y-deeper: #C9A400;
+  --y-light:  #FFFBE6;
+  --y-pale:   #FFFDF0;
+
+  --ink:      #111827;
+  --ink-2:    #1F2937;
+  --ink-3:    #374151;
+  --body:     #4B5563;
+  --muted:    #9CA3AF;
+  --border:   #E5E7EB;
+  --surface:  #F9FAFB;
+  --white:    #FFFFFF;
+
+  --green:    #16A34A;
+  --red:      #DC2626;
+  --orange:   #EA580C;
+
+  --px:       80px;
+  --r:        8px;
+  --rl:       14px;
+  --sh-sm:    0 1px 4px rgba(0,0,0,.07);
+  --sh-md:    0 4px 20px rgba(0,0,0,.11);
+  --sh-lg:    0 10px 40px rgba(0,0,0,.14);
+  --t:        .22s ease;
+}
+
+html { scroll-behavior: smooth; overflow-x:hidden; }
+body {
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  background:var(--white);
+  color:var(--ink);
+  max-width:1440px;
+  width:100%;
+  margin:0 auto;
+  font-size:14px;
+  line-height:1.6;
+}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+ul{list-style:none;}
+button{cursor:pointer;border:none;background:none;font-family:inherit;}
+
+/* ── TOP BAR ── */
+.top-bar {
+  background:var(--ink);
+  color:rgba(255,255,255,.8);
+  font-size:12px;
+  padding:0 var(--px);
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+  overflow:hidden;
+}
+.tb-left{display:flex;align-items:center;gap:24px;}
+.tb-item{display:flex;align-items:center;gap:6px;opacity:.7;transition:opacity var(--t);}
+.tb-item:hover{opacity:1;}
+.tb-promo{
+  position:absolute;left:50%;transform:translateX(-50%);
+  font-size:11.5px;color:rgba(255,255,255,.5);white-space:nowrap;
+}
+.tb-promo strong{color:var(--y);font-weight:700;}
+.tb-right{display:flex;align-items:center;gap:14px;}
+
+.switch{
+  display:flex;align-items:center;gap:2px;
+  background:rgba(255,255,255,.08);border-radius:20px;padding:3px 4px;
+}
+.sw-btn{
+  font-size:11px;font-weight:600;color:rgba(255,255,255,.55);
+  padding:2px 10px;border-radius:16px;cursor:pointer;
+  transition:all var(--t);letter-spacing:.3px;
+}
+.sw-btn.on{background:var(--y);color:var(--ink);font-weight:800;}
+.sw-btn.ar{font-size:12px;}
+
+/* ── HEADER ── */
+header{
+  background:var(--white);
+  padding:0 var(--px);
+  height:72px;
+  display:flex;
+  align-items:center;
+  gap:28px;
+  border-bottom:1px solid var(--border);
+  box-shadow:var(--sh-sm);
+  position:sticky;top:0;z-index:200;
+}
+.logo{display:flex;align-items:center;gap:10px;flex:1;}
+.logo img{height:40px;width:auto;}
+.logo-fb{display:none;flex-direction:column;justify-content:center;}
+.logo-brand{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1;}
+.logo-brand em{color:var(--y-deeper);font-style:normal;}
+.logo-sub{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+
+/* Search */
+.srch{flex:0 1 560px;max-width:560px;min-width:0;position:relative;}
+.srch-wrap{
+  display:flex;align-items:center;
+  height:42px;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r);overflow:hidden;
+  transition:border-color var(--t),box-shadow var(--t);
+}
+.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.18);}
+.srch-cat{
+  height:100%;padding:0 28px 0 12px;
+  font-size:12.5px;font-family:inherit;color:var(--body);
+  background:var(--surface);border:none;border-right:1.5px solid var(--border);
+  outline:none;cursor:pointer;white-space:nowrap;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 8px center;
+  min-width:148px;flex-shrink:0;
+}
+.srch-cat:focus{outline:none;}
+.srch-input{
+  flex:1;height:100%;background:transparent;border:none;
+  padding:0 8px 0 12px;font-size:13.5px;font-family:inherit;color:var(--ink);outline:none;
+}
+.srch-input::placeholder{color:var(--muted);}
+.srch-btn{
+  flex-shrink:0;width:38px;height:34px;margin-right:4px;background:var(--y);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--t);
+}
+.srch-btn:hover{background:var(--y-dark);}
+
+/* Header actions */
+.h-acts{display:flex;align-items:center;gap:6px;flex:1;justify-content:flex-end;}
+.h-act{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:6px 10px;border-radius:var(--r);
+  transition:background var(--t);color:var(--body);cursor:pointer;
+}
+.h-act:hover{background:var(--surface);color:var(--ink);}
+.h-act span{font-size:10px;font-weight:600;letter-spacing:.3px;white-space:nowrap;}
+.h-cta{
+  background:var(--y);color:var(--ink);
+  padding:0 20px;height:40px;border-radius:var(--r);
+  font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px;
+  transition:background var(--t);white-space:nowrap;margin-left:8px;
+}
+.h-cta:hover{background:var(--y-dark);}
+.h-btn-login{
+  background:transparent;color:var(--ink);
+  border:1.5px solid var(--border);
+  padding:0 18px;height:40px;border-radius:var(--r);
+  font-size:13px;font-weight:700;display:flex;align-items:center;
+  transition:all var(--t);white-space:nowrap;margin-left:8px;
+}
+.h-btn-login:hover{border-color:var(--ink-3);background:var(--surface);}
+
+/* ── NAV BAR ── */
+.nav-bar{
+  background:var(--ink-2);padding:0 var(--px);
+  display:flex;align-items:center;height:48px;gap:2px;
+  position:sticky;top:72px;z-index:150;
+  overflow:hidden;
+}
+.nv-item{position:relative;height:100%;display:flex;align-items:center;}
+.nv-link{
+  display:flex;align-items:center;gap:6px;
+  padding:0 16px;height:100%;
+  font-size:13px;font-weight:600;
+  color:rgba(255,255,255,.7);letter-spacing:.1px;white-space:nowrap;
+  transition:all var(--t);cursor:pointer;
+}
+.nv-link:hover,.nv-item:hover>.nv-link{color:var(--white);background:rgba(255,255,255,.08);}
+.nv-link.act{color:var(--y);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  height:600px;
+  overflow:hidden;
+  background:var(--ink);
+  display:flex;align-items:center;
+}
+.hero-photo{
+  position:absolute;inset:0;
+  background:url('https://upload.wikimedia.org/wikipedia/commons/f/f1/Volvo_FH_%282024%29.jpg') center/cover no-repeat;
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    105deg,
+    rgba(17,24,39,0.96) 0%,
+    rgba(17,24,39,0.82) 45%,
+    rgba(17,24,39,0.30) 75%,
+    rgba(17,24,39,0.10) 100%
+  );
+}
+/* Yellow accent bar on left */
+.hero-bar{
+  position:absolute;left:0;top:0;bottom:0;width:5px;
+  background:var(--y);z-index:2;
+}
+
+.hero-content{
+  position:relative;z-index:3;
+  padding:0 var(--px);max-width:660px;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,209,0,.15);
+  border:1px solid rgba(255,209,0,.35);
+  color:var(--y);font-size:11px;font-weight:800;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 14px;border-radius:20px;margin-bottom:20px;
+}
+.hero-dot{width:6px;height:6px;background:var(--y);border-radius:50%;}
+
+h1.hero-h{
+  font-size:56px;font-weight:900;
+  color:var(--white);line-height:1.05;
+  letter-spacing:-1.5px;margin-bottom:18px;
+}
+h1.hero-h em{color:var(--y);font-style:normal;}
+
+.hero-sub{
+  font-size:17px;color:rgba(255,255,255,.62);
+  line-height:1.65;margin-bottom:32px;
+  max-width:500px;font-weight:400;
+}
+
+.hero-ctas{display:flex;gap:14px;margin-bottom:44px;}
+.btn-y{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--y);color:var(--ink);
+  padding:0 28px;height:52px;border-radius:var(--r);
+  font-size:14px;font-weight:800;letter-spacing:.2px;
+  transition:all var(--t);white-space:nowrap;
+}
+.btn-y:hover{background:var(--y-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,209,0,.35);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  background:transparent;color:var(--white);
+  padding:0 28px;height:52px;border-radius:var(--r);
+  font-size:14px;font-weight:600;
+  border:1.5px solid rgba(255,255,255,.3);
+  transition:all var(--t);white-space:nowrap;
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,.7);background:rgba(255,255,255,.07);}
+
+.hero-stats{
+  display:flex;gap:32px;
+  padding-top:32px;border-top:1px solid rgba(255,255,255,.1);
+}
+.hs{display:flex;flex-direction:column;}
+.hs-v{
+  font-size:28px;font-weight:900;color:var(--white);
+  line-height:1;letter-spacing:-1px;
+}
+.hs-v em{color:var(--y);font-style:normal;}
+.hs-l{font-size:11px;color:rgba(255,255,255,.42);font-weight:500;margin-top:4px;}
+.hs-div{width:1px;background:rgba(255,255,255,.1);}
+
+/* Quick search */
+.hero-qs{
+  position:absolute;right:var(--px);top:50%;
+  transform:translateY(-50%);z-index:3;width:330px;
+}
+.qs-card{
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(16px);
+  border-radius:var(--rl);padding:24px;
+  box-shadow:var(--sh-lg);
+}
+.qs-ttl{
+  font-size:14px;font-weight:800;color:var(--ink);
+  margin-bottom:16px;display:flex;align-items:center;gap:8px;
+}
+.qs-ttl::before{
+  content:'';width:3px;height:16px;
+  background:var(--y);border-radius:2px;display:block;
+}
+.qs-f{margin-bottom:12px;}
+.qs-lbl{
+  font-size:10px;font-weight:800;color:var(--muted);
+  letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px;
+}
+.qs-sel{
+  width:100%;height:40px;
+  border:1.5px solid var(--border);border-radius:var(--r);
+  padding:0 12px;font-size:13px;font-family:inherit;
+  color:var(--ink);background:var(--surface);
+  appearance:none;cursor:pointer;outline:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.qs-sel:focus{border-color:var(--y-deeper);}
+.qs-row{display:flex;gap:10px;}
+.qs-row .qs-f{flex:1;}
+.qs-go{
+  width:100%;height:44px;background:var(--y);color:var(--ink);
+  border-radius:var(--r);font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:4px;transition:all var(--t);
+}
+.qs-go:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(255,209,0,.4);}
+.qs-ft{text-align:center;margin-top:10px;font-size:12px;color:var(--muted);}
+.qs-ft a{color:var(--y-deeper);font-weight:700;}
+
+/* ── SECTION UTILS ── */
+.sec{padding:72px var(--px);}
+.sec-alt{background:var(--surface);}
+.sec-dk{background:var(--ink);}
+.sec-y{background:var(--y);}
+
+.sec-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
+.sec-ey{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--y-deeper);margin-bottom:8px;}
+.sec-ey.on-dk{color:var(--y);}
+h2.sec-t{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-.8px;line-height:1.15;}
+h2.sec-t.on-dk{color:var(--white);}
+.sec-sub{font-size:15px;color:var(--body);margin-top:8px;max-width:520px;line-height:1.65;}
+.sec-sub.on-dk{color:rgba(255,255,255,.5);}
+.va{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:700;color:var(--y-deeper);
+  padding:8px 0;transition:gap var(--t);white-space:nowrap;
+}
+.va:hover{gap:10px;}
+
+/* ── CATEGORY CARDS ── */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.cat-card{
+  position:relative;height:240px;
+  border-radius:var(--rl);overflow:hidden;cursor:pointer;
+  transition:transform .25s,box-shadow .25s;
+  border:1px solid var(--border);
+  background:var(--surface);
+}
+.cat-card:hover{transform:translateY(-5px);box-shadow:var(--sh-lg);}
+.cat-bg{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:72px;transition:transform .4s;
+  overflow:hidden;
+}
+.cat-bg img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform .4s;
+}
+.cat-card:hover .cat-bg{transform:scale(1.06);}
+.cat-card:hover .cat-bg img{transform:scale(1.04);}
+.c1,.c2,.c3,.c4{background:transparent;}
+.cat-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.15) 60%,transparent 100%);
+  transition:all .25s;
+}
+.cat-card:hover .cat-ov{
+  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 65%,rgba(255,209,0,.07) 100%);
+}
+.cat-body{position:absolute;bottom:0;left:0;right:0;padding:20px;}
+.cat-cnt{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--y);margin-bottom:4px;}
+.cat-name{font-size:18px;font-weight:800;color:var(--white);letter-spacing:-.3px;margin-bottom:8px;}
+.cat-sub{font-size:12px;color:rgba(255,255,255,.5);}
+.cat-arrow{
+  position:absolute;right:18px;bottom:18px;
+  width:36px;height:36px;background:var(--y);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateX(-8px);transition:all .25s;
+}
+.cat-card:hover .cat-arrow{opacity:1;transform:translateX(0);}
+.cat-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:var(--y);transform:scaleX(0);transition:transform .25s;transform-origin:left;
+}
+.cat-card:hover::after{transform:scaleX(1);}
+
+/* ── LISTINGS ── */
+.listings-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.lc{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rl);overflow:hidden;
+  transition:box-shadow .25s,transform .25s;cursor:pointer;
+}
+.lc:hover{box-shadow:var(--sh-md);transform:translateY(-3px);}
+
+/* Thumbnail */
+.lc-thumb{
+  position:relative;height:200px;overflow:hidden;
+  background:var(--surface);
+}
+.lc-thumb img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .4s ease;
+}
+.lc:hover .lc-thumb img{transform:scale(1.04);}
+.lc-thumb-fallback{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:60px;
+}
+
+/* Media badges (3D / Video) */
+.media-badges{
+  position:absolute;bottom:10px;left:10px;
+  display:flex;gap:6px;z-index:2;
+}
+.mb{
+  display:flex;align-items:center;gap:4px;
+  padding:4px 8px;border-radius:5px;
+  font-size:10px;font-weight:800;letter-spacing:.5px;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.25);
+}
+.mb-3d{
+  background:rgba(17,24,39,.75);color:var(--y);
+  border-color:rgba(255,209,0,.35);
+}
+.mb-vid{
+  background:rgba(220,38,38,.85);color:var(--white);
+  border-color:rgba(255,255,255,.2);
+}
+.mb-360{
+  background:rgba(22,163,74,.85);color:var(--white);
+  border-color:rgba(255,255,255,.2);
+}
+
+/* Approval badge */
+.lc-badge{
+  position:absolute;top:10px;left:10px;
+  background:var(--green);color:var(--white);
+  font-size:9px;font-weight:800;letter-spacing:.5px;
+  text-transform:uppercase;padding:3px 8px;border-radius:4px;
+  border:1px solid rgba(255,255,255,.2);
+}
+.lc-badge-new{background:var(--y-deeper);color:var(--white);}
+.lc-badge-hot{background:var(--red);}
+
+/* Save */
+.lc-save{
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;
+  background:rgba(255,255,255,.9);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);backdrop-filter:blur(6px);
+  transition:all var(--t);
+}
+.lc-save:hover{color:var(--red);background:white;}
+
+/* Play button overlay */
+.play-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.0);transition:background var(--t);
+  z-index:1;
+}
+.lc:hover .play-overlay{background:rgba(0,0,0,.15);}
+.play-btn{
+  width:48px;height:48px;
+  background:rgba(255,209,0,.92);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(.7);
+  transition:all .25s;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.lc:hover .play-btn{opacity:1;transform:scale(1);}
+
+.lc-body{padding:16px;}
+.lc-cat{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+  color:var(--y-deeper);background:var(--y-light);
+  padding:3px 9px;border-radius:4px;margin-bottom:8px;
+}
+.lc-name{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3;}
+.lc-specs{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.sp{display:flex;justify-content:space-between;align-items:center;font-size:12px;}
+.sp-k{color:var(--muted);font-weight:500;}
+.sp-v{font-weight:600;color:var(--ink);}
+.lc-ft{
+  display:flex;align-items:center;gap:8px;
+  padding-top:14px;border-top:1px solid var(--border);
+}
+.lc-enq{
+  flex:1;font-size:12px;font-weight:800;color:var(--ink);
+  background:var(--y);padding:8px 12px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  transition:background var(--t);
+}
+.lc-enq:hover{background:var(--y-dark);}
+.lc-compare{
+  flex:1;font-size:12px;font-weight:800;color:var(--body);
+  background:transparent;border:1.5px solid var(--border);
+  padding:8px 10px;border-radius:6px;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  white-space:nowrap;transition:all var(--t);
+}
+.lc-compare:hover{border-color:var(--ink-3);color:var(--ink);}
+.lc-compare:active{transform:scale(.97);}
+/* hover video — only for cards with data-hover-video */
+.lc-thumb img{transition:transform .4s ease,opacity .35s ease;}
+.lc-hover-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s ease;pointer-events:none;border-radius:var(--r) var(--r) 0 0;}
+.lc[data-hover-video]:hover .lc-hover-video{opacity:1;}
+.lc[data-hover-video]:hover .lc-thumb>img{opacity:0;}
+
+/* ── TRUST SECTION ── */
+.trust-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2px;background:var(--ink-3);
+  border-radius:var(--rl);overflow:hidden;
+}
+.ti{
+  background:var(--ink-2);padding:40px 32px;
+  transition:background var(--t);
+}
+.ti:hover{background:var(--ink-3);}
+.ti-icon{
+  width:48px;height:48px;
+  background:rgba(255,209,0,.12);
+  border-radius:var(--r);display:flex;align-items:center;justify-content:center;
+  margin-bottom:20px;transition:background var(--t);font-size:22px;
+}
+.ti:hover .ti-icon{background:rgba(255,209,0,.22);}
+.ti-num{
+  font-size:44px;font-weight:900;color:var(--white);
+  line-height:1;letter-spacing:-2px;margin-bottom:4px;
+}
+.ti-num em{color:var(--y);font-style:normal;}
+.ti-lbl{font-size:14px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:8px;}
+.ti-desc{font-size:12.5px;color:rgba(255,255,255,.38);line-height:1.65;}
+
+.appr-band{
+  display:flex;align-items:center;gap:14px;
+  width:100%;
+  background:rgba(255,209,0,.1);
+  border:1px solid rgba(255,209,0,.25);
+  border-radius:var(--rl);padding:20px 28px;margin-top:28px;
+}
+.appr-ic{
+  width:44px;height:44px;background:var(--y);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+}
+.appr-t{font-size:14px;font-weight:800;color:var(--white);margin-bottom:2px;}
+.appr-s{font-size:12px;color:rgba(255,255,255,.45);}
+
+/* ── BRANDS ── */
+.brand-bar{
+  display:flex;overflow:hidden;
+  border:1px solid var(--border);border-radius:var(--rl);
+}
+.brand-item{
+  flex:1;height:80px;
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid var(--border);
+  filter:grayscale(1);opacity:.4;
+  transition:all var(--t);cursor:pointer;
+}
+.brand-item:last-child{border-right:none;}
+.brand-item:hover{filter:grayscale(0);opacity:1;}
+.bn{font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-.3px;}
+
+/* ── HOW IT WORKS ── */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+.steps::before{
+  content:'';position:absolute;top:36px;
+  left:calc(12.5% + 20px);right:calc(12.5% + 20px);
+  height:2px;
+  background:repeating-linear-gradient(to right,var(--y) 0,var(--y) 8px,transparent 8px,transparent 16px);
+  z-index:0;
+}
+.step{padding:0 28px;text-align:center;}
+.step-ring{
+  position:relative;z-index:1;
+  width:72px;height:72px;margin:0 auto 24px;
+  background:var(--white);border:2.5px solid var(--border);
+  border-radius:50%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:all var(--t);
+}
+.step:hover .step-ring{border-color:var(--y);background:var(--y-light);}
+.step-ico{font-size:24px;}
+.step-n{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.5px;margin-top:2px;}
+.step:hover .step-n{color:var(--y-deeper);}
+.step-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.2px;}
+.step-d{font-size:13px;color:var(--body);line-height:1.65;}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.tc{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rl);padding:28px;
+  transition:box-shadow var(--t),border-color var(--t);position:relative;
+}
+.tc:hover{box-shadow:var(--sh-md);border-color:var(--y);}
+.tc::before{
+  content:'"';position:absolute;top:14px;right:22px;
+  font-size:72px;font-family:Georgia,serif;
+  color:var(--y-light);line-height:1;pointer-events:none;
+}
+.stars{display:flex;gap:3px;margin-bottom:14px;}
+.star{color:var(--y);font-size:14px;}
+.star.off{color:var(--border);}
+.tq{font-size:14px;color:var(--body);line-height:1.75;margin-bottom:20px;font-style:italic;}
+.ta{display:flex;align-items:center;gap:12px;}
+.av{
+  width:42px;height:42px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:var(--ink);flex-shrink:0;
+}
+.av1{background:var(--y);}
+.av2{background:linear-gradient(135deg,#374151,#1F2937);color:white;}
+.av3{background:linear-gradient(135deg,#16A34A,#15803D);color:white;}
+.an{font-size:13px;font-weight:700;color:var(--ink);}
+.ac{font-size:12px;color:var(--muted);margin-top:1px;}
+
+/* ── OFFERS BANNER ── */
+.offers{
+  background:var(--y);
+  padding:60px var(--px);
+  display:flex;align-items:center;justify-content:space-between;gap:40px;
+  position:relative;overflow:hidden;
+}
+.offers::before{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:320px;height:320px;
+  background:rgba(255,255,255,.1);border-radius:50%;pointer-events:none;
+}
+.offers::after{
+  content:'';position:absolute;right:100px;bottom:-80px;
+  width:200px;height:200px;
+  background:rgba(255,255,255,.07);border-radius:50%;pointer-events:none;
+}
+.off-cnt{position:relative;z-index:1;}
+.off-ey{
+  font-size:10px;font-weight:800;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(17,24,39,.55);margin-bottom:8px;
+}
+.off-t{font-size:38px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1.1;margin-bottom:10px;}
+.off-s{font-size:16px;color:rgba(17,24,39,.65);max-width:500px;}
+.off-cta{position:relative;z-index:1;flex-shrink:0;}
+.btn-dk{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--ink);color:var(--white);
+  padding:0 32px;height:54px;border-radius:var(--r);
+  font-size:14px;font-weight:800;transition:all var(--t);white-space:nowrap;
+}
+.btn-dk:hover{background:var(--ink-2);transform:translateY(-2px);}
+
+/* ── LOCATIONS ── */
+.loc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 360px;gap:24px;align-items:start;}
+.loc-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rl);padding:24px;
+  transition:box-shadow var(--t),border-color var(--t);
+}
+.loc-card:hover{box-shadow:var(--sh-md);border-color:var(--y);}
+.loc-ic{
+  width:44px;height:44px;background:var(--y-light);
+  border-radius:var(--r);display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;font-size:20px;
+}
+.loc-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
+.loc-addr{font-size:13px;color:var(--body);line-height:1.65;margin-bottom:12px;}
+.loc-hrs{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-bottom:14px;}
+.loc-dot{width:7px;height:7px;background:var(--green);border-radius:50%;flex-shrink:0;}
+.loc-link{font-size:12.5px;font-weight:700;color:var(--y-deeper);display:flex;align-items:center;gap:4px;transition:gap var(--t);}
+.loc-link:hover{gap:8px;}
+
+/* Enquiry card */
+.enq-card{background:var(--ink);border-radius:var(--rl);padding:28px;}
+.enq-t{font-size:16px;font-weight:800;color:var(--white);margin-bottom:4px;}
+.enq-s{font-size:12px;color:rgba(255,255,255,.4);margin-bottom:20px;}
+.enq-f{margin-bottom:12px;}
+.enq-inp{
+  width:100%;height:40px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r);padding:0 14px;
+  font-size:13px;font-family:inherit;color:var(--white);outline:none;
+  transition:border-color var(--t);
+}
+.enq-inp::placeholder{color:rgba(255,255,255,.3);}
+.enq-inp:focus{border-color:var(--y);}
+.enq-ta{
+  width:100%;height:80px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--r);padding:10px 14px;
+  font-size:13px;font-family:inherit;color:var(--white);
+  outline:none;resize:none;transition:border-color var(--t);
+}
+.enq-ta::placeholder{color:rgba(255,255,255,.3);}
+.enq-ta:focus{border-color:var(--y);}
+.enq-btn{
+  width:100%;height:44px;background:var(--y);color:var(--ink);
+  border-radius:var(--r);font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:4px;transition:all var(--t);
+}
+.enq-btn:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(255,209,0,.4);}
+
+/* ── LATEST INSIGHTS ── */
+.insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.insight-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--rl);overflow:hidden;
+  transition:box-shadow .25s,transform .25s;cursor:pointer;
+}
+.insight-card:hover{box-shadow:var(--sh-md);transform:translateY(-3px);}
+.ic-img{height:200px;overflow:hidden;background:var(--surface);}
+.ic-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
+.insight-card:hover .ic-img img{transform:scale(1.04);}
+.ic-body{padding:20px;}
+.ic-meta{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:600;color:var(--muted);
+  margin-bottom:10px;
+}
+.ic-meta-dot{width:3px;height:3px;background:var(--muted);border-radius:50%;flex-shrink:0;}
+.ic-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:8px;}
+.ic-desc{
+  font-size:13px;color:var(--body);line-height:1.65;margin-bottom:16px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.ic-link{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:13px;font-weight:700;color:var(--y-deeper);
+  transition:gap var(--t);
+}
+.ic-link:hover{gap:9px;}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);padding:64px var(--px) 0;}
+.ft-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;
+  gap:40px;padding-bottom:52px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.ft-brand{}
+.ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ft-logo-t{font-size:22px;font-weight:900;color:var(--white);letter-spacing:-1px;}
+.ft-logo-t em{color:var(--y);font-style:normal;}
+.ft-logo-s{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;}
+.ft-tag{font-size:13px;color:rgba(255,255,255,.42);line-height:1.75;margin-bottom:24px;max-width:280px;}
+.ft-soc{display:flex;gap:10px;}
+.soc-b{
+  width:36px;height:36px;background:rgba(255,255,255,.07);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.5);font-size:13px;font-weight:800;
+  transition:all var(--t);cursor:pointer;
+}
+.soc-b:hover{background:var(--y);color:var(--ink);}
+.ft-col{}
+.ft-ct{
+  font-size:11px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:18px;
+}
+.ft-ls{display:flex;flex-direction:column;gap:10px;}
+.ft-ls a{font-size:13px;color:rgba(255,255,255,.52);transition:color var(--t);}
+.ft-ls a:hover{color:var(--y);}
+.ft-ci{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:rgba(255,255,255,.52);margin-bottom:10px;line-height:1.5;
+}
+.ft-ci-ic{color:var(--y);flex-shrink:0;margin-top:1px;}
+.ft-bot{
+  padding:20px 0;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ft-copy{font-size:12px;color:rgba(255,255,255,.28);}
+.ft-leg{display:flex;gap:20px;}
+.ft-leg a{font-size:12px;color:rgba(255,255,255,.28);transition:color var(--t);}
+.ft-leg a:hover{color:rgba(255,255,255,.6);}
+.ft-lang{display:flex;align-items:center;gap:8px;}
+.ft-lang span{font-size:12px;color:rgba(255,255,255,.32);cursor:pointer;transition:color var(--t);}
+.ft-lang span:hover{color:white;}
+.ft-lang span.on{color:var(--y);font-weight:700;}
+.ft-lang .sep{opacity:.3;}
+
+/* ── FLOATING BUTTONS ── */
+.fab-wrap{position:fixed;bottom:28px;right:28px;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:999;}
+.fab-wa{
+  width:54px;height:54px;background:#25D366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 18px rgba(37,211,102,.45);
+  cursor:pointer;transition:transform .25s ease,box-shadow .25s ease;
+  position:relative;
+}
+.fab-wa:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.6);}
+.fab-wa:active{transform:scale(.95);}
+.fab-wa-tip{
+  position:absolute;right:62px;top:50%;transform:translateY(-50%);
+  background:var(--ink);color:rgba(255,255,255,.9);
+  font-size:12px;font-weight:600;padding:6px 12px;border-radius:6px;
+  white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease;
+}
+.fab-wa-tip::after{
+  content:'';position:absolute;left:100%;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:var(--ink);
+}
+.fab-wa:hover .fab-wa-tip{opacity:1;}
+.fab-top{
+  width:44px;height:44px;background:var(--y);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 14px rgba(0,0,0,.15);cursor:pointer;border:none;color:var(--ink);
+  transition:transform .25s ease,opacity .25s ease,box-shadow .25s ease,background .22s ease;
+  opacity:0;pointer-events:none;transform:translateY(8px);
+}
+.fab-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
+.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,209,0,.45);}
+.fab-top:active{transform:scale(.94);}
+
+/* ── MICROINTERACTIONS ── */
+.btn-y:active{transform:translateY(1px) scale(.98)!important;box-shadow:none!important;}
+.btn-dk:active{transform:translateY(1px) scale(.98)!important;}
+.h-cta:active{transform:scale(.97);}
+.h-btn-login:active{transform:scale(.97);}
+.qs-go{transition:background var(--t),box-shadow var(--t),transform var(--t);}
+.qs-go:hover{transform:translateY(-1px);}
+.qs-go:active{transform:scale(.97);}
+.enq-btn{transition:background var(--t),box-shadow var(--t),transform var(--t);}
+.enq-btn:hover{transform:translateY(-1px);}
+.enq-btn:active{transform:scale(.97);}
+.srch-btn:active{transform:scale(.93);}
+.lc-enq{transition:background var(--t),transform var(--t),box-shadow var(--t);}
+.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(255,209,0,.35);}
+.lc-enq:active{transform:scale(.96);}
+.lc-save:hover{transform:scale(1.14);background:white;}
+.lc-save:active{transform:scale(.9);}
+.lc:hover .lc-thumb img{transform:scale(1.06);}
+.insight-card:hover .ic-img img{transform:scale(1.06);}
+.soc-b:hover{transform:scale(1.1) translateY(-2px);}
+.ft-ls a{display:inline-block;transition:color var(--t),transform var(--t);}
+.ft-ls a:hover{transform:translateX(4px);}
+.va svg,.ic-link svg,.loc-link svg{transition:transform var(--t);}
+.va:hover svg,.ic-link:hover svg,.loc-link:hover svg{transform:translateX(4px);}
+.nv-link{position:relative;}
+.nv-link.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--y);border-radius:2px 2px 0 0;}
+.step:hover .step-ring{box-shadow:0 0 0 6px rgba(255,209,0,.12);}
+.ti{transition:background var(--t),transform var(--t);}
+.ti:hover{transform:translateY(-2px);}
+.loc-card{transition:box-shadow var(--t),border-color var(--t),transform var(--t);}
+.loc-card:hover{transform:translateY(-3px);}
+.enq-inp:focus,.enq-ta:focus{box-shadow:0 0 0 3px rgba(255,209,0,.15);}
+.cat-card:hover .cat-arrow svg{animation:arrowbounce .5s ease;}
+@keyframes arrowbounce{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
+.brand-item:hover{transform:scale(1.05);}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE MEDIA QUERIES — HOMEPAGE
+   ══════════════════════════════════════════ */
+
+/* ── 1200px: Large tablet / small laptop ── */
+@media (max-width:1200px) {
+  :root { --px: 48px; }
+
+  .srch { flex: 0 1 420px; }
+
+  .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .listings-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .hero-qs { width: 290px; }
+  h1.hero-h { font-size: 46px; }
+
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(4, 1fr); }
+
+  .loc-grid { grid-template-columns: 1fr 1fr; }
+  .loc-grid > .enq-card { grid-column: span 2; }
+
+  .insights-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── 1024px: Tablet landscape ── */
+@media (max-width:1024px) {
+  :root { --px: 32px; }
+
+  /* Header */
+  .srch { flex: 0 1 320px; }
+  .srch-cat { min-width: 100px; }
+  .h-act span { display: none; }
+
+  /* Nav — hide links, show hamburger */
+  .nav-bar { padding: 0 var(--px); }
+  .nav-bar .nv-item { display: none; }
+  .nav-bar::before {
+    content: '';
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+  }
+  .nav-hamburger {
+    display: flex !important;
+    margin-left: auto;
+  }
+
+  /* Hero */
+  .hero { height: 520px; }
+  .hero-qs { display: none; }
+  h1.hero-h { font-size: 40px; }
+  .hero-sub { font-size: 15px; }
+  .hero-stats { gap: 20px; }
+
+  /* Grids */
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .listings-grid { grid-template-columns: repeat(2, 1fr); }
+  .testi-grid { grid-template-columns: repeat(2, 1fr); }
+  .insights-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .steps::before { display: none; }
+
+  /* Offers */
+  .offers { flex-direction: column; gap: 24px; padding: 48px var(--px); }
+  .off-t { font-size: 30px; }
+
+  /* Trust */
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Locations */
+  .loc-grid { grid-template-columns: 1fr 1fr; }
+  .loc-grid > .enq-card { grid-column: span 2; }
+
+  /* Footer */
+  .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+}
+
+/* ── 768px: Tablet portrait ── */
+@media (max-width:768px) {
+  :root { --px: 20px; }
+
+  /* Top bar */
+  .top-bar { padding: 0 var(--px); height: auto; min-height: 38px; flex-wrap: wrap; gap: 6px; overflow: hidden; }
+  .tb-left, .tb-promo { display: none; }
+  /* Hide the long promo text span that lives directly in .top-bar on mobile */
+  .top-bar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+  /* Header — single row on mobile */
+  header {
+    padding: 0 var(--px);
+    height: 60px;
+    min-height: 60px;
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+  .logo { flex: 1; min-width: 0; }
+  .srch { display: none; }
+  .h-acts { flex: 0 0 auto; gap: 4px; }
+  .h-act { padding: 4px 6px; }
+  .h-btn-login { padding: 0 12px; font-size: 12px; height: 36px; margin-left: 4px; }
+  .h-cta { padding: 0 14px; font-size: 12px; height: 36px; margin-left: 4px; }
+
+  /* Nav bar */
+  .nav-bar { top: 60px; padding: 0 var(--px); }
+
+  /* Hero */
+  .hero { height: auto; min-height: 440px; padding: 48px 0; }
+  .hero-content { padding: 0 var(--px); max-width: 100%; }
+  h1.hero-h { font-size: 34px; letter-spacing: -1px; }
+  .hero-sub { font-size: 14px; max-width: 100%; }
+  .hero-ctas { flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .btn-y, .btn-ghost { width: 100%; justify-content: center; height: 48px; }
+  .hero-stats { flex-wrap: wrap; gap: 16px; }
+  .hs-div { display: none; }
+
+  /* Category grid */
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .cat-card { height: 200px; }
+
+  /* Equipment listings */
+  .listings-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+  /* Section headings */
+  h2.sec-t { font-size: 26px; }
+  .sec { padding: 48px var(--px); }
+  .sec-hd { flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 28px; }
+
+  /* Steps */
+  .steps { grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  .step { padding: 0 16px; }
+
+  /* Testimonials */
+  .testi-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Offers */
+  .offers { padding: 40px var(--px); text-align: center; flex-direction: column; }
+  .off-t { font-size: 26px; }
+  .btn-dk { width: 100%; justify-content: center; }
+
+  /* Trust */
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .ti { padding: 28px 20px; }
+
+  /* Locations */
+  .loc-grid { grid-template-columns: 1fr; }
+  .loc-grid > .enq-card { grid-column: auto; }
+
+  /* Insights */
+  .insights-grid { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Brand bar */
+  .brand-bar { flex-wrap: wrap; }
+  .brand-item { flex: 1 1 25%; height: 60px; }
+
+  /* Footer */
+  .ft-top { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ft-bot { flex-direction: column; gap: 12px; text-align: center; }
+  .ft-leg { flex-wrap: wrap; justify-content: center; }
+
+  /* Floating buttons — move slightly in */
+  .fab-wrap { bottom: 20px; right: 16px; }
+}
+
+/* ── 576px: Large mobile ── */
+@media (max-width:576px) {
+  :root { --px: 16px; }
+
+  /* Top bar: hide long promo text, only show controls */
+  .top-bar > span { display: none; }
+
+  /* Header */
+  header { gap: 8px; }
+  .srch-cat { display: none; }
+  .srch-wrap { border-radius: var(--r); }
+  .h-btn-login { display: none; }
+
+  /* Hero */
+  h1.hero-h { font-size: 28px; }
+  .hero-tag { font-size: 10px; padding: 4px 10px; }
+  .hero-ctas { gap: 8px; }
+
+  /* Category grid */
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .cat-card { height: 180px; }
+  .cat-name { font-size: 15px; }
+
+  /* Equipment grid */
+  .listings-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Steps */
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+
+  /* Trust */
+  .trust-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Footer */
+  .ft-top { grid-template-columns: 1fr; gap: 28px; }
+
+  /* QS card (hidden on mobile anyway, but ensure it doesn't float) */
+  .hero-qs { display: none; }
+}
+
+/* ── 480px: Collapse 2-col grids to 1 before 390px ── */
+@media (max-width:480px) {
+  /* top-bar: hide the long text at narrow widths to prevent overflow */
+  .top-bar > span { display: none; }
+
+  /* header buttons: tighten up */
+  .h-btn-login { padding: 0 10px; font-size: 11px; }
+  .h-cta        { padding: 0 10px; font-size: 11px; }
+
+  /* cat grid to 1 col */
+  .cat-grid { grid-template-columns: 1fr; gap: 12px; }
+  .cat-card  { height: 180px; }
+
+  /* listings to 1 col */
+  .listings-grid { grid-template-columns: 1fr; gap: 12px; }
+
+  /* trust grid to 1 col */
+  .trust-grid { grid-template-columns: 1fr; }
+
+  /* brand bar: 2 per row */
+  .brand-item { flex: 1 1 50%; }
+
+  /* card footer buttons stack */
+  .lc-ft { flex-direction: column; }
+  .lc-enq, .lc-compare { width: 100%; }
+
+  /* offers: ensure text doesn't overflow */
+  .off-t { font-size: 24px; }
+  .off-s { font-size: 14px; }
+
+  /* appr-band: allow wrapping */
+  .appr-band { flex-wrap: wrap; gap: 10px; }
+
+  /* footer: single column */
+  .ft-top { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ── 390px: Small mobile ── */
+@media (max-width:390px) {
+  :root { --px: 12px; }
+
+  h1.hero-h { font-size: 24px; }
+  h2.sec-t { font-size: 22px; }
+
+  .cat-grid { grid-template-columns: 1fr; }
+  .cat-card { height: 180px; }
+
+  .listings-grid { grid-template-columns: 1fr; }
+
+  .trust-grid { grid-template-columns: 1fr; }
+
+  .brand-item { flex: 1 1 50%; }
+
+  .lc-ft { flex-direction: column; }
+  .lc-enq, .lc-compare { width: 100%; }
+
+  .hero-ctas { flex-direction: column; }
+  .btn-y, .btn-ghost { width: 100%; }
+
+  /* offer section */
+  .off-t { font-size: 22px; }
+  .off-s { font-size: 13px; }
+
+  /* footer */
+  .ft-top { grid-template-columns: 1fr; gap: 20px; }
+
+  /* steps: already 1 col from 576, keep */
+  /* testi: already 1 col from 768, keep */
+}
+
+/* ── 320px: Very small mobile ── */
+@media (max-width:320px) {
+  :root { --px: 10px; }
+
+  /* header: hide login button entirely, shrink register */
+  .h-btn-login { display: none; }
+  .h-cta { padding: 0 8px; font-size: 10px; height: 32px; margin-left: 2px; }
+  .h-act  { padding: 3px 4px; }
+
+  /* hero */
+  h1.hero-h { font-size: 20px; letter-spacing: -.5px; }
+  .hero-tag  { font-size: 9px; padding: 3px 8px; }
+  .hero-sub  { font-size: 13px; }
+  .hs-v      { font-size: 22px; }
+
+  /* section headings */
+  h2.sec-t   { font-size: 20px; }
+  .sec       { padding: 36px var(--px); }
+
+  /* cards */
+  .cat-card  { height: 160px; }
+  .cat-name  { font-size: 14px; }
+
+  /* brand bar: full width per item */
+  .brand-item { flex: 1 1 100%; }
+
+  /* offers */
+  .off-t { font-size: 20px; }
+  .btn-dk { height: 46px; font-size: 13px; }
+
+  /* trust items */
+  .ti { padding: 20px 14px; }
+  .ti-num { font-size: 36px; }
+
+  /* footer */
+  .ft-top { grid-template-columns: 1fr; gap: 16px; }
+  .ft-bot { font-size: 11px; }
+
+  /* top-bar: hide the currency/language switchers too if needed */
+  .top-bar { justify-content: center; }
+
+  /* prevent any long words from overflowing */
+  .sec-sub, .ti-desc, .step-d, .tq, .ft-tag {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* location card */
+  .loc-card { padding: 16px; }
+
+  /* enquiry card */
+  .enq-card { padding: 20px; }
+
+  /* fab: move in more */
+  .fab-wrap { bottom: 16px; right: 10px; }
+  .fab-wa   { width: 46px; height: 46px; }
+  .fab-top  { width: 38px; height: 38px; }
+}
+
+/* ── Hamburger nav button ── */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,.1);
+  border-radius: var(--r);
+  cursor: pointer;
+  border: none;
+  color: white;
+  margin-left: auto;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10001;
+}
+
+/* ── Mobile Nav Drawer ── */
+.nav-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.nav-drawer-overlay.open {
+  display: block;
+  opacity: 1;
+}
+.nav-drawer {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: 280px;
+  background: var(--ink-2);
+  z-index: 10001;
+  transform: translateX(-100%);
+  transition: transform .3s ease;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.nav-drawer.open {
+  transform: translateX(0);
+}
+.nav-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  flex-shrink: 0;
+}
+.nav-drawer-logo {
+  display: inline-flex; align-items: center;
+  background: #fff; border-radius: 6px; padding: 5px 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.nav-drawer-logo img { height: 28px; width: auto; display: block; }
+.nav-drawer-logo-fb { font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
+.nav-drawer-logo-fb em { color: var(--y-deeper); font-style: normal; }
+.nav-drawer-close {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.08);
+  border: none;
+  border-radius: var(--r);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .2s;
+}
+.nav-drawer-close:hover { background: rgba(255,255,255,.16); }
+.nav-drawer-links {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 0;
+  flex: 1;
+}
+.nav-drawer-link {
+  display: block;
+  padding: 13px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  transition: background .2s, color .2s;
+  border-left: 3px solid transparent;
+}
+.nav-drawer-link:hover {
+  background: rgba(255,255,255,.07);
+  color: var(--white);
+}
+.nav-drawer-link.act {
+  color: var(--y);
+  border-left-color: var(--y);
+  background: rgba(255,209,0,.08);
+}
+</style>
 </head>
 <body>
-  <p>Redirecting to <a href="Homepage.html">Homepage</a>...</p>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="nav-drawer-overlay" id="navOverlay"></div>
+<div class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-header">
+    <a href="index.html" class="nav-drawer-logo">
+      <img src="images/branding-famco-logo.png" alt="FAMCO"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
+      <span class="nav-drawer-logo-fb" style="display:none;">FAM<em>CO</em></span>
+    </a>
+    <button class="nav-drawer-close" id="navDrawerClose" aria-label="Close navigation">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav class="nav-drawer-links">
+    <a href="index.html" class="nav-drawer-link act">Home</a>
+    <a href="BrowseEquipment.html" class="nav-drawer-link">Browse Equipment</a>
+    <a href="#" class="nav-drawer-link">Sell Your Equipment</a>
+    <a href="#" class="nav-drawer-link">FAMCO Approved Process</a>
+    <a href="#" class="nav-drawer-link">Finance</a>
+    <a href="#" class="nav-drawer-link">About Us</a>
+    <a href="#" class="nav-drawer-link">Contact</a>
+  </nav>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <span><strong style="color:var(--y);font-weight:700;">FAMCO Approved</strong> — UAE's Sole Volvo Distributor · Inspected · Certified · Ready to Work · Since 1978</span>
+  <div class="tb-right">
+    <div class="switch">
+      <span class="sw-btn on">AED</span>
+      <span class="sw-btn">USD</span>
+    </div>
+    <div class="switch">
+      <span class="sw-btn on">EN</span>
+      <span class="sw-btn ar">عربي</span>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <a href="#" class="logo">
+    <img src="images/branding-famco-logo.png" alt="FAMCO"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="logo-fb">
+      <div class="logo-brand">FAM<em>CO</em></div>
+      <div class="logo-sub">Used Equipment</div>
+    </div>
+  </a>
+
+  <div class="srch">
+    <div class="srch-wrap">
+      <select class="srch-cat">
+        <option>All Categories</option>
+        <option>Construction Equipment</option>
+        <option>Trucks &amp; Commercial</option>
+        <option>Material Handling</option>
+        <option>Buses &amp; Coaches</option>
+        <option>Industrial Machinery</option>
+      </select>
+      <input class="srch-input" type="text" placeholder="Search by make, model, year…">
+      <button class="srch-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="h-acts">
+    <button class="h-act">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      <span>Saved</span>
+    </button>
+    <a href="#login" class="h-btn-login">Login</a>
+    <a href="#register" class="h-cta">Register</a>
+  </div>
+</header>
+
+<!-- NAV BAR -->
+<nav class="nav-bar">
+  <div class="nv-item">
+    <a href="#" class="nv-link act">Home</a>
+  </div>
+  <div class="nv-item">
+    <a href="BrowseEquipment.html" class="nv-link">Browse Equipment</a>
+  </div>
+  <div class="nv-item">
+    <a href="#" class="nv-link">Sell Your Equipment</a>
+  </div>
+  <div class="nv-item">
+    <a href="#" class="nv-link">FAMCO Approved Process</a>
+  </div>
+  <div class="nv-item">
+    <a href="#" class="nv-link">Finance</a>
+  </div>
+  <div class="nv-item">
+    <a href="#" class="nv-link">About Us</a>
+  </div>
+  <div class="nv-item">
+    <a href="#" class="nv-link">Contact</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Open navigation menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-bar"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-dot"></span>
+      FAMCO Approved Standard
+    </div>
+
+    <h1 class="hero-h">
+      Certified Used<br>Equipment.<br><em>Ready to Work.</em>
+    </h1>
+
+    <p class="hero-sub">
+      UAE's sole Volvo distributor. 47 years of Al-Futtaim heritage.
+      Every machine inspected, approved, and backed by our UAE service network.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#listings" class="btn-y">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Browse Inventory
+      </a>
+      <a href="#contact" class="btn-ghost">
+        Request a Quote
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-v">47<em>+</em></div><div class="hs-l">Years in UAE</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-v"><em>#1</em></div><div class="hs-l">Volvo Distributor UAE</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-v">500<em>+</em></div><div class="hs-l">Machines in Stock</div></div>
+      <div class="hs-div"></div>
+      <div class="hs"><div class="hs-v">3</div><div class="hs-l">UAE Service Centres</div></div>
+    </div>
+  </div>
+
+  <!-- Quick Search -->
+  <div class="hero-qs">
+    <div class="qs-card">
+      <div class="qs-ttl">Quick Search</div>
+      <div class="qs-f">
+        <div class="qs-lbl">Category</div>
+        <select class="qs-sel">
+          <option>All Categories</option>
+          <option>Construction Equipment</option>
+          <option>Trucks & Trailers</option>
+          <option>Material Handling</option>
+          <option>Buses</option>
+        </select>
+      </div>
+      <div class="qs-f">
+        <div class="qs-lbl">Brand</div>
+        <select class="qs-sel">
+          <option>All Brands</option>
+          <option>Volvo</option>
+          <option>Caterpillar / CAT</option>
+          <option>Doosan</option>
+          <option>Komatsu</option>
+          <option>JCB</option>
+        </select>
+      </div>
+      <div class="qs-row">
+        <div class="qs-f">
+          <div class="qs-lbl">Year From</div>
+          <select class="qs-sel"><option>Any</option><option>2024</option><option>2023</option><option>2022</option><option>2020</option><option>2018</option></select>
+        </div>
+        <div class="qs-f">
+          <div class="qs-lbl">Year To</div>
+          <select class="qs-sel"><option>Any</option><option>2025</option><option>2024</option><option>2023</option></select>
+        </div>
+      </div>
+      <button class="qs-go">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        Search Equipment
+      </button>
+      <div class="qs-ft">or <a href="#">browse all 500+ listings</a></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CATEGORY GRID -->
+<section class="sec">
+  <div class="sec-hd">
+    <div>
+      <div class="sec-ey">Browse by Category</div>
+      <h2 class="sec-t">What are you looking for?</h2>
+    </div>
+    <a href="#" class="va">View All Categories <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card"><div class="cat-bg c1"><img src="images/CAT 320 Hydraulic.jpg" alt="Construction Equipment" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">241 listings</div><div class="cat-name">Construction Equipment</div><div class="cat-sub">Excavators, Loaders, Cranes, Dozers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c2"><img src="images/Volvo FH500 Globetrotter.jpg" alt="Trucks & Trailers" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">148 listings</div><div class="cat-name">Trucks & Trailers</div><div class="cat-sub">Volvo Trucks, Tank Trucks, Tippers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c3"><img src="images/Toyota 8FBN25 Forklift.jpg" alt="Material Handling" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">112 listings</div><div class="cat-name">Material Handling</div><div class="cat-sub">Forklifts, Reach Stackers, Pallet Trucks &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c4"><img src="images/Volvo 9700 Luxury Coach.jpg" alt="Buses" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">74 listings</div><div class="cat-name">Buses</div><div class="cat-sub">Coaches, City Buses, Eicher &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+  </div>
+</section>
+
+
+<!-- FEATURED LISTINGS -->
+<section class="sec sec-alt" id="listings">
+  <div class="sec-hd">
+    <div>
+      <div class="sec-ey">FAMCO Approved</div>
+      <h2 class="sec-t">Recently Added Equipment</h2>
+      <p class="sec-sub">Every listing inspected and certified before being listed. 3D walkthroughs and video tours available.</p>
+    </div>
+    <a href="#" class="va">View All 500+ Listings <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+  </div>
+
+  <div class="listings-grid">
+
+    <!-- Card 1 – Video + 3D -->
+    <div class="lc" onclick="location.href='EquipmentDetail.html'" data-hover-video="images/Video_Generation_From_User_Request.mp4">
+      <div class="lc-thumb">
+        <img src="images/Detailimage1.png"
+             alt="Volvo FH 500 6×4 Tractor Head"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a2a1a,#0d1a0d);">🚛</div>
+        <!-- Play overlay (Video) -->
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <span class="lc-badge">FAMCO Approved</span>
+        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="media-badges">
+          <span class="mb mb-vid">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            VIDEO
+          </span>
+          <span class="mb mb-3d">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            3D VIEW
+          </span>
+        </div>
+      </div>
+      <div class="lc-body">
+        <span class="lc-cat">Truck</span>
+        <div class="lc-name">Volvo FH 500 6×4 Tractor Head</div>
+        <div class="lc-specs">
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
+          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">210,000 km</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13, 500 HP</span></div>
+          <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
+        </div>
+        <div class="lc-ft">
+          <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
+          <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 – Video only -->
+    <div class="lc" onclick="location.href='EquipmentDetail.html'" data-hover-video="images/thumbvideo.mp4">
+      <div class="lc-thumb">
+        <img src="images/Volvo FE 280.jpg"
+             alt="Volvo FH16 540 Heavy Haulage"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#2a2a1a,#1a1a0d);">🚚</div>
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <span class="lc-badge lc-badge-new">New Listing</span>
+        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="media-badges">
+          <span class="mb mb-vid">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            VIDEO
+          </span>
+        </div>
+      </div>
+      <div class="lc-body">
+        <span class="lc-cat">Truck</span>
+        <div class="lc-name">Volvo FH16 540 Heavy Haulage</div>
+        <div class="lc-specs">
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2021</span></div>
+          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">310,000 km</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D16, 540 HP</span></div>
+          <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Sharjah, UAE</span></div>
+        </div>
+        <div class="lc-ft">
+          <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
+          <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 – 3D + 360 -->
+    <div class="lc" onclick="location.href='EquipmentDetail.html'">
+      <div class="lc-thumb">
+        <img src="images/Productimage1.jpg"
+             alt="Volvo FH 460 Globetrotter XL"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">🏭</div>
+        <span class="lc-badge">FAMCO Approved</span>
+        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="media-badges">
+          <span class="mb mb-360">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+            360°
+          </span>
+          <span class="mb mb-3d">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            3D VIEW
+          </span>
+        </div>
+      </div>
+      <div class="lc-body">
+        <span class="lc-cat">Truck</span>
+        <div class="lc-name">Volvo FH 460 Globetrotter XL</div>
+        <div class="lc-specs">
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2020</span></div>
+          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">390,000 km</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13, 460 HP</span></div>
+          <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
+        </div>
+        <div class="lc-ft">
+          <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
+          <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 – Video + 3D + 360 -->
+    <div class="lc" onclick="location.href='EquipmentDetail2.html'">
+      <div class="lc-thumb">
+        <img src="images/Productimage61.jpg"
+             alt="Volvo FH 2024 Flagship Model"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a2a1a,#0d1a0d);">🚌</div>
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <span class="lc-badge lc-badge-hot">Hot Deal</span>
+        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="media-badges">
+          <span class="mb mb-vid">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            VIDEO
+          </span>
+          <span class="mb mb-3d">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            3D VIEW
+          </span>
+          <span class="mb mb-360">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
+            360°
+          </span>
+        </div>
+      </div>
+      <div class="lc-body">
+        <span class="lc-cat">Truck</span>
+        <div class="lc-name">Volvo FH 2024 — Flagship Model</div>
+        <div class="lc-specs">
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2024</span></div>
+          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">28,000 km</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13TC, 540 HP</span></div>
+          <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Abu Dhabi, UAE</span></div>
+        </div>
+        <div class="lc-ft">
+          <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
+          <a href="EquipmentDetail2.html" class="lc-enq">View Details</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FAMCO APPROVED TRUST -->
+<section class="sec sec-dk">
+  <div class="sec-hd">
+    <div>
+      <div class="sec-ey on-dk">Why FAMCO</div>
+      <h2 class="sec-t on-dk">The FAMCO Approved Standard</h2>
+      <p class="sec-sub on-dk">We don't just list equipment — we certify it. Every machine passes our structured approval process.</p>
+    </div>
+  </div>
+  <div class="trust-grid">
+    <div class="ti">
+      <div class="ti-icon">📅</div>
+      <div class="ti-num">47<em>+</em></div>
+      <div class="ti-lbl">Years in the UAE</div>
+      <div class="ti-desc">Al-Futtaim Group heritage since 1978. The most trusted name in commercial equipment in the region.</div>
+    </div>
+    <div class="ti">
+      <div class="ti-icon">🛡️</div>
+      <div class="ti-num"><em>✓</em></div>
+      <div class="ti-lbl">Sole Volvo Distributor</div>
+      <div class="ti-desc">Authorized sole distributor for Volvo Trucks, Buses, and Construction Equipment in the UAE.</div>
+    </div>
+    <div class="ti">
+      <div class="ti-icon">🔬</div>
+      <div class="ti-num">50<em>pt</em></div>
+      <div class="ti-lbl">Inspection Standard</div>
+      <div class="ti-desc">Every machine passes our 50-point FAMCO Approved check — mechanical, hydraulic, structural, electrical.</div>
+    </div>
+    <div class="ti">
+      <div class="ti-icon">📍</div>
+      <div class="ti-num">3</div>
+      <div class="ti-lbl">UAE Service Centres</div>
+      <div class="ti-desc">Dubai DIP, Umm Ramool & Abu Dhabi. Full aftersales support for every purchase we make.</div>
+    </div>
+  </div>
+  <div style="margin-top:32px;">
+    <div class="appr-band">
+      <div class="appr-ic">✓</div>
+      <div>
+        <div class="appr-t">FAMCO Approved Certification</div>
+        <div class="appr-s">Every listed machine carries the FAMCO Approved mark — assurance of quality, history, and service readiness.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- BRANDS -->
+<section class="sec" style="padding-top:48px;padding-bottom:48px;">
+  <div class="sec-hd" style="margin-bottom:28px;">
+    <div>
+      <div class="sec-ey">Trusted Brands</div>
+      <h2 class="sec-t" style="font-size:24px;">Machines from the World's Leading Manufacturers</h2>
+    </div>
+  </div>
+  <div class="brand-bar">
+    <div class="brand-item"><span class="bn">VOLVO</span></div>
+    <div class="brand-item"><span class="bn">CAT</span></div>
+    <div class="brand-item"><span class="bn">DOOSAN</span></div>
+    <div class="brand-item"><span class="bn">KOMATSU</span></div>
+    <div class="brand-item"><span class="bn">JCB</span></div>
+    <div class="brand-item"><span class="bn">YANMAR</span></div>
+    <div class="brand-item"><span class="bn">LINDE</span></div>
+    <div class="brand-item"><span class="bn">INGERSOLL RAND</span></div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="sec sec-alt">
+  <div class="sec-hd" style="flex-direction:column;align-items:center;text-align:center;margin-bottom:56px;">
+    <div class="sec-ey">Simple Process</div>
+    <h2 class="sec-t">Buying Used Equipment, Simplified</h2>
+    <p class="sec-sub" style="text-align:center;margin:8px auto 0;">From search to delivery — no surprises, no hidden steps.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-ring"><div class="step-ico">🔍</div><div class="step-n">STEP 01</div></div><div class="step-t">Search & Filter</div><div class="step-d">Browse 500+ certified listings by category, brand, year, or spec. Use advanced filters to narrow exactly what you need.</div></div>
+    <div class="step"><div class="step-ring"><div class="step-ico">📋</div><div class="step-n">STEP 02</div></div><div class="step-t">Request a Quote</div><div class="step-d">Submit an enquiry on any machine. Our specialists respond within 24 hours with pricing and inspection reports.</div></div>
+    <div class="step"><div class="step-ring"><div class="step-ico">🔬</div><div class="step-n">STEP 03</div></div><div class="step-t">Inspect & Confirm</div><div class="step-d">Visit our UAE facility or review our comprehensive 50-point FAMCO Approved documentation remotely.</div></div>
+    <div class="step"><div class="step-ring"><div class="step-ico">🚀</div><div class="step-n">STEP 04</div></div><div class="step-t">Delivery & Support</div><div class="step-d">Equipment delivered to site. Every purchase backed by our aftersales network, parts, and trained technicians.</div></div>
+  </div>
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section class="sec">
+  <div class="sec-hd" style="margin-bottom:36px;">
+    <div>
+      <div class="sec-ey">Customer Stories</div>
+      <h2 class="sec-t">What Our Clients Say</h2>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-size:24px;font-weight:900;color:var(--ink);">4.8</span>
+      <div>
+        <div style="display:flex;gap:2px;"><span style="color:var(--y);font-size:14px;">★★★★★</span></div>
+        <div style="font-size:11px;color:var(--muted);">Based on 240+ reviews</div>
+      </div>
+    </div>
+  </div>
+  <div class="testi-grid">
+    <div class="tc">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="tq">"We purchased three Volvo excavators through FAMCO for our Abu Dhabi project. The FAMCO Approved inspection reports gave us confidence we wouldn't get from a private seller. All three machines delivered on time and performed without issue."</p>
+      <div class="ta"><div class="av av1">AK</div><div><div class="an">Ahmed Al-Khatib</div><div class="ac">Project Director, Gulf Contracting Co.</div></div></div>
+    </div>
+    <div class="tc">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+      <p class="tq">"The trade-in valuation was seamless. FAMCO assessed our old fleet fairly and helped us upgrade to newer models. The bilingual support in English and Arabic made the whole process smooth for our team."</p>
+      <div class="ta"><div class="av av2">RS</div><div><div class="an">Rajiv Sharma</div><div class="ac">Fleet Manager, Transguard Group</div></div></div>
+    </div>
+    <div class="tc">
+      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span></div>
+      <p class="tq">"As a logistics company scaling our forklift fleet, FAMCO's material handling inventory is unmatched in the UAE. The Linde forklifts we purchased were exactly as described. Aftersales parts availability is a major bonus."</p>
+      <div class="ta"><div class="av av3">MH</div><div><div class="an">Mohammed Hassan</div><div class="ac">COO, Emirates Logistics Solutions</div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- OFFERS BANNER -->
+<div class="offers">
+  <div class="off-cnt">
+    <div class="off-ey">Limited Time Offers</div>
+    <div class="off-t">Scale Your Fleet.<br>Without the New Price Tag.</div>
+    <div class="off-s">Browse our current FAMCO Approved Offers — pre-inspected equipment at exceptional value.</div>
+  </div>
+  <div class="off-cta">
+    <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end;">
+      <a href="#" class="btn-dk">
+        See Current Deals
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <span style="font-size:12px;color:rgba(17,24,39,.55);">Or call: <strong>800 32626</strong></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- LATEST INSIGHTS -->
+<section class="sec">
+  <div class="sec-hd">
+    <div>
+      <div class="sec-ey">From Our Blog</div>
+      <h2 class="sec-t">Latest Insights</h2>
+    </div>
+    <a href="#" class="va">View All Articles
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="insights-grid">
+
+    <div class="insight-card">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop" alt="Construction equipment on site"
+             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
+      </div>
+      <div class="ic-body">
+        <div class="ic-meta">
+          <span>12 Apr 2026</span>
+          <span class="ic-meta-dot"></span>
+          <span>5 min read</span>
+        </div>
+        <div class="ic-title">How to Choose the Right Excavator for Your Project</div>
+        <div class="ic-desc">From bucket capacity to operating weight, learn the key specifications that matter most when selecting a pre-owned excavator for UAE construction sites.</div>
+        <a href="#" class="ic-link">Read More
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&h=400&fit=crop" alt="Volvo truck on highway"
+             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
+      </div>
+      <div class="ic-body">
+        <div class="ic-meta">
+          <span>5 Apr 2026</span>
+          <span class="ic-meta-dot"></span>
+          <span>4 min read</span>
+        </div>
+        <div class="ic-title">FAMCO Approved: What the Certification Really Means</div>
+        <div class="ic-desc">Every vehicle bearing the FAMCO Approved stamp goes through a rigorous multi-point inspection. Here's exactly what our certified technicians check before a unit is cleared for sale.</div>
+        <a href="#" class="ic-link">Read More
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div class="ic-img">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop" alt="Forklift in warehouse"
+             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
+      </div>
+      <div class="ic-body">
+        <div class="ic-meta">
+          <span>28 Mar 2026</span>
+          <span class="ic-meta-dot"></span>
+          <span>6 min read</span>
+        </div>
+        <div class="ic-title">Used vs New Equipment: Making the Smart Financial Decision</div>
+        <div class="ic-desc">With equipment financing options available across the UAE, is buying used still the better investment? We break down the total cost of ownership for both paths.</div>
+        <a href="#" class="ic-link">Read More
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- LOCATIONS + ENQUIRY -->
+<section class="sec sec-alt" id="contact">
+  <div class="sec-hd" style="margin-bottom:36px;">
+    <div>
+      <div class="sec-ey">Find Us</div>
+      <h2 class="sec-t">Our UAE Facilities</h2>
+      <p class="sec-sub">Visit any of our three locations to inspect equipment in person, or send an enquiry online.</p>
+    </div>
+  </div>
+  <div class="loc-grid">
+    <div class="loc-card">
+      <div class="loc-ic">🏭</div>
+      <div class="loc-name">FAMCO Dubai Investment Park</div>
+      <div class="loc-addr">Dubai Investment Park 1,<br>Street 12, Dubai, UAE</div>
+      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="loc-card">
+      <div class="loc-ic">🔧</div>
+      <div class="loc-name">FAMCO Umm Ramool</div>
+      <div class="loc-addr">Umm Ramool Industrial Area,<br>Al Khail Road, Dubai, UAE</div>
+      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="loc-card">
+      <div class="loc-ic">⚙️</div>
+      <div class="loc-name">TMH Umm Ramool</div>
+      <div class="loc-addr">Umm Ramool Industrial Area,<br>Dubai, UAE</div>
+      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
+    <div class="enq-card">
+      <div class="enq-t">Send an Enquiry</div>
+      <div class="enq-s">Our team responds within 24 hours.</div>
+      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Your Name"></div>
+      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Phone / WhatsApp"></div>
+      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Equipment of Interest"></div>
+      <div class="enq-f"><textarea class="enq-ta" placeholder="Tell us about your requirements…"></textarea></div>
+      <button class="enq-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+        Send Enquiry
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <div class="ft-logo">
+        <img src="images/branding-famco-logo.png" alt="FAMCO" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:.9;" onerror="this.style.display='none'">
+      </div>
+      <p class="ft-tag">UAE's trusted source for certified used heavy equipment since 1978. An Al-Futtaim Group company and sole UAE distributor for Volvo CE, Trucks, and Buses.</p>
+      <div class="ft-soc">
+        <div class="soc-b">f</div>
+        <div class="soc-b">in</div>
+        <div class="soc-b">ig</div>
+        <div class="soc-b">▶</div>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-ct">Equipment</div>
+      <div class="ft-ls">
+        <a href="#">Construction Equipment</a>
+        <a href="#">Trucks & Trailers</a>
+        <a href="#">Material Handling</a>
+        <a href="#">Buses & Coaches</a>
+        <a href="#">Browse All Inventory</a>
+        <a href="#">Current Offers</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-ct">Information</div>
+      <div class="ft-ls">
+        <a href="#">About FAMCO Used</a>
+        <a href="#">FAMCO Approved Standard</a>
+        <a href="#">How It Works</a>
+        <a href="#">Finance Options</a>
+        <a href="#">Trade-In Valuation</a>
+        <a href="#">News & Updates</a>
+        <a href="#">FAQs</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-ct">Services</div>
+      <div class="ft-ls">
+        <a href="#">Aftersales & Parts</a>
+        <a href="#">Service Contracts</a>
+        <a href="#">Inspection Reports</a>
+        <a href="#">Fleet Solutions</a>
+        <a href="#">Financing</a>
+      </div>
+    </div>
+    <div class="ft-col">
+      <div class="ft-ct">Contact</div>
+      <div class="ft-ci"><span class="ft-ci-ic">📞</span>800 32626</div>
+      <div class="ft-ci"><span class="ft-ci-ic">✉️</span>info@famco.ae</div>
+      <div class="ft-ci"><span class="ft-ci-ic">📍</span>Dubai, UAE · 3 Locations</div>
+      <div style="margin-top:16px;" class="ft-lang">
+        <span class="on">English</span>
+        <span class="sep">|</span>
+        <span>عربي</span>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div class="ft-copy">© 2025 FAMCO Used Equipment. An Al-Futtaim Group Company. All rights reserved.</div>
+    <div class="ft-leg">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Cookie Policy</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div class="fab-wrap">
+  <a href="https://wa.me/97180032626" target="_blank" rel="noopener" class="fab-wa" aria-label="Chat on WhatsApp">
+    <span class="fab-wa-tip">Chat on WhatsApp</span>
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <button class="fab-top" id="backToTop" aria-label="Back to top">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+</div>
+<script>
+(function(){
+  var btn=document.getElementById('backToTop');
+  if(!btn) return;
+  window.addEventListener('scroll',function(){btn.classList.toggle('show',window.scrollY>320);},{passive:true});
+  btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
+
+<script>
+/* ── Mobile nav drawer ── */
+(function() {
+  var hamburger = document.querySelector('.nav-hamburger');
+  var overlay   = document.getElementById('navOverlay');
+  var drawer    = document.getElementById('navDrawer');
+  var closeBtn  = document.getElementById('navDrawerClose');
+  if (!hamburger || !drawer || !overlay) return;
+  function openNav() {
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeNav() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    drawer.classList.contains('open') ? closeNav() : openNav();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', closeNav);
+  overlay.addEventListener('click', closeNav);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNav(); });
+})();
+</script>
+
+<script>
+/* ── HOVER VIDEO ON CARDS ── */
+(function(){
+  document.querySelectorAll('.lc[data-hover-video]').forEach(function(card){
+    var src=card.getAttribute('data-hover-video');
+    var thumb=card.querySelector('.lc-thumb');
+    if(!thumb||!src)return;
+    var vid=document.createElement('video');
+    vid.className='lc-hover-video';
+    vid.src=src;
+    vid.muted=true; vid.loop=true;
+    vid.setAttribute('playsinline','');
+    vid.setAttribute('preload','none');
+    thumb.appendChild(vid);
+    card.addEventListener('mouseenter',function(){vid.play().catch(function(){});});
+    card.addEventListener('mouseleave',function(){vid.pause();vid.currentTime=0;});
+  });
+})();
+</script>
+
+
+<script src="autocomplete.js"></script>
 </body>
 </html>
