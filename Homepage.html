@@ -10,6 +10,7 @@
 
 :root {
   --y:        #FFD100;
+  --y-rgb:    255,209,0;
   --y-dark:   #E6BC00;
   --y-deeper: #C9A400;
   --y-light:  #FFFBE6;
@@ -116,7 +117,7 @@ header{
   border-radius:var(--r);overflow:hidden;
   transition:border-color var(--t),box-shadow var(--t);
 }
-.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.18);}
+.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);}
 .srch-cat{
   height:100%;padding:0 28px 0 12px;
   font-size:12.5px;font-family:inherit;color:var(--body);
@@ -216,8 +217,8 @@ header{
 }
 .hero-tag{
   display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,209,0,.15);
-  border:1px solid rgba(255,209,0,.35);
+  background:rgba(var(--y-rgb),.15);
+  border:1px solid rgba(var(--y-rgb),.35);
   color:var(--y);font-size:11px;font-weight:800;
   letter-spacing:1.5px;text-transform:uppercase;
   padding:5px 14px;border-radius:20px;margin-bottom:20px;
@@ -245,7 +246,7 @@ h1.hero-h em{color:var(--y);font-style:normal;}
   font-size:14px;font-weight:800;letter-spacing:.2px;
   transition:all var(--t);white-space:nowrap;
 }
-.btn-y:hover{background:var(--y-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,209,0,.35);}
+.btn-y:hover{background:var(--y-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(var(--y-rgb),.35);}
 .btn-ghost{
   display:inline-flex;align-items:center;gap:8px;
   background:transparent;color:var(--white);
@@ -311,7 +312,7 @@ h1.hero-h em{color:var(--y);font-style:normal;}
   display:flex;align-items:center;justify-content:center;gap:8px;
   margin-top:4px;transition:all var(--t);
 }
-.qs-go:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(255,209,0,.4);}
+.qs-go:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(var(--y-rgb),.4);}
 .qs-ft{text-align:center;margin-top:10px;font-size:12px;color:var(--muted);}
 .qs-ft a{color:var(--y-deeper);font-weight:700;}
 
@@ -365,7 +366,7 @@ h2.sec-t.on-dk{color:var(--white);}
   transition:all .25s;
 }
 .cat-card:hover .cat-ov{
-  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 65%,rgba(255,209,0,.07) 100%);
+  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 65%,rgba(var(--y-rgb),.07) 100%);
 }
 .cat-body{position:absolute;bottom:0;left:0;right:0;padding:20px;}
 .cat-cnt{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--y);margin-bottom:4px;}
@@ -423,15 +424,7 @@ h2.sec-t.on-dk{color:var(--white);}
 }
 .mb-3d{
   background:rgba(17,24,39,.75);color:var(--y);
-  border-color:rgba(255,209,0,.35);
-}
-.mb-vid{
-  background:rgba(220,38,38,.85);color:var(--white);
-  border-color:rgba(255,255,255,.2);
-}
-.mb-360{
-  background:rgba(22,163,74,.85);color:var(--white);
-  border-color:rgba(255,255,255,.2);
+  border-color:rgba(var(--y-rgb),.35);
 }
 
 /* Approval badge */
@@ -444,6 +437,7 @@ h2.sec-t.on-dk{color:var(--white);}
 }
 .lc-badge-new{background:var(--y-deeper);color:var(--white);}
 .lc-badge-hot{background:var(--red);}
+.lc-grade{position:absolute;bottom:10px;right:10px;background:rgba(17,24,39,.78);color:var(--white);font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:4px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);z-index:2;}
 
 /* Save */
 .lc-save{
@@ -466,7 +460,7 @@ h2.sec-t.on-dk{color:var(--white);}
 .lc:hover .play-overlay{background:rgba(0,0,0,.15);}
 .play-btn{
   width:48px;height:48px;
-  background:rgba(255,209,0,.92);
+  background:rgba(var(--y-rgb),.92);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   opacity:0;transform:scale(.7);
@@ -528,11 +522,11 @@ h2.sec-t.on-dk{color:var(--white);}
 .ti:hover{background:var(--ink-3);}
 .ti-icon{
   width:48px;height:48px;
-  background:rgba(255,209,0,.12);
+  background:rgba(var(--y-rgb),.12);
   border-radius:var(--r);display:flex;align-items:center;justify-content:center;
   margin-bottom:20px;transition:background var(--t);font-size:22px;
 }
-.ti:hover .ti-icon{background:rgba(255,209,0,.22);}
+.ti:hover .ti-icon{background:rgba(var(--y-rgb),.22);}
 .ti-num{
   font-size:44px;font-weight:900;color:var(--white);
   line-height:1;letter-spacing:-2px;margin-bottom:4px;
@@ -544,8 +538,8 @@ h2.sec-t.on-dk{color:var(--white);}
 .appr-band{
   display:flex;align-items:center;gap:14px;
   width:100%;
-  background:rgba(255,209,0,.1);
-  border:1px solid rgba(255,209,0,.25);
+  background:rgba(var(--y-rgb),.1);
+  border:1px solid rgba(var(--y-rgb),.25);
   border-radius:var(--rl);padding:20px 28px;margin-top:28px;
 }
 .appr-ic{
@@ -709,7 +703,7 @@ h2.sec-t.on-dk{color:var(--white);}
   display:flex;align-items:center;justify-content:center;gap:8px;
   margin-top:4px;transition:all var(--t);
 }
-.enq-btn:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(255,209,0,.4);}
+.enq-btn:hover{background:var(--y-dark);box-shadow:0 4px 16px rgba(var(--y-rgb),.4);}
 
 /* ── LATEST INSIGHTS ── */
 .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
@@ -819,7 +813,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   opacity:0;pointer-events:none;transform:translateY(8px);
 }
 .fab-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
-.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,209,0,.45);}
+.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(var(--y-rgb),.45);}
 .fab-top:active{transform:scale(.94);}
 
 /* ── MICROINTERACTIONS ── */
@@ -835,7 +829,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .enq-btn:active{transform:scale(.97);}
 .srch-btn:active{transform:scale(.93);}
 .lc-enq{transition:background var(--t),transform var(--t),box-shadow var(--t);}
-.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(255,209,0,.35);}
+.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(var(--y-rgb),.35);}
 .lc-enq:active{transform:scale(.96);}
 .lc-save:hover{transform:scale(1.14);background:white;}
 .lc-save:active{transform:scale(.9);}
@@ -848,12 +842,12 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .va:hover svg,.ic-link:hover svg,.loc-link:hover svg{transform:translateX(4px);}
 .nv-link{position:relative;}
 .nv-link.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--y);border-radius:2px 2px 0 0;}
-.step:hover .step-ring{box-shadow:0 0 0 6px rgba(255,209,0,.12);}
+.step:hover .step-ring{box-shadow:0 0 0 6px rgba(var(--y-rgb),.12);}
 .ti{transition:background var(--t),transform var(--t);}
 .ti:hover{transform:translateY(-2px);}
 .loc-card{transition:box-shadow var(--t),border-color var(--t),transform var(--t);}
 .loc-card:hover{transform:translateY(-3px);}
-.enq-inp:focus,.enq-ta:focus{box-shadow:0 0 0 3px rgba(255,209,0,.15);}
+.enq-inp:focus,.enq-ta:focus{box-shadow:0 0 0 3px rgba(var(--y-rgb),.15);}
 .cat-card:hover .cat-arrow svg{animation:arrowbounce .5s ease;}
 @keyframes arrowbounce{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
 .brand-item:hover{transform:scale(1.05);}
@@ -1288,7 +1282,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .nav-drawer-link.act {
   color: var(--y);
   border-left-color: var(--y);
-  background: rgba(255,209,0,.08);
+  background: rgba(var(--y-rgb),.08);
 }
 </style>
 </head>
@@ -1498,10 +1492,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     <a href="#" class="va">View All Categories <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
   <div class="cat-grid">
-    <div class="cat-card"><div class="cat-bg c1"><img src="images/CAT 320 Hydraulic.jpg" alt="Construction Equipment" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">241 listings</div><div class="cat-name">Construction Equipment</div><div class="cat-sub">Excavators, Loaders, Cranes, Dozers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c2"><img src="images/Volvo FH500 Globetrotter.jpg" alt="Trucks & Trailers" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">148 listings</div><div class="cat-name">Trucks & Trailers</div><div class="cat-sub">Volvo Trucks, Tank Trucks, Tippers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c3"><img src="images/Toyota 8FBN25 Forklift.jpg" alt="Material Handling" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">112 listings</div><div class="cat-name">Material Handling</div><div class="cat-sub">Forklifts, Reach Stackers, Pallet Trucks &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c4"><img src="images/Volvo 9700 Luxury Coach.jpg" alt="Buses" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">74 listings</div><div class="cat-name">Buses</div><div class="cat-sub">Coaches, City Buses, Eicher &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c1"><img src="images/Construction.jpg" alt="Construction Equipment" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">241 listings</div><div class="cat-name">Construction Equipment</div><div class="cat-sub">Excavators, Loaders, Cranes, Dozers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c2"><img src="images/Truck.jpg" alt="Trucks & Trailers" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">148 listings</div><div class="cat-name">Trucks & Trailers</div><div class="cat-sub">Volvo Trucks, Tank Trucks, Tippers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c3"><img src="images/Forklift.jpg" alt="Material Handling" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">112 listings</div><div class="cat-name">Material Handling</div><div class="cat-sub">Forklifts, Reach Stackers, Pallet Trucks &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c4"><img src="images/Buses.jpg" alt="Buses" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">74 listings</div><div class="cat-name">Buses</div><div class="cat-sub">Coaches, City Buses, Eicher &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
   </div>
 </section>
 
@@ -1534,15 +1528,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         </div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-vid">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            VIDEO
-          </span>
-          <span class="mb mb-3d">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            3D VIEW
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1576,11 +1564,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         </div>
         <span class="lc-badge lc-badge-new">New Listing</span>
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <span class="lc-grade">Grade B</span>
         <div class="media-badges">
-          <span class="mb mb-vid">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            VIDEO
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1609,15 +1595,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">🏭</div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-360">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
-            360°
-          </span>
-          <span class="mb mb-3d">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            3D VIEW
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1651,19 +1631,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         </div>
         <span class="lc-badge lc-badge-hot">Hot Deal</span>
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-vid">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            VIDEO
-          </span>
-          <span class="mb mb-3d">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            3D VIEW
-          </span>
-          <span class="mb mb-360">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
-            360°
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -2088,5 +2058,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
 
 <script src="autocomplete.js"></script>
+<script src="color-picker.js"></script>
 </body>
 </html>

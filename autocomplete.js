@@ -20,12 +20,36 @@
       href:     'EquipmentDetail.html'
     },
     {
+      name:     'Volvo FH16 540 Heavy Haulage',
+      category: 'Trucks & Commercial',
+      brand:    'Volvo',
+      year:     '2021',
+      meta:     '2021 · 310,000 km · Sharjah, UAE',
+      href:     'EquipmentDetail.html'
+    },
+    {
+      name:     'Volvo FH 460 Globetrotter XL',
+      category: 'Trucks & Commercial',
+      brand:    'Volvo',
+      year:     '2020',
+      meta:     '2020 · 390,000 km · Dubai, UAE',
+      href:     'EquipmentDetail.html'
+    },
+    {
+      name:     'Volvo FH 2024 Flagship Model',
+      category: 'Trucks & Commercial',
+      brand:    'Volvo',
+      year:     '2024',
+      meta:     '2024 · 28,000 km · Abu Dhabi, UAE',
+      href:     'EquipmentDetail2.html'
+    },
+    {
       name:     'Caterpillar 320 GX Hydraulic Excavator',
       category: 'Construction Equipment',
       brand:    'Caterpillar',
       year:     '2021',
       meta:     '2021 · 4,200 hrs · Sharjah, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Toyota 8FG25 LPG Counterbalance Forklift',
@@ -33,7 +57,7 @@
       brand:    'Toyota',
       year:     '2020',
       meta:     '2020 · 3,800 hrs · Dubai, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'JCB 3CX Backhoe Loader — Site Master',
@@ -41,7 +65,7 @@
       brand:    'JCB',
       year:     '2021',
       meta:     '2021 · 5,100 hrs · Abu Dhabi, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Hyster H5.0FT Counterbalance Forklift',
@@ -49,7 +73,7 @@
       brand:    'Hyster',
       year:     '2019',
       meta:     '2019 · 6,200 hrs · Dubai, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Komatsu PC200-8 Hydraulic Excavator',
@@ -57,7 +81,7 @@
       brand:    'Komatsu',
       year:     '2020',
       meta:     '2020 · 4,900 hrs · Sharjah, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Mercedes-Benz Actros 2546 Tractor Head',
@@ -65,7 +89,7 @@
       brand:    'Mercedes-Benz',
       year:     '2022',
       meta:     '2022 · 180,000 km · Dubai, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Linde E20 Electric Counterbalance Forklift',
@@ -73,7 +97,7 @@
       brand:    'Linde',
       year:     '2021',
       meta:     '2021 · 2,100 hrs · Fujairah, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     },
     {
       name:     'Volvo EC300E Hydraulic Crawler Excavator',
@@ -81,7 +105,7 @@
       brand:    'Volvo',
       year:     '2022',
       meta:     '2022 · 3,200 hrs · Dubai, UAE',
-      href:     'BrowseEquipment.html'
+      href:     'EquipmentDetail.html'
     }
   ];
 
@@ -335,7 +359,7 @@
         /* mousedown (not click) so it fires before the input's blur */
         row.addEventListener('mousedown', function (e) {
           e.preventDefault();
-          navigate(item.href);
+          navigate(null, item.name);
         });
         row.addEventListener('mouseenter', function () { setCursor(idx); });
         drop.appendChild(row);
@@ -349,7 +373,7 @@
         '<span class="ac-arr">&#8594;</span>';
       footer.addEventListener('mousedown', function (e) {
         e.preventDefault();
-        navigate('BrowseEquipment.html');
+        navigate(null, raw.trim());
       });
       drop.appendChild(footer);
 
@@ -373,9 +397,14 @@
     function open()  { drop.classList.add('open');    }
     function close() { drop.classList.remove('open'); cursor = -1; }
 
-    function navigate(href) {
+    function navigate(href, query) {
       close();
-      window.location.href = href;
+      /* If a query is provided, go to listing page with search param */
+      if (query) {
+        window.location.href = 'BrowseEquipment.html?q=' + encodeURIComponent(query);
+      } else {
+        window.location.href = href;
+      }
     }
 
     /* ── Input events ── */
@@ -412,9 +441,9 @@
         case 'Enter':
           e.preventDefault();
           if (cursor >= 0 && cursor < hits.length) {
-            navigate(hits[cursor].href);
+            navigate(null, hits[cursor].name);
           } else if (input.value.trim().length >= 1) {
-            navigate('BrowseEquipment.html');
+            navigate(null, input.value.trim());
           }
           break;
 

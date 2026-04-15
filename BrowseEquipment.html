@@ -9,7 +9,7 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
 :root{
-  --y:#FFD100;--y-dark:#E6BC00;--y-deeper:#C9A400;--y-light:#FFFBE6;--y-pale:#FFFDF0;
+  --y:#FFD100;--y-rgb:255,209,0;--y-dark:#E6BC00;--y-deeper:#C9A400;--y-light:#FFFBE6;--y-pale:#FFFDF0;
   --ink:#111827;--ink-2:#1F2937;--ink-3:#374151;--body:#4B5563;--muted:#9CA3AF;
   --border:#E5E7EB;--surface:#F9FAFB;--white:#FFFFFF;
   --green:#16A34A;--red:#DC2626;--orange:#EA580C;
@@ -60,7 +60,7 @@ header{
   background:var(--surface);border:1.5px solid var(--border);
   border-radius:var(--r);overflow:hidden;transition:border-color var(--t),box-shadow var(--t);
 }
-.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.18);}
+.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);}
 .srch-cat{
   height:100%;padding:0 28px 0 12px;font-size:12.5px;font-family:inherit;color:var(--body);
   background:var(--surface);border:none;border-right:1.5px solid var(--border);
@@ -99,17 +99,16 @@ header{
 .lc-thumb-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;}
 .media-badges{position:absolute;bottom:10px;left:10px;display:flex;gap:6px;z-index:2;}
 .mb{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.5px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);}
-.mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(255,209,0,.35);}
-.mb-vid{background:rgba(220,38,38,.85);color:var(--white);border-color:rgba(255,255,255,.2);}
-.mb-360{background:rgba(22,163,74,.85);color:var(--white);border-color:rgba(255,255,255,.2);}
+.mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(var(--y-rgb),.35);}
 .lc-badge{position:absolute;top:10px;left:10px;background:var(--green);color:var(--white);font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.2);}
 .lc-badge-new{background:var(--y-deeper);color:var(--white);}
 .lc-badge-hot{background:var(--red);}
+.lc-grade{position:absolute;bottom:10px;right:10px;background:rgba(17,24,39,.78);color:var(--white);font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:4px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);z-index:2;}
 .lc-save{position:absolute;top:10px;right:10px;width:32px;height:32px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);backdrop-filter:blur(6px);transition:all var(--t);}
 .lc-save:hover{color:var(--red);background:white;}
 .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0);transition:background var(--t);z-index:1;}
 .lc:hover .play-overlay{background:rgba(0,0,0,.15);}
-.play-btn{width:48px;height:48px;background:rgba(255,209,0,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.play-btn{width:48px;height:48px;background:rgba(var(--y-rgb),.92);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.7);transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,.3);}
 .lc:hover .play-btn{opacity:1;transform:scale(1);}
 .lc-body{padding:16px;}
 .lc-cat{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--y-deeper);background:var(--y-light);padding:3px 9px;border-radius:4px;margin-bottom:8px;}
@@ -174,10 +173,49 @@ header{
 .fg-apply:hover{background:var(--y-dark);}
 
 /* LISTINGS AREA */
-.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.results-left{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .results-count{font-size:13px;color:var(--body);}
 .results-count strong{color:var(--ink);font-weight:700;}
 .results-sort-wrap{display:flex;align-items:center;gap:10px;}
+
+/* Save Search CTA */
+.btn-save-search{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;color:var(--y-deeper);background:transparent;border:1.5px solid var(--y-deeper);border-radius:6px;cursor:pointer;transition:all var(--t);white-space:nowrap;}
+.btn-save-search:hover{background:var(--y-light);border-color:var(--y-dark);}
+.btn-save-search svg{flex-shrink:0;}
+
+/* Save Search Modal */
+.ss-overlay{position:fixed;inset:0;z-index:10000;background:rgba(17,24,39,.45);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.ss-overlay.open{opacity:1;pointer-events:auto;}
+.ss-modal{background:var(--white);border-radius:16px;padding:32px 28px 28px;width:400px;max-width:calc(100vw - 32px);box-shadow:0 20px 60px rgba(0,0,0,.2);transform:scale(.94);transition:transform .2s;}
+.ss-overlay.open .ss-modal{transform:scale(1);}
+.ss-modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;}
+.ss-modal-title{font-size:18px;font-weight:800;color:var(--ink);letter-spacing:-.2px;}
+.ss-modal-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--surface);border-radius:6px;cursor:pointer;color:var(--muted);transition:all var(--t);border:none;flex-shrink:0;}
+.ss-modal-close:hover{background:var(--border);color:var(--ink);}
+.ss-modal-sub{font-size:13px;color:var(--body);line-height:1.6;margin-bottom:20px;}
+.ss-modal-sub strong{color:var(--ink);font-weight:700;}
+.ss-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--ink);margin-bottom:8px;display:block;}
+.ss-input{width:100%;height:42px;border:1.5px solid var(--border);border-radius:8px;padding:0 14px;font-size:13.5px;font-family:inherit;color:var(--ink);outline:none;transition:border-color var(--t),box-shadow var(--t);}
+.ss-input::placeholder{color:var(--muted);}
+.ss-input:focus{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.15);}
+.ss-input.error{border-color:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.1);}
+.ss-error{font-size:11px;color:var(--red);font-weight:600;margin-top:6px;display:none;}
+.ss-error.show{display:block;}
+.ss-submit{width:100%;height:44px;margin-top:16px;border:none;border-radius:8px;background:var(--ink);color:var(--white);font-size:13px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;font-family:inherit;cursor:pointer;transition:background var(--t),transform var(--t);}
+.ss-submit:hover{background:var(--ink-2);}
+.ss-submit:active{transform:scale(.98);}
+
+/* Success Toast */
+.ss-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:10001;background:var(--ink);color:var(--white);border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.2,1,.3,1);max-width:calc(100vw - 32px);}
+.ss-toast.show{opacity:1;transform:translateX(-50%) translateY(0);pointer-events:auto;}
+.ss-toast-icon{width:28px;height:28px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ss-toast-body{flex:1;min-width:0;}
+.ss-toast-title{font-size:13px;font-weight:800;margin-bottom:2px;}
+.ss-toast-sub{font-size:12px;color:rgba(255,255,255,.65);}
+.ss-toast-sub a{color:var(--y);text-decoration:none;font-weight:600;}
+.ss-toast-close{background:none;border:none;color:rgba(255,255,255,.45);cursor:pointer;padding:4px;display:flex;transition:color var(--t);}
+.ss-toast-close:hover{color:var(--white);}
 .sort-label{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;}
 .sort-sel{
   height:36px;border:1.5px solid var(--border);border-radius:var(--r);
@@ -256,7 +294,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   opacity:0;pointer-events:none;transform:translateY(8px);
 }
 .fab-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
-.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,209,0,.45);}
+.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(var(--y-rgb),.45);}
 .fab-top:active{transform:scale(.94);}
 
 /* ── MICROINTERACTIONS ── */
@@ -264,7 +302,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .h-btn-login:active{transform:scale(.97);}
 .srch-btn:active{transform:scale(.93);}
 .lc-enq{transition:background var(--t),transform var(--t),box-shadow var(--t);}
-.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(255,209,0,.35);}
+.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(var(--y-rgb),.35);}
 .lc-enq:active{transform:scale(.96);}
 .lc-save:hover{transform:scale(1.14);background:white;}
 .lc-save:active{transform:scale(.9);}
@@ -280,10 +318,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .fg-opt{transition:color var(--t),transform var(--t);}
 .fg-opt:hover{color:var(--ink);transform:translateX(2px);}
 .fg-apply{transition:background var(--t),box-shadow var(--t),transform var(--t);}
-.fg-apply:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(255,209,0,.4);}
+.fg-apply:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(var(--y-rgb),.4);}
 .fg-apply:active{transform:scale(.97);}
-.fg-input:focus{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.15);outline:none;}
-.sort-sel:focus{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.18);outline:none;}
+.fg-input:focus{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.15);outline:none;}
+.sort-sel:focus{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);outline:none;}
 /* Pagination */
 .pg-btn{transition:all var(--t);}
 .pg-btn:not(.on):not([disabled]):hover{background:var(--y-light);border-color:var(--y);color:var(--y-deeper);transform:scale(1.06);}
@@ -329,12 +367,18 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 }
 
 /* ── 1200px ── */
+@media (max-width:1400px) {
+  .browse-wrap { grid-template-columns: 210px 1fr; gap: 24px; }
+  .browse-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 @media (max-width:1200px) {
   :root { --px: 48px; }
+  .browse-wrap { grid-template-columns: 200px 1fr; gap: 20px; }
   .browse-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ── 1024px: Sidebar stacks above listing ── */
+/* ── 1024px: Sidebar narrows, grid stays 2-col ── */
 @media (max-width:1024px) {
   :root { --px: 32px; }
 
@@ -347,47 +391,31 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .srch-cat { min-width: 90px; }
   .h-act span { display: none; }
 
-  /* Browse layout: stack sidebar above grid */
+  /* Browse layout: keep sidebar beside content */
   .browse-wrap {
-    grid-template-columns: 1fr;
-    gap: 20px;
+    grid-template-columns: 190px 1fr;
+    gap: 18px;
   }
 
-  /* Sidebar: unsticky, horizontal-ish layout */
+  /* Sidebar: stays beside grid, slightly narrower */
   .sidebar {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-  }
-  .sidebar-hd {
-    grid-column: 1 / -1;
-  }
-  .filter-group {
-    border-bottom: none;
-    border-right: 1px solid var(--border);
-  }
-  .filter-group:last-child {
-    border-right: none;
+    position: sticky;
+    top: 128px;
   }
 
-  /* Show filter toggle for collapse behavior */
-  .filter-toggle-btn { display: flex; }
-
-  /* Product card grid */
-  .browse-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  /* Product card grid: 2 columns */
+  .browse-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 
   /* Footer */
   .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
 
-/* ── 768px ── */
+/* ── 768px: Sidebar collapses, grid goes full-width ── */
 @media (max-width:768px) {
   :root { --px: 20px; }
 
   /* Top bar */
   .top-bar { padding: 0 var(--px); height: auto; flex-wrap: wrap; overflow: hidden; }
-  /* Truncate the long promo text on mobile */
   .top-bar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: calc(100% - 120px); }
 
   /* Header — single row on mobile */
@@ -412,10 +440,14 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .pg-bar { padding: 10px var(--px); flex-wrap: wrap; gap: 6px; }
   .pg-bar-count { margin-left: 0; }
 
-  /* Browse layout */
-  .browse-wrap { padding: 16px var(--px); }
+  /* Browse layout: single column, no sidebar beside grid */
+  .browse-wrap {
+    padding: 16px var(--px);
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 
-  /* Sidebar: collapse into vertical list, hidden by default */
+  /* Sidebar: collapse, hidden by default */
   .sidebar {
     display: none;
     grid-template-columns: 1fr;
@@ -425,12 +457,15 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .filter-group { border-right: none; border-bottom: 1px solid var(--border); }
   .filter-group:last-child { border-bottom: none; }
 
+  /* Show filter toggle */
+  .filter-toggle-btn { display: flex; }
+
   /* Results bar */
   .results-bar { flex-wrap: wrap; gap: 10px; }
   .results-bar > * { flex: 1 1 auto; }
   .results-sort-wrap { justify-content: flex-end; }
 
-  /* Card grid */
+  /* Card grid: 2 columns */
   .browse-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 
   /* Pagination */
@@ -593,7 +628,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   transition: background .2s, color .2s; border-left: 3px solid transparent;
 }
 .nav-drawer-link:hover { background: rgba(255,255,255,.07); color: var(--white); }
-.nav-drawer-link.act { color: var(--y); border-left-color: var(--y); background: rgba(255,209,0,.08); }
+.nav-drawer-link.act { color: var(--y); border-left-color: var(--y); background: rgba(var(--y-rgb),.08); }
 
 </style>
 </head>
@@ -775,7 +810,13 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
     <!-- Results bar -->
     <div class="results-bar">
-      <div class="results-count">Showing <strong>1–9</strong> of <strong>142</strong> results</div>
+      <div class="results-left">
+        <div class="results-count">Showing <strong>1–9</strong> of <strong>142</strong> results</div>
+        <button class="btn-save-search" id="btnSaveSearch" onclick="openSaveSearch()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save this search
+        </button>
+      </div>
       <button class="filter-toggle-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
         Filters
@@ -805,9 +846,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-vid"><svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> VIDEO</span>
-            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D VIEW</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Truck</span>
@@ -835,8 +876,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D VIEW</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade B</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Construction</span>
@@ -863,6 +905,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">🏭</div>
           <span class="lc-badge lc-badge-new">New Listing</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="media-badges">
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
+          </div>
+          <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Material Handling</span>
@@ -891,8 +937,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-vid"><svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> VIDEO</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade B</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Construction</span>
@@ -920,8 +967,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge lc-badge-hot">Hot Deal</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-360"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg> 360°</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade C</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Material Handling</span>
@@ -949,9 +997,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-vid"><svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> VIDEO</span>
-            <span class="mb mb-360"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg> 360°</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Construction</span>
@@ -980,8 +1028,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-vid"><svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> VIDEO</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Truck</span>
@@ -1009,8 +1058,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge lc-badge-new">New Listing</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D VIEW</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Material Handling</span>
@@ -1039,10 +1089,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <span class="lc-badge lc-badge-hot">Hot Deal</span>
           <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
-            <span class="mb mb-vid"><svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg> VIDEO</span>
-            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D VIEW</span>
-            <span class="mb mb-360"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg> 360°</span>
+            <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
           </div>
+          <span class="lc-grade">Grade B</span>
         </div>
         <div class="lc-body">
           <span class="lc-cat">Construction</span>
@@ -1216,7 +1265,187 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 })();
 </script>
 
+<script>
+/* ── SEARCH FILTER ON PAGE LOAD ── */
+(function(){
+  var params = new URLSearchParams(window.location.search);
+  var q = params.get('q');
+  if (!q) return;
+
+  /* Populate the search input */
+  var inp = document.querySelector('.srch-input');
+  if (inp) inp.value = q;
+
+  var qLow = q.toLowerCase();
+  var tokens = qLow.split(/\s+/).filter(Boolean);
+  var cards = document.querySelectorAll('.browse-grid .lc');
+  var visible = 0;
+
+  cards.forEach(function(card){
+    var name = (card.querySelector('.lc-name') || {}).textContent || '';
+    var cat  = (card.querySelector('.lc-cat')  || {}).textContent || '';
+    var specs = (card.querySelector('.lc-specs') || {}).textContent || '';
+    var hay  = (name + ' ' + cat + ' ' + specs).toLowerCase();
+
+    var match = tokens.every(function(t){ return hay.indexOf(t) !== -1; });
+    if (match) {
+      card.style.display = '';
+      visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+
+  /* Update results count */
+  var countEl = document.querySelector('.results-count');
+  if (countEl) {
+    countEl.innerHTML = 'Showing <strong>' + visible + '</strong> result' +
+      (visible !== 1 ? 's' : '') + ' for <strong>' + q.replace(/</g,'&lt;') + '</strong>';
+  }
+
+  /* Hide pagination when filtered */
+  var pag = document.querySelector('.pagination');
+  if (pag) pag.style.display = visible < 9 ? 'none' : '';
+})();
+</script>
+
+<!-- Save Search Modal -->
+<div class="ss-overlay" id="ssOverlay">
+  <div class="ss-modal" id="ssModal">
+    <div class="ss-modal-head">
+      <div class="ss-modal-title">Save This Search</div>
+      <button class="ss-modal-close" onclick="closeSaveSearch()" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="ss-modal-sub" id="ssSubtext">Get notified when new items matching your search are listed.</div>
+    <label class="ss-label" for="ssEmail">Email address</label>
+    <input class="ss-input" type="email" id="ssEmail" placeholder="your@email.com" autocomplete="email">
+    <div class="ss-error" id="ssError">Please enter a valid email address.</div>
+    <button class="ss-submit" onclick="submitSaveSearch()">Save Search</button>
+  </div>
+</div>
+
+<!-- Success Toast -->
+<div class="ss-toast" id="ssToast">
+  <div class="ss-toast-icon">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="ss-toast-body">
+    <div class="ss-toast-title">Search Saved Successfully!</div>
+    <div class="ss-toast-sub" id="ssToastSub">Alerts will be sent to your email.</div>
+  </div>
+  <button class="ss-toast-close" onclick="closeSsToast()" aria-label="Close">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+</div>
+
+<script>
+/* ── SAVE SEARCH FLOW ── */
+(function(){
+  var overlay  = document.getElementById('ssOverlay');
+  var modal    = document.getElementById('ssModal');
+  var emailInp = document.getElementById('ssEmail');
+  var errEl    = document.getElementById('ssError');
+  var subtext  = document.getElementById('ssSubtext');
+  var toast    = document.getElementById('ssToast');
+  var toastSub = document.getElementById('ssToastSub');
+  var toastTimer;
+
+  function getSearchQuery(){
+    var inp = document.querySelector('.srch-input');
+    return inp && inp.value.trim() ? inp.value.trim() : '';
+  }
+
+  window.openSaveSearch = function(){
+    var q = getSearchQuery();
+    if(q){
+      subtext.innerHTML = 'Get notified when new items matching <strong>"'+q+'"</strong> are listed.';
+    } else {
+      subtext.textContent = 'Get notified when new items matching your search are listed.';
+    }
+    emailInp.value = '';
+    errEl.classList.remove('show');
+    emailInp.classList.remove('error');
+    overlay.classList.add('open');
+    setTimeout(function(){ emailInp.focus(); },200);
+  };
+
+  window.closeSaveSearch = function(){
+    overlay.classList.remove('open');
+  };
+
+  /* close on overlay click */
+  overlay.addEventListener('click', function(e){
+    if(e.target === overlay) closeSaveSearch();
+  });
+
+  /* close on Escape */
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('open')) closeSaveSearch();
+  });
+
+  window.submitSaveSearch = function(){
+    var email = emailInp.value.trim();
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!email || !re.test(email)){
+      emailInp.classList.add('error');
+      errEl.classList.add('show');
+      emailInp.focus();
+      return;
+    }
+    errEl.classList.remove('show');
+    emailInp.classList.remove('error');
+
+    /* Build payload for future API integration */
+    var payload = {
+      email: email,
+      query: getSearchQuery(),
+      category: (document.querySelector('.srch-cat')||{}).value || '',
+      filters: {},
+      savedAt: new Date().toISOString()
+    };
+
+    /*
+     * TODO: Replace with real API call, e.g.:
+     * fetch('/api/saved-searches', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) })
+     *   .then(r => r.json()).then(showSuccess).catch(showError);
+     */
+    console.log('[SaveSearch] Payload ready for API:', payload);
+
+    /* Simulate success */
+    closeSaveSearch();
+    toastSub.innerHTML = 'Alerts will be sent to <a href="mailto:'+email+'">'+email+'</a>';
+    showToast();
+  };
+
+  function showToast(){
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+  }
+
+  window.closeSsToast = function(){
+    clearTimeout(toastTimer);
+    toast.classList.remove('show');
+  };
+
+  /* Enter key submits modal */
+  emailInp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') submitSaveSearch();
+  });
+
+  /* Clear error on input */
+  emailInp.addEventListener('input', function(){
+    if(emailInp.classList.contains('error')){
+      emailInp.classList.remove('error');
+      errEl.classList.remove('show');
+    }
+  });
+})();
+</script>
 
 <script src="autocomplete.js"></script>
+<script src="color-picker.js"></script>
 </body>
 </html>

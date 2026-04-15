@@ -16,6 +16,7 @@
 
 :root {
   --y:        #FFD100;
+  --y-rgb:    255,209,0;
   --y-dark:   #E6BC00;
   --y-deeper: #C9A400;
   --y-light:  #FFFBE6;
@@ -94,7 +95,7 @@ header{
   border-radius:var(--r);overflow:hidden;
   transition:border-color var(--t),box-shadow var(--t);
 }
-.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(255,209,0,.18);}
+.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);}
 .srch-cat{
   height:100%;padding:0 28px 0 12px;
   font-size:12.5px;font-family:inherit;color:var(--body);
@@ -222,6 +223,13 @@ header{
   padding:4px 10px;border-radius:5px;
   backdrop-filter:blur(6px);
 }
+.gallery-main .gm-grade{
+  position:absolute;top:44px;left:14px;
+  background:rgba(17,24,39,.78);color:var(--white);
+  font-size:10px;font-weight:800;letter-spacing:.4px;
+  padding:4px 10px;border-radius:5px;
+  backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);
+}
 .gallery-nav{
   position:absolute;top:50%;transform:translateY(-50%);
   display:flex;justify-content:space-between;width:100%;padding:0 12px;pointer-events:none;
@@ -248,7 +256,7 @@ header{
   border:2px solid var(--border);cursor:pointer;
   transition:all var(--t);background:var(--white);
 }
-.gthumb.on{border-color:var(--y);box-shadow:0 0 0 2px rgba(255,209,0,.3);}
+.gthumb.on{border-color:var(--y);box-shadow:0 0 0 2px rgba(var(--y-rgb),.3);}
 .gthumb:hover{border-color:var(--ink-3);}
 .gthumb img{width:100%;height:100%;object-fit:cover;}
 .gthumb-add{
@@ -305,7 +313,7 @@ header{
 .desc-text{font-size:14px;color:var(--body);line-height:1.8;margin-bottom:18px;}
 .desc-text p{margin-bottom:14px;}
 .desc-highlights{
-  background:var(--y-pale);border:1px solid rgba(255,209,0,.3);
+  background:var(--y-pale);border:1px solid rgba(var(--y-rgb),.3);
   border-radius:var(--r);padding:16px 20px;margin-top:4px;
 }
 .desc-hl-title{
@@ -416,7 +424,7 @@ header{
   display:flex;align-items:center;justify-content:center;gap:8px;
   transition:background var(--t),box-shadow var(--t),transform var(--t);
 }
-.btn-enquire-now:hover{background:var(--y-dark);box-shadow:0 4px 18px rgba(255,209,0,.4);transform:translateY(-1px);}
+.btn-enquire-now:hover{background:var(--y-dark);box-shadow:0 4px 18px rgba(var(--y-rgb),.4);transform:translateY(-1px);}
 .btn-enquire-now:active{transform:scale(.98);}
 .btn-finance{
   width:100%;height:44px;background:transparent;color:var(--ink);
@@ -497,8 +505,7 @@ h2.sec-t{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-.8px;li
   padding:4px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.5px;
   backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);
 }
-.mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(255,209,0,.35);}
-.mb-vid{background:rgba(220,38,38,.85);color:var(--white);border-color:rgba(255,255,255,.2);}
+.mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(var(--y-rgb),.35);}
 .lc-badge{
   position:absolute;top:10px;left:10px;
   background:var(--green);color:var(--white);
@@ -528,7 +535,9 @@ h2.sec-t{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-.8px;li
   display:flex;align-items:center;gap:8px;
   padding-top:14px;border-top:1px solid var(--border);
 }
-.lc-price{font-size:16px;font-weight:800;color:var(--ink);}
+.lc-price{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:12px;}
+.lc-price .lc-cur{font-size:11px;font-weight:600;color:var(--muted);margin-right:3px;}
+.lc-grade{position:absolute;bottom:10px;right:10px;background:rgba(17,24,39,.78);color:var(--white);font-size:10px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:4px;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);z-index:2;}
 .lc-pl{font-size:10px;color:var(--muted);font-weight:500;}
 .lc-enq{
   flex:1;font-size:12px;font-weight:800;color:var(--ink);
@@ -623,7 +632,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   opacity:0;pointer-events:none;transform:translateY(8px);
 }
 .fab-top.show{opacity:1;pointer-events:all;transform:translateY(0);}
-.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(255,209,0,.45);}
+.fab-top:hover{background:var(--y-dark);transform:translateY(-3px);box-shadow:0 6px 20px rgba(var(--y-rgb),.45);}
 .fab-top:active{transform:scale(.94);}
 
 /* ── MICROINTERACTIONS ── */
@@ -631,7 +640,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .h-btn-login:active{transform:scale(.97);}
 .srch-btn:active{transform:scale(.93);}
 .lc-enq{transition:background var(--t),transform var(--t),box-shadow var(--t);}
-.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(255,209,0,.35);}
+.lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(var(--y-rgb),.35);}
 .lc-enq:active{transform:scale(.96);}
 .lc-save:hover{transform:scale(1.14);background:white;}
 .lc-save:active{transform:scale(.9);}
@@ -716,7 +725,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .video-insp-body p{font-size:13px;color:var(--body);line-height:1.7;margin-bottom:18px;}
 .vis-slots{display:flex;gap:12px;margin-bottom:20px;}
 .vis-slot{
-  flex:1;background:var(--y-light);border:1px solid rgba(255,209,0,.3);
+  flex:1;background:var(--y-light);border:1px solid rgba(var(--y-rgb),.3);
   border-radius:var(--r);padding:10px 14px;
 }
 .vis-slot-day{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--y-deeper);margin-bottom:3px;}
@@ -1186,7 +1195,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   transition: background .2s, color .2s; border-left: 3px solid transparent;
 }
 .nav-drawer-link:hover { background: rgba(255,255,255,.07); color: var(--white); }
-.nav-drawer-link.act { color: var(--y); border-left-color: var(--y); background: rgba(255,209,0,.08); }
+.nav-drawer-link.act { color: var(--y); border-left-color: var(--y); background: rgba(var(--y-rgb),.08); }
 
 /* ── Prevent horizontal overflow ── */
 /* NOTE: detail-wrap intentionally excluded — overflow-x:hidden on it creates a
@@ -1355,11 +1364,7 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
         </div>
         <div class="gtab" onclick="switchGTab(this,'video')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Video Tour
-        </div>
-        <div class="gtab" onclick="switchGTab(this,'360')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15"/></svg>
-          360° View
+          3d Preview
         </div>
       </div>
 
@@ -1369,6 +1374,7 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
           <img id="main-img" src="images/Productimage61.jpg" alt="Volvo FH 460 Globetrotter XL"
                onerror="this.style.display='none';">
           <span class="gm-badge">FAMCO Approved</span>
+          <span class="gm-grade">Grade A</span>
           <span class="gm-ref">Ref: FA-2024-7821</span>
           <div class="gallery-nav">
             <button class="gnav-btn" onclick="changeImg(-1)">
@@ -1394,39 +1400,16 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
 
       <!-- Video Panel -->
       <div id="panel-video" style="display:none;">
-        <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;position:relative;cursor:pointer;" onclick="window.open('https://www.youtube.com/watch?v=1mwVA_fJuF4','_blank')">
-          <img src="https://img.youtube.com/vi/1mwVA_fJuF4/maxresdefault.jpg" alt="Video Tour" style="width:100%;height:100%;object-fit:cover;display:block;opacity:0.85;">
-          <!-- Play button overlay -->
-          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
-            <div style="width:72px;height:72px;background:var(--y);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,.45);transition:transform .2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="6 3 20 12 6 21 6 3"/></svg>
-            </div>
-            <div style="font-size:14px;font-weight:700;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.7);">Watch Full Video Tour</div>
-            <div style="font-size:12px;color:rgba(255,255,255,.7);text-shadow:0 1px 3px rgba(0,0,0,.6);">Opens on YouTube</div>
-          </div>
+        <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;">
+          <iframe id="yt-video"
+            data-src="https://www.youtube.com/embed/1mwVA_fJuF4?rel=0&modestbranding=1"
+            style="width:100%;height:100%;border:none;display:block;"
+            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+            allowfullscreen
+            title="3d Preview"></iframe>
         </div>
       </div>
 
-      <!-- 3D Model Panel -->
-      <div id="panel-360" style="display:none;">
-        <div id="viewer3d" style="width:100%;height:460px;background:var(--surface);position:relative;overflow:hidden;">
-          <canvas id="viewer3d-canvas" style="display:block;width:100%;height:100%;outline:none;"></canvas>
-          <!-- Loading spinner -->
-          <div id="viewer3d-loading" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none;background:var(--surface);">
-            <div style="width:34px;height:34px;border:3px solid var(--border);border-top-color:var(--y);border-radius:50%;animation:spin3d .75s linear infinite;"></div>
-            <div style="font-size:12px;font-weight:600;color:var(--muted);">Loading 3D model…</div>
-          </div>
-          <!-- Error state -->
-          <div id="viewer3d-error" style="display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;pointer-events:none;background:var(--surface);">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            <div style="font-size:12px;font-weight:600;color:var(--muted);">3D model could not be loaded</div>
-          </div>
-          <!-- Interaction hint -->
-          <div style="position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(17,24,39,.68);color:rgba(255,255,255,.88);font-size:11px;font-weight:700;letter-spacing:.3px;padding:5px 13px;border-radius:20px;pointer-events:none;backdrop-filter:blur(6px);white-space:nowrap;">
-            Drag to rotate &nbsp;·&nbsp; Scroll to zoom
-          </div>
-        </div>
-      </div>
     </div>
 
     <!-- Info Tabs: Specifications / Description / Condition -->
@@ -1675,7 +1658,6 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
           </span>
           <span class="badge-grade">Grade A — Excellent</span>
         </div>
-        <div style="margin-top:10px;font-size:12px;font-weight:600;color:var(--green);">● In Stock (55)</div>
       </div>
 
       <!-- Body -->
@@ -1769,18 +1751,16 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
     <!-- Related 1 -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'">
       <div class="lc-thumb">
-        <img src="images/CAT 320 Hydraulic.jpg" alt="CAT 320 Hydraulic Excavator"
+        <img src="images/Productimage1.jpg" alt="CAT 320 Hydraulic Excavator"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="lc-thumb-fallback" style="display:none;">🚜</div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save" onclick="event.stopPropagation()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         </button>
+        <span class="lc-grade">Grade B</span>
         <div class="media-badges">
-          <span class="mb mb-vid">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            VIDEO
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1789,9 +1769,9 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
         <div class="lc-specs">
           <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2021</span></div>
           <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">4,200 hrs</span></div>
-          <div class="sp"><span class="sp-k">Grade</span><span class="sp-v">Grade B</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
         </div>
+        <div class="lc-price"><span class="lc-cur">AED</span>310,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail.html" class="lc-enq" onclick="event.stopPropagation()">View Details</a>
@@ -1802,18 +1782,16 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
     <!-- Related 2 -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'">
       <div class="lc-thumb">
-        <img src="images/Toyota 8FBN25 Forklift.jpg" alt="Toyota 8FBN25 Forklift"
+        <img src="images/Productimage21.jpg" alt="Toyota 8FBN25 Forklift"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="lc-thumb-fallback" style="display:none;">🏗️</div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save" onclick="event.stopPropagation()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         </button>
+        <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-3d">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-            3D VIEW
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1822,9 +1800,9 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
         <div class="lc-specs">
           <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
           <div class="sp"><span class="sp-k">Capacity</span><span class="sp-v">2,500 kg</span></div>
-          <div class="sp"><span class="sp-k">Grade</span><span class="sp-v">Grade A</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Sharjah, UAE</span></div>
         </div>
+        <div class="lc-price"><span class="lc-cur">AED</span>48,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail.html" class="lc-enq" onclick="event.stopPropagation()">View Details</a>
@@ -1835,13 +1813,17 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
     <!-- Related 3 -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'">
       <div class="lc-thumb">
-        <img src="images/jcb.png" alt="JCB 3CX Backhoe Loader"
+        <img src="images/Productimage31.jpg" alt="JCB 3CX Backhoe Loader"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="lc-thumb-fallback" style="display:none;">🚧</div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save" onclick="event.stopPropagation()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         </button>
+        <span class="lc-grade">Grade B</span>
+        <div class="media-badges">
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
+        </div>
       </div>
       <div class="lc-body">
         <span class="lc-cat">Construction</span>
@@ -1849,9 +1831,9 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
         <div class="lc-specs">
           <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2020</span></div>
           <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">6,800 hrs</span></div>
-          <div class="sp"><span class="sp-k">Grade</span><span class="sp-v">Grade B</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Abu Dhabi, UAE</span></div>
         </div>
+        <div class="lc-price"><span class="lc-cur">AED</span>125,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail.html" class="lc-enq" onclick="event.stopPropagation()">View Details</a>
@@ -1862,18 +1844,16 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
     <!-- Related 4 -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'">
       <div class="lc-thumb">
-        <img src="images/Volvo 9700 Luxury Coach.jpg" alt="Volvo 9700 Luxury Coach"
+        <img src="images/Productimage71.jpg" alt="Volvo 9700 Luxury Coach"
              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
         <div class="lc-thumb-fallback" style="display:none;">🚌</div>
         <span class="lc-badge">FAMCO Approved</span>
         <button class="lc-save" onclick="event.stopPropagation()">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
         </button>
+        <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-vid">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="white" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            VIDEO
-          </span>
+          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg> 3D PREVIEW</span>
         </div>
       </div>
       <div class="lc-body">
@@ -1882,9 +1862,9 @@ section, footer, .breadcrumb-bar, .video-insp-card, .price-card,
         <div class="lc-specs">
           <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2023</span></div>
           <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">95,000 km</span></div>
-          <div class="sp"><span class="sp-k">Grade</span><span class="sp-v">Grade A</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
         </div>
+        <div class="lc-price"><span class="lc-cur">AED</span>340,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail.html" class="lc-enq" onclick="event.stopPropagation()">View Details</a>
@@ -2014,14 +1994,10 @@ function changeImg(dir) {
 function switchGTab(el, panel) {
   document.querySelectorAll('.gtab').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
-  ['gallery','video','360'].forEach(p => {
+  ['gallery','video'].forEach(p => {
     const el2 = document.getElementById('panel-' + p);
     if (el2) el2.style.display = (p === panel) ? 'block' : 'none';
   });
-  /* Init Three.js viewer when 3D tab first opens */
-  if (panel === '360') {
-    setTimeout(init3DViewer, 30);
-  }
   /* Pause/resume YouTube iframe */
   var iframe = document.getElementById('yt-video');
   if (iframe) {
@@ -2226,5 +2202,6 @@ document.addEventListener('DOMContentLoaded', function(){
 </div>
 
 <script src="autocomplete.js"></script>
+<script src="color-picker.js"></script>
 </body>
 </html>
