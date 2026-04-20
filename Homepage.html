@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FAMCO Used Equipment – Homepage Mockup v2 (Yellow)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -29,7 +31,7 @@
   --red:      #DC2626;
   --orange:   #EA580C;
 
-  --px:       80px;
+  --px:       clamp(80px, 7vw, 140px);
   --r:        8px;
   --rl:       14px;
   --sh-sm:    0 1px 4px rgba(0,0,0,.07);
@@ -43,9 +45,7 @@ body {
   font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   background:var(--white);
   color:var(--ink);
-  max-width:1440px;
   width:100%;
-  margin:0 auto;
   font-size:14px;
   line-height:1.6;
 }
@@ -54,123 +54,142 @@ img{display:block;max-width:100%;}
 ul{list-style:none;}
 button{cursor:pointer;border:none;background:none;font-family:inherit;}
 
-/* ── TOP BAR ── */
-.top-bar {
-  background:var(--ink);
-  color:rgba(255,255,255,.8);
-  font-size:12px;
-  padding:0 var(--px);
-  height:38px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:relative;
-  overflow:hidden;
-}
-.tb-left{display:flex;align-items:center;gap:24px;}
-.tb-item{display:flex;align-items:center;gap:6px;opacity:.7;transition:opacity var(--t);}
-.tb-item:hover{opacity:1;}
-.tb-promo{
-  position:absolute;left:50%;transform:translateX(-50%);
-  font-size:11.5px;color:rgba(255,255,255,.5);white-space:nowrap;
-}
-.tb-promo strong{color:var(--y);font-weight:700;}
-.tb-right{display:flex;align-items:center;gap:14px;}
-
+/* ── LOCALE SWITCH (shared by header + footer) ── */
 .switch{
   display:flex;align-items:center;gap:2px;
-  background:rgba(255,255,255,.08);border-radius:20px;padding:3px 4px;
+  background:rgba(17,24,39,.07);border-radius:20px;padding:3px 4px;
 }
 .sw-btn{
-  font-size:11px;font-weight:600;color:rgba(255,255,255,.55);
-  padding:2px 10px;border-radius:16px;cursor:pointer;
+  font-size:11px;font-weight:600;color:var(--muted);
+  padding:2px 9px;border-radius:16px;cursor:pointer;
   transition:all var(--t);letter-spacing:.3px;
 }
-.sw-btn.on{background:var(--y);color:var(--ink);font-weight:800;}
+.sw-btn.on{background:var(--ink);color:var(--white);font-weight:700;}
 .sw-btn.ar{font-size:12px;}
 
-/* ── HEADER ── */
+/* ── HEADER shell — transparent outer, 20px gap above the floating pill ── */
 header{
-  background:var(--white);
-  padding:0 var(--px);
-  height:72px;
-  display:flex;
-  align-items:center;
-  gap:28px;
-  border-bottom:1px solid var(--border);
-  box-shadow:var(--sh-sm);
-  position:sticky;top:0;z-index:200;
+  position:sticky;
+  top:20px;            /* gap between viewport top and the floating header pill */
+  z-index:200;
+  background:transparent;
+  padding:0 var(--px); /* horizontal inset matches page content column */
 }
-.logo{display:flex;align-items:center;gap:10px;flex:1;}
-.logo img{height:40px;width:auto;}
-.logo-fb{display:none;flex-direction:column;justify-content:center;}
-.logo-brand{font-size:22px;font-weight:900;color:var(--ink);letter-spacing:-1px;line-height:1;}
-.logo-brand em{color:var(--y-deeper);font-style:normal;}
-.logo-sub{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-top:3px;}
 
-/* Search */
-.srch{flex:0 1 560px;max-width:560px;min-width:0;position:relative;}
-.srch-wrap{
-  display:flex;align-items:center;
-  height:42px;
-  background:var(--surface);border:1.5px solid var(--border);
-  border-radius:var(--r);overflow:hidden;
-  transition:border-color var(--t),box-shadow var(--t);
+/* Inner pill — carries all visual styling (dark glass, radius, border) */
+.h-shell{
+  background:rgba(10,14,20,.82);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.35);
 }
-.srch-wrap:focus-within{border-color:var(--y-deeper);box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);}
-.srch-cat{
-  height:100%;padding:0 28px 0 12px;
-  font-size:12.5px;font-family:inherit;color:var(--body);
-  background:var(--surface);border:none;border-right:1.5px solid var(--border);
-  outline:none;cursor:pointer;white-space:nowrap;appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 8px center;
-  min-width:148px;flex-shrink:0;
+
+/* ── Top row: logo + action icons ── */
+.h-row{
+  padding:0 20px;height:60px;
+  display:flex;align-items:center;gap:20px;
 }
-.srch-cat:focus{outline:none;}
-.srch-input{
-  flex:1;height:100%;background:transparent;border:none;
-  padding:0 8px 0 12px;font-size:13.5px;font-family:inherit;color:var(--ink);outline:none;
-}
-.srch-input::placeholder{color:var(--muted);}
-.srch-btn{
-  flex-shrink:0;width:38px;height:34px;margin-right:4px;background:var(--y);border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background var(--t);
-}
-.srch-btn:hover{background:var(--y-dark);}
+
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo img{height:34px;width:auto;}
+.logo-fb{display:none;flex-direction:column;justify-content:center;}
+.logo-brand{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1;}
+.logo-brand em{color:var(--y);font-style:normal;}
+.logo-sub{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:3px;}
 
 /* Header actions */
-.h-acts{display:flex;align-items:center;gap:6px;flex:1;justify-content:flex-end;}
+.h-acts{display:flex;align-items:center;gap:4px;margin-left:auto;}
+
+/* Icon buttons */
 .h-act{
-  display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:6px 10px;border-radius:var(--r);
-  transition:background var(--t);color:var(--body);cursor:pointer;
+  width:38px;height:38px;border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  transition:background var(--t);color:rgba(255,255,255,.8);cursor:pointer;flex-shrink:0;
 }
-.h-act:hover{background:var(--surface);color:var(--ink);}
-.h-act span{font-size:10px;font-weight:600;letter-spacing:.3px;white-space:nowrap;}
+.h-act:hover{background:rgba(255,255,255,.12);color:var(--white);}
+
+/* Expandable search */
+.h-srch-wrap{position:relative;display:flex;align-items:center;}
+.h-srch-field{
+  position:absolute;right:100%;top:50%;
+  transform:translateY(-50%);
+  width:0;overflow:hidden;
+  transition:width .26s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;
+  background:var(--ink-2);
+  border:1.5px solid transparent;
+  border-radius:var(--r);
+  margin-right:4px;
+}
+.h-srch-wrap.open .h-srch-field{
+  width:300px;
+  border-color:var(--y-deeper);
+  box-shadow:0 0 0 3px rgba(var(--y-rgb),.18);
+}
+.h-srch-input{
+  flex:1;height:36px;border:none;background:transparent;
+  padding:0 10px;font-size:13px;font-family:inherit;color:var(--white);outline:none;
+}
+.h-srch-input::placeholder{color:rgba(255,255,255,.38);}
+.h-srch-close{
+  flex-shrink:0;width:34px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  color:rgba(255,255,255,.5);cursor:pointer;background:none;border:none;
+  transition:color var(--t);
+}
+.h-srch-close:hover{color:var(--white);}
+
+/* Account dropdown */
+.h-acct{position:relative;margin-left:4px;}
 .h-cta{
   background:var(--y);color:var(--ink);
-  padding:0 20px;height:40px;border-radius:var(--r);
-  font-size:13px;font-weight:800;display:flex;align-items:center;gap:7px;
-  transition:background var(--t);white-space:nowrap;margin-left:8px;
+  padding:0 16px;height:38px;border-radius:var(--r);
+  font-size:12.5px;font-weight:800;
+  display:flex;align-items:center;gap:6px;
+  transition:background var(--t);white-space:nowrap;cursor:pointer;border:none;
 }
 .h-cta:hover{background:var(--y-dark);}
-.h-btn-login{
-  background:transparent;color:var(--ink);
-  border:1.5px solid var(--border);
-  padding:0 18px;height:40px;border-radius:var(--r);
-  font-size:13px;font-weight:700;display:flex;align-items:center;
-  transition:all var(--t);white-space:nowrap;margin-left:8px;
+.h-acct-drop{
+  position:absolute;top:calc(100% + 6px);right:0;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  box-shadow:var(--sh-md);
+  min-width:160px;padding:6px;
+  opacity:0;pointer-events:none;
+  transform:translateY(-6px);
+  transition:opacity .15s,transform .15s;
+  z-index:300;
 }
-.h-btn-login:hover{border-color:var(--ink-3);background:var(--surface);}
+.h-acct:hover .h-acct-drop,.h-acct:focus-within .h-acct-drop{
+  opacity:1;pointer-events:all;transform:translateY(0);
+}
+.h-acct-link{
+  display:block;padding:9px 14px;border-radius:6px;
+  font-size:13px;font-weight:600;color:var(--ink);
+  transition:background var(--t);text-decoration:none;
+}
+.h-acct-link:hover{background:var(--surface);}
+.h-acct-primary{color:var(--y-deeper);}
 
-/* ── NAV BAR ── */
-.nav-bar{
-  background:var(--ink-2);padding:0 var(--px);
-  display:flex;align-items:center;height:48px;gap:2px;
-  position:sticky;top:72px;z-index:150;
-  overflow:hidden;
+/* Locale switcher — light on dark header */
+.h-locale{
+  display:flex;align-items:center;gap:5px;
+  padding-left:10px;margin-left:4px;
+  border-left:1px solid rgba(255,255,255,.15);
+}
+.h-locale .switch{background:rgba(255,255,255,.1);}
+.h-locale .sw-btn{font-size:10px;padding:2px 7px;color:rgba(255,255,255,.5);}
+.h-locale .sw-btn.on{background:var(--white);color:var(--ink);}
+
+/* ── Nav row (integrated second row inside the pill) ── */
+.h-nav{
+  padding:0 12px;
+  display:flex;align-items:center;height:44px;gap:2px;
+  border-top:1px solid rgba(255,255,255,.07);
+  border-radius:0 0 14px 14px; /* match pill bottom corners */
 }
 .nv-item{position:relative;height:100%;display:flex;align-items:center;}
 .nv-link{
@@ -186,10 +205,14 @@ header{
 /* ── HERO ── */
 .hero{
   position:relative;
-  height:600px;
+  /* height = 480px desired visible + 20px gap above pill + 104px pill height */
+  height:604px;
   overflow:hidden;
   background:var(--ink);
   display:flex;align-items:center;
+  margin-top:-104px;   /* hero slides behind the header's 104px flow footprint */
+  padding-top:124px;   /* = 20px gap + 104px pill → re-centres content in the 480px visible band */
+  z-index:1;
 }
 .hero-photo{
   position:absolute;inset:0;
@@ -205,9 +228,9 @@ header{
     rgba(17,24,39,0.10) 100%
   );
 }
-/* Yellow accent bar on left */
+/* Yellow accent bar — starts at the bottom edge of the combined visible header */
 .hero-bar{
-  position:absolute;left:0;top:0;bottom:0;width:5px;
+  position:absolute;left:0;top:124px;bottom:0;width:5px;
   background:var(--y);z-index:2;
 }
 
@@ -226,9 +249,9 @@ header{
 .hero-dot{width:6px;height:6px;background:var(--y);border-radius:50%;}
 
 h1.hero-h{
-  font-size:56px;font-weight:900;
-  color:var(--white);line-height:1.05;
-  letter-spacing:-1.5px;margin-bottom:18px;
+  font-size:56px;font-weight:700;
+  line-height:1.05;letter-spacing:-1.5px;margin-bottom:18px;
+  color:var(--white);
 }
 h1.hero-h em{color:var(--y);font-style:normal;}
 
@@ -238,7 +261,7 @@ h1.hero-h em{color:var(--y);font-style:normal;}
   max-width:500px;font-weight:400;
 }
 
-.hero-ctas{display:flex;gap:14px;margin-bottom:44px;}
+.hero-ctas{display:flex;gap:14px;margin-bottom:0;}
 .btn-y{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--y);color:var(--ink);
@@ -270,9 +293,9 @@ h1.hero-h em{color:var(--y);font-style:normal;}
 .hs-l{font-size:11px;color:rgba(255,255,255,.42);font-weight:500;margin-top:4px;}
 .hs-div{width:1px;background:rgba(255,255,255,.1);}
 
-/* Quick search */
+/* Quick search — shifted +62px so it centres in the 480px visible band below the 124px mark */
 .hero-qs{
-  position:absolute;right:var(--px);top:50%;
+  position:absolute;right:var(--px);top:calc(50% + 62px);
   transform:translateY(-50%);z-index:3;width:330px;
 }
 .qs-card{
@@ -323,10 +346,16 @@ h1.hero-h em{color:var(--y);font-style:normal;}
 .sec-y{background:var(--y);}
 
 .sec-hd{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:40px;}
-.sec-ey{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--y-deeper);margin-bottom:8px;}
-.sec-ey.on-dk{color:var(--y);}
-h2.sec-t{font-size:32px;font-weight:800;color:var(--ink);letter-spacing:-.8px;line-height:1.15;}
-h2.sec-t.on-dk{color:var(--white);}
+.sec-ey{display:none;}
+.sec-ey.on-dk{display:none;}
+h2.sec-t{
+  font-size:32px;font-weight:700;
+  letter-spacing:-.8px;line-height:1.15;
+  color:var(--ink);
+}
+h2.sec-t.on-dk{
+  color:var(--white);
+}
 .sec-sub{font-size:15px;color:var(--body);margin-top:8px;max-width:520px;line-height:1.65;}
 .sec-sub.on-dk{color:rgba(255,255,255,.5);}
 .va{
@@ -566,29 +595,74 @@ h2.sec-t.on-dk{color:var(--white);}
 .bn{font-size:16px;font-weight:900;color:var(--ink);letter-spacing:-.3px;}
 
 /* ── HOW IT WORKS ── */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
-.steps::before{
-  content:'';position:absolute;top:36px;
-  left:calc(12.5% + 20px);right:calc(12.5% + 20px);
-  height:2px;
-  background:repeating-linear-gradient(to right,var(--y) 0,var(--y) 8px,transparent 8px,transparent 16px);
-  z-index:0;
+.process-grid{display:flex;align-items:flex-start;justify-content:center;}
+.process-step{flex:1;text-align:center;position:relative;z-index:2;cursor:default;}
+.process-step__circle{
+  width:80px;height:80px;margin:0 auto 24px;
+  background:var(--white);border:2.5px solid var(--border);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);position:relative;z-index:2;
+  box-shadow:0 0 0 8px var(--surface),0 4px 16px rgba(0,0,0,.05);
+  transition:border-color .4s,background .4s,color .4s,transform .4s,box-shadow .4s;
 }
-.step{padding:0 28px;text-align:center;}
-.step-ring{
-  position:relative;z-index:1;
-  width:72px;height:72px;margin:0 auto 24px;
-  background:var(--white);border:2.5px solid var(--border);
-  border-radius:50%;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  transition:all var(--t);
+.process-step__circle svg{width:28px;height:28px;flex-shrink:0;}
+.process-step__num{
+  position:absolute;top:-6px;right:-6px;
+  width:26px;height:26px;border-radius:50%;
+  background:var(--ink);color:var(--white);
+  font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  z-index:3;box-shadow:0 2px 8px rgba(0,0,0,.25);
+  transition:transform .4s,background .4s,color .4s;
 }
-.step:hover .step-ring{border-color:var(--y);background:var(--y-light);}
-.step-ico{font-size:24px;}
-.step-n{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.5px;margin-top:2px;}
-.step:hover .step-n{color:var(--y-deeper);}
-.step-t{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.2px;}
-.step-d{font-size:13px;color:var(--body);line-height:1.65;}
+.process-step__title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:8px;letter-spacing:-.2px;transition:color .4s;}
+.process-step__desc{font-size:13px;color:var(--body);line-height:1.65;padding:0 12px;max-width:220px;margin:0 auto;}
+.process-arrow{flex:0 0 56px;display:flex;align-items:center;justify-content:center;padding-top:28px;z-index:1;}
+.process-arrow__line{flex:1;height:2px;background:var(--border);position:relative;overflow:hidden;border-radius:1px;}
+.process-arrow__line::after{content:'';position:absolute;left:0;top:0;height:100%;width:0;background:linear-gradient(90deg,var(--y),var(--y-deeper));border-radius:1px;}
+.process-arrow__chevron{flex-shrink:0;color:var(--border);margin-left:-2px;display:flex;align-items:center;transition:color .4s;}
+.process-arrow__chevron svg{width:16px;height:16px;stroke:currentColor;}
+/* scroll-triggered states */
+.process-grid.animate .process-step:nth-child(1) .process-step__circle,
+.process-grid.animate .process-step:nth-child(3) .process-step__circle,
+.process-grid.animate .process-step:nth-child(5) .process-step__circle{border-color:var(--y);color:var(--y-deeper);}
+.process-grid.animate .process-step:nth-child(7) .process-step__circle{border-color:var(--ink);background:var(--ink);color:var(--y);}
+.process-grid.animate .process-step:nth-child(1) .process-step__circle{animation:ps-pop .5s .3s both;}
+.process-grid.animate .process-step:nth-child(3) .process-step__circle{animation:ps-pop .5s .9s both;}
+.process-grid.animate .process-step:nth-child(5) .process-step__circle{animation:ps-pop .5s 1.5s both;}
+.process-grid.animate .process-step:nth-child(7) .process-step__circle{animation:ps-pop .5s 2.1s both;}
+.process-grid.animate .process-arrow:nth-child(2) .process-arrow__line::after{animation:arr-grow .5s .7s both;}
+.process-grid.animate .process-arrow:nth-child(4) .process-arrow__line::after{animation:arr-grow .5s 1.3s both;}
+.process-grid.animate .process-arrow:nth-child(6) .process-arrow__line::after{animation:arr-grow .5s 1.9s both;}
+.process-grid.animate .process-arrow:nth-child(2) .process-arrow__chevron{animation:chv-in .3s 1.1s both;}
+.process-grid.animate .process-arrow:nth-child(4) .process-arrow__chevron{animation:chv-in .3s 1.7s both;}
+.process-grid.animate .process-arrow:nth-child(6) .process-arrow__chevron{animation:chv-in .3s 2.3s both;}
+.process-grid.animate .process-step:nth-child(1) .process-step__num{animation:ps-num .4s .4s both;}
+.process-grid.animate .process-step:nth-child(3) .process-step__num{animation:ps-num .4s 1.0s both;}
+.process-grid.animate .process-step:nth-child(5) .process-step__num{animation:ps-num .4s 1.6s both;}
+.process-grid.animate .process-step:nth-child(7) .process-step__num{animation:ps-num .4s 2.2s both;}
+/* hover states */
+.process-step:hover .process-step__circle{border-color:var(--y)!important;color:var(--y-deeper)!important;transform:translateY(-4px);box-shadow:0 0 0 8px var(--surface),0 12px 32px rgba(var(--y-rgb),.2);}
+.process-step:nth-child(7):hover .process-step__circle{background:var(--ink)!important;border-color:var(--ink)!important;color:var(--y)!important;}
+.process-step:hover .process-step__title{color:var(--y-deeper);}
+.process-step:hover .process-step__num{transform:scale(1.15);background:var(--y);color:var(--ink);}
+/* keyframes */
+@keyframes ps-pop{0%{transform:scale(.8);opacity:.5}50%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+@keyframes arr-grow{0%{width:0}100%{width:100%}}
+@keyframes chv-in{0%{opacity:0;transform:translateX(-8px)}100%{opacity:1;transform:translateX(0);color:var(--ink)}}
+@keyframes ps-num{0%{transform:scale(0)}60%{transform:scale(1.3)}100%{transform:scale(1)}}
+/* responsive */
+@media(max-width:768px){
+  .process-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px 20px;}
+  .process-arrow{display:none;}
+  .process-step__circle{width:68px;height:68px;box-shadow:0 0 0 6px var(--surface),0 2px 8px rgba(0,0,0,.04);}
+  .process-step__num{width:22px;height:22px;font-size:10px;}
+  .process-step__title{font-size:14px;}
+  .process-step__desc{font-size:12px;padding:0 8px;}
+}
+@media(max-width:480px){
+  .process-grid{grid-template-columns:1fr;gap:28px;}
+}
 
 /* ── TESTIMONIALS ── */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
@@ -638,6 +712,7 @@ h2.sec-t.on-dk{color:var(--white);}
 }
 .off-cnt{position:relative;z-index:1;}
 .off-ey{
+  display:none;
   font-size:10px;font-weight:800;letter-spacing:2px;
   text-transform:uppercase;color:rgba(17,24,39,.55);margin-bottom:8px;
 }
@@ -653,7 +728,22 @@ h2.sec-t.on-dk{color:var(--white);}
 .btn-dk:hover{background:var(--ink-2);transform:translateY(-2px);}
 
 /* ── LOCATIONS ── */
-.loc-grid{display:grid;grid-template-columns:1fr 1fr 1fr 360px;gap:24px;align-items:start;}
+.loc-layout{
+  display:grid;
+  grid-template-columns:7fr 3fr;
+  gap:40px;
+  align-items:start;
+}
+.loc-heading{margin-bottom:28px;}
+.loc-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.loc-right{
+  position:sticky;
+  top:96px;
+}
 .loc-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:var(--rl);padding:24px;
@@ -663,7 +753,8 @@ h2.sec-t.on-dk{color:var(--white);}
 .loc-ic{
   width:44px;height:44px;background:var(--y-light);
   border-radius:var(--r);display:flex;align-items:center;justify-content:center;
-  margin-bottom:14px;font-size:20px;
+  margin-bottom:14px;
+  color:var(--y-deeper); /* SVG icons inherit this via currentColor */
 }
 .loc-name{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:6px;}
 .loc-addr{font-size:13px;color:var(--body);line-height:1.65;margin-bottom:12px;}
@@ -768,7 +859,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   display:flex;align-items:flex-start;gap:10px;
   font-size:13px;color:rgba(255,255,255,.52);margin-bottom:10px;line-height:1.5;
 }
-.ft-ci-ic{color:var(--y);flex-shrink:0;margin-top:1px;}
+.ft-ci-ic{color:var(--y);flex-shrink:0;margin-top:1px;display:flex;align-items:center;}
 .ft-bot{
   padding:20px 0;
   display:flex;align-items:center;justify-content:space-between;
@@ -820,14 +911,12 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .btn-y:active{transform:translateY(1px) scale(.98)!important;box-shadow:none!important;}
 .btn-dk:active{transform:translateY(1px) scale(.98)!important;}
 .h-cta:active{transform:scale(.97);}
-.h-btn-login:active{transform:scale(.97);}
 .qs-go{transition:background var(--t),box-shadow var(--t),transform var(--t);}
 .qs-go:hover{transform:translateY(-1px);}
 .qs-go:active{transform:scale(.97);}
 .enq-btn{transition:background var(--t),box-shadow var(--t),transform var(--t);}
 .enq-btn:hover{transform:translateY(-1px);}
 .enq-btn:active{transform:scale(.97);}
-.srch-btn:active{transform:scale(.93);}
 .lc-enq{transition:background var(--t),transform var(--t),box-shadow var(--t);}
 .lc-enq:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(var(--y-rgb),.35);}
 .lc-enq:active{transform:scale(.96);}
@@ -842,7 +931,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .va:hover svg,.ic-link:hover svg,.loc-link:hover svg{transform:translateX(4px);}
 .nv-link{position:relative;}
 .nv-link.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--y);border-radius:2px 2px 0 0;}
-.step:hover .step-ring{box-shadow:0 0 0 6px rgba(var(--y-rgb),.12);}
 .ti{transition:background var(--t),transform var(--t);}
 .ti:hover{transform:translateY(-2px);}
 .loc-card{transition:box-shadow var(--t),border-color var(--t),transform var(--t);}
@@ -860,8 +948,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 @media (max-width:1200px) {
   :root { --px: 48px; }
 
-  .srch { flex: 0 1 420px; }
-
   .cat-grid { grid-template-columns: repeat(3, 1fr); }
   .listings-grid { grid-template-columns: repeat(3, 1fr); }
 
@@ -871,37 +957,35 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(4, 1fr); }
 
-  .loc-grid { grid-template-columns: 1fr 1fr; }
-  .loc-grid > .enq-card { grid-column: span 2; }
+  /* loc-layout stays 2-col at 1200px */
 
   .insights-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── Hamburger nav button (defined here, before media queries, so overrides work) ── */
+.nav-hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,.1);
+  border-radius: var(--r);
+  cursor: pointer;
+  border: none;
+  color: white;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10001;
 }
 
 /* ── 1024px: Tablet landscape ── */
 @media (max-width:1024px) {
   :root { --px: 32px; }
 
-  /* Header */
-  .srch { flex: 0 1 320px; }
-  .srch-cat { min-width: 100px; }
-  .h-act span { display: none; }
+  /* Nav row — still visible at 1024px; pill radius tightens slightly */
+  .h-shell { border-radius: 12px; }
 
-  /* Nav — hide links, show hamburger */
-  .nav-bar { padding: 0 var(--px); }
-  .nav-bar .nv-item { display: none; }
-  .nav-bar::before {
-    content: '';
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-  }
-  .nav-hamburger {
-    display: flex !important;
-    margin-left: auto;
-  }
-
-  /* Hero */
-  .hero { height: 520px; }
+  /* Hero — same pill dimensions as desktop (h-row+h-nav=104px, gap=20px) → no hero change needed */
   .hero-qs { display: none; }
   h1.hero-h { font-size: 40px; }
   .hero-sub { font-size: 15px; }
@@ -922,9 +1006,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Trust */
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* Locations */
-  .loc-grid { grid-template-columns: 1fr 1fr; }
-  .loc-grid > .enq-card { grid-column: span 2; }
+  /* Locations — collapse to single column at 1024px */
+  .loc-layout { grid-template-columns: 1fr; gap: 28px; }
+  .loc-right { position: relative; top: auto; }
 
   /* Footer */
   .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
@@ -934,32 +1018,17 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 @media (max-width:768px) {
   :root { --px: 20px; }
 
-  /* Top bar */
-  .top-bar { padding: 0 var(--px); height: auto; min-height: 38px; flex-wrap: wrap; gap: 6px; overflow: hidden; }
-  .tb-left, .tb-promo { display: none; }
-  /* Hide the long promo text span that lives directly in .top-bar on mobile */
-  .top-bar > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
-
-  /* Header — single row on mobile */
-  header {
-    padding: 0 var(--px);
-    height: 60px;
-    min-height: 60px;
-    flex-wrap: nowrap;
-    gap: 12px;
-  }
-  .logo { flex: 1; min-width: 0; }
-  .srch { display: none; }
+  /* Header — keep floating pill, shrink gap + side padding + row height */
+  header { top: 10px; padding: 0 14px; }
+  .h-shell { border-radius: 10px; }   /* pill maintained — no full-bleed */
+  .h-row { height: 54px; padding: 0 14px; }
   .h-acts { flex: 0 0 auto; gap: 4px; }
-  .h-act { padding: 4px 6px; }
-  .h-btn-login { padding: 0 12px; font-size: 12px; height: 36px; margin-left: 4px; }
-  .h-cta { padding: 0 14px; font-size: 12px; height: 36px; margin-left: 4px; }
+  .h-cta { padding: 0 12px; font-size: 12px; height: 36px; }
+  .h-locale { display: none; }        /* hide locale to free space at this width */
 
-  /* Nav bar */
-  .nav-bar { top: 60px; padding: 0 var(--px); }
-
-  /* Hero */
-  .hero { height: auto; min-height: 440px; padding: 48px 0; }
+  /* Hero — top:10px + h-row(54px) + h-nav(44px) = 108px visible header */
+  .hero { height: auto; min-height: 500px; margin-top: -98px; padding: 108px 0 48px; }
+  .hero-bar { top: 108px; }
   .hero-content { padding: 0 var(--px); max-width: 100%; }
   h1.hero-h { font-size: 34px; letter-spacing: -1px; }
   .hero-sub { font-size: 14px; max-width: 100%; }
@@ -996,9 +1065,8 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .trust-grid { grid-template-columns: repeat(2, 1fr); }
   .ti { padding: 28px 20px; }
 
-  /* Locations */
-  .loc-grid { grid-template-columns: 1fr; }
-  .loc-grid > .enq-card { grid-column: auto; }
+  /* Locations — single-column cards at 576px */
+  .loc-cards { grid-template-columns: 1fr; }
 
   /* Insights */
   .insights-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -1016,18 +1084,38 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .fab-wrap { bottom: 20px; right: 16px; }
 }
 
+/* ── 640px: Mobile — collapse nav row to hamburger ── */
+@media (max-width:640px) {
+  /* Hide nav row → show hamburger instead */
+  .h-nav { display: none; }
+  .nav-hamburger { display: flex; }
+
+  /* Tighten pill: slightly more gap + smaller radius than 768px */
+  header { top: 12px; padding: 0 12px; }
+  .h-shell { border-radius: 12px; }
+  .h-row { height: 52px; padding: 0 14px; }
+
+  /* Reduce logo size */
+  .logo img { height: 24px; }
+  .logo-brand { font-size: 15px; }
+
+  /* Hide saved (in drawer), collapse Account to icon-only */
+  .h-saved { display: none; }
+  .h-cta-txt { display: none; }
+  .h-cta-chevron { display: none; }
+  .h-cta { padding: 0 10px; gap: 0; height: 34px; }
+
+  /* Hero — top:12px + h-row:52px = 64px (h-nav hidden so only row in flow) */
+  .hero { margin-top: -52px; padding: 64px 0 40px; }
+  .hero-bar { top: 64px; }
+}
+
 /* ── 576px: Large mobile ── */
 @media (max-width:576px) {
   :root { --px: 16px; }
 
-  /* Top bar: hide long promo text, only show controls */
-  .top-bar > span { display: none; }
-
   /* Header */
   header { gap: 8px; }
-  .srch-cat { display: none; }
-  .srch-wrap { border-radius: var(--r); }
-  .h-btn-login { display: none; }
 
   /* Hero */
   h1.hero-h { font-size: 28px; }
@@ -1057,12 +1145,8 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
 /* ── 480px: Collapse 2-col grids to 1 before 390px ── */
 @media (max-width:480px) {
-  /* top-bar: hide the long text at narrow widths to prevent overflow */
-  .top-bar > span { display: none; }
-
   /* header buttons: tighten up */
-  .h-btn-login { padding: 0 10px; font-size: 11px; }
-  .h-cta        { padding: 0 10px; font-size: 11px; }
+  .h-cta { padding: 0 10px; font-size: 11px; }
 
   /* cat grid to 1 col */
   .cat-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -1078,8 +1162,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .brand-item { flex: 1 1 50%; }
 
   /* card footer buttons stack */
-  .lc-ft { flex-direction: column; }
-  .lc-enq, .lc-compare { width: 100%; }
+  .lc-enq { width: 100%; }
 
   /* offers: ensure text doesn't overflow */
   .off-t { font-size: 24px; }
@@ -1108,8 +1191,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
   .brand-item { flex: 1 1 50%; }
 
-  .lc-ft { flex-direction: column; }
-  .lc-enq, .lc-compare { width: 100%; }
+  .lc-enq { width: 100%; }
 
   .hero-ctas { flex-direction: column; }
   .btn-y, .btn-ghost { width: 100%; }
@@ -1129,10 +1211,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 @media (max-width:320px) {
   :root { --px: 10px; }
 
-  /* header: hide login button entirely, shrink register */
-  .h-btn-login { display: none; }
-  .h-cta { padding: 0 8px; font-size: 10px; height: 32px; margin-left: 2px; }
-  .h-act  { padding: 3px 4px; }
+  /* header: shrink account button */
+  .h-cta { padding: 0 8px; font-size: 10px; height: 32px; }
+  .h-act  { width: 32px; height: 32px; }
 
   /* hero */
   h1.hero-h { font-size: 20px; letter-spacing: -.5px; }
@@ -1163,9 +1244,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .ft-top { grid-template-columns: 1fr; gap: 16px; }
   .ft-bot { font-size: 11px; }
 
-  /* top-bar: hide the currency/language switchers too if needed */
-  .top-bar { justify-content: center; }
-
   /* prevent any long words from overflowing */
   .sec-sub, .ti-desc, .step-d, .tq, .ft-tag {
     word-break: break-word;
@@ -1182,23 +1260,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .fab-wrap { bottom: 16px; right: 10px; }
   .fab-wa   { width: 46px; height: 46px; }
   .fab-top  { width: 38px; height: 38px; }
-}
-
-/* ── Hamburger nav button ── */
-.nav-hamburger {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px; height: 40px;
-  background: rgba(255,255,255,.1);
-  border-radius: var(--r);
-  cursor: pointer;
-  border: none;
-  color: white;
-  margin-left: auto;
-  flex-shrink: 0;
-  position: relative;
-  z-index: 10001;
 }
 
 /* ── Mobile Nav Drawer ── */
@@ -1284,6 +1345,713 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   border-left-color: var(--y);
   background: rgba(var(--y-rgb),.08);
 }
+.nav-drawer-sep {
+  height: 1px;
+  background: rgba(255,255,255,.1);
+  margin: 8px 20px;
+}
+.nav-drawer-link-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,.65);
+  text-decoration: none;
+  transition: background .2s, color .2s;
+  border-left: 3px solid transparent;
+}
+.nav-drawer-link-icon:hover {
+  background: rgba(255,255,255,.07);
+  color: var(--white);
+}
+/* ── FSC: SCROLL TEXT / VIDEO SECTION ── */
+.fsc-wrap{
+  position:relative;
+  height:500vh; /* 4 steps × 100vh + 100vh sticky */
+  background:var(--white);
+}
+.fsc-sticky{
+  position:sticky;top:0;height:100vh;
+  display:flex;overflow:hidden;
+  background:var(--white);
+}
+/* TEXT PANEL — left 50% */
+.fsc-text-panel{
+  width:50%;height:100%;
+  position:relative;
+  background:var(--white);
+  flex-shrink:0;
+}
+.fsc-items{
+  position:absolute;
+  left:clamp(32px,6vw,80px);right:48px;
+  top:28vh;
+}
+/* individual text items — JS drives opacity + transform directly */
+.fsc-item{
+  position:absolute;
+  width:100%;
+  opacity:0;
+  will-change:transform,opacity;
+  pointer-events:none;
+}
+.fsc-item-text{
+  font-size:clamp(18px,1.9vw,32px);
+  font-weight:600;
+  line-height:1.45;
+  letter-spacing:-.2px;
+  margin:0;
+  color:var(--ink);
+}
+/* VIDEO PANEL — right 50%, sticky, rounded-left corners */
+.fsc-video-panel{
+  flex:1;height:100%;
+  position:relative;
+  border-radius:20px 0 0 20px;
+  overflow:hidden;
+  background:var(--ink-2);
+}
+.fsc-video-panel video{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+/* responsive */
+@media(max-width:900px){
+  .fsc-wrap{height:auto;}
+  .fsc-sticky{
+    position:relative;height:auto;
+    flex-direction:column;
+  }
+  .fsc-text-panel{
+    width:100%;height:auto;
+    order:2;
+  }
+  .fsc-items{
+    position:relative;
+    top:auto;left:0;right:0;
+    padding:52px var(--px) 52px;
+  }
+  .fsc-item{
+    position:relative;
+    opacity:1!important;transform:none!important;
+    pointer-events:auto!important;
+    margin-bottom:44px;
+  }
+  .fsc-video-panel{
+    flex:none;
+    width:calc(100% - 20px);
+    margin-left:20px;
+    height:60vw;min-height:240px;max-height:380px;
+    border-radius:16px 0 0 16px;
+    order:1;
+  }
+}
+@media(max-width:480px){
+  .fsc-item-text{font-size:26px;}
+  .fsc-items{padding:40px 24px;}
+}
+
+/* === Simplified product cards === */
+.lc-cat{display:none;}
+.lc-specs{display:none;}
+.lc-badge-new{display:none;}
+.lc-badge-hot{display:none;}
+.media-badges{display:none;}
+.lc-compare{display:none;}
+.lc-body{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;row-gap:12px;}
+.lc-name{grid-column:1/-1;grid-row:1;margin-bottom:0;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.lc-price{grid-column:1;grid-row:2;margin-bottom:0;}
+.lc-ft{grid-column:2;grid-row:2;padding-top:0;border-top:none;}
+.lc-enq{flex:none;white-space:nowrap;}
+
+/* ── BRAND LOGOS: terminal-style grid ── */
+.bl-sec{background:var(--white);overflow:hidden;position:relative;}
+.bl-lbl{
+  padding:72px var(--px) 0;text-align:center;
+  font-size:32px;font-weight:700;letter-spacing:-.8px;
+  line-height:1.15;margin-bottom:0;
+  color:var(--ink);
+}
+/* 6-column grid — no outer left/right borders */
+.bl-row{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  /* no default border-top — outer rows blend into white */
+}
+/* inner column dividers only */
+.bl-row>*+*{border-left:1px solid rgba(17,24,39,.065);}
+/* only the logos row has horizontal boundary lines */
+.bl-logos{
+  border-top:1px solid rgba(17,24,39,.065);
+  border-bottom:1px solid rgba(17,24,39,.065);
+}
+.bl-empty{height:140px;}
+.bl-cell{
+  height:260px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+/* crosshair marks at inner cell corners — not on the outer edges */
+.bl-cell+.bl-cell::before,.bl-cell+.bl-cell::after{
+  content:'';position:absolute;
+  width:9px;height:9px;
+  background:
+    linear-gradient(to right, transparent 44%, rgba(17,24,39,.2) 44%, rgba(17,24,39,.2) 56%, transparent 56%),
+    linear-gradient(to bottom, transparent 44%, rgba(17,24,39,.2) 44%, rgba(17,24,39,.2) 56%, transparent 56%);
+  pointer-events:none;z-index:2;
+}
+.bl-cell+.bl-cell::before{top:-5px;left:-5px;}
+.bl-cell+.bl-cell::after {bottom:-5px;left:-5px;}
+/* partner logo images */
+.bl-logo{
+  display:block;
+  max-height:82px;
+  max-width:150px;
+  width:auto;
+  height:auto;
+  opacity:0.22;
+  transition:opacity .2s;
+  filter:brightness(0);      /* strip original colour → pure ink */
+}
+.bl-cell:hover .bl-logo{opacity:0.55;}
+
+
+/* ── TESTIMONIAL ── */
+.tq-sec{
+  position:relative;
+  width:100%;
+  min-height:480px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  background:#0d1117;
+}
+.tq-bg{
+  position:absolute;inset:0;
+  /* cover fills the section at every viewport; position keeps the truck (centre-right) in frame */
+  background:url('images/test-bg2.png') 55% 60% / cover no-repeat;
+  transform:scale(1.06); /* headroom for parallax */
+  will-change:transform;
+}
+.tq-overlay{
+  position:absolute;inset:0;
+  /* Stronger vignette at top+bottom (text lives there), lighter centre window
+     so the truck reads clearly through the overlay */
+  background:linear-gradient(to bottom,
+    rgba(10,14,20,.82) 0%,
+    rgba(10,14,20,.50) 30%,
+    rgba(10,14,20,.45) 55%,
+    rgba(10,14,20,.80) 100%);
+}
+.tq-inner{
+  position:relative;z-index:1;
+  max-width:1100px;
+  margin:0 auto;
+  padding:96px var(--px);
+  text-align:center;
+}
+.tq-mark{
+  font-size:72px;line-height:.7;
+  color:var(--y);
+  font-family:Georgia,serif;
+  display:block;
+  margin-bottom:16px;
+  opacity:.9;
+}
+.tq-quote{
+  font-size:clamp(22px,2.8vw,36px);
+  font-weight:600;
+  color:var(--white);
+  line-height:1.4;
+  letter-spacing:-.3px;
+  margin:0 0 36px;
+}
+.tq-divider{
+  width:40px;height:1px;
+  background:rgba(255,255,255,.3);
+  margin:0 auto 28px;
+}
+.tq-name{
+  font-size:15px;font-weight:600;
+  color:var(--white);
+  letter-spacing:.2px;
+  margin-bottom:6px;
+}
+.tq-role{
+  font-size:13px;
+  color:rgba(255,255,255,.5);
+  letter-spacing:.3px;
+}
+
+@media(max-width:1024px){
+  /* Tablet landscape — viewport ~1024px, image 1920px wide; shift right slightly */
+  .tq-bg{background-position:60% 60%;}
+}
+@media(max-width:768px){
+  /* Tablet portrait — narrower crop, pan further right to keep truck visible */
+  .tq-bg{background-position:65% 60%;}
+  .tq-inner{padding:72px var(--px);}
+}
+@media(max-width:640px){
+  /* Mobile — heavy width-crop; anchor to truck position */
+  .tq-bg{background-position:68% 60%;}
+  .tq-inner{padding:60px var(--px);}
+  .tq-mark{font-size:52px;}
+}
+@media(max-width:480px){
+  /* Small mobile — pull as far right as needed so truck stays partially in frame */
+  .tq-bg{background-position:72% 60%;}
+  .tq-inner{padding:52px var(--px);}
+  .tq-mark{font-size:44px;}
+}
+
+@media(max-width:900px){
+  .bl-row{grid-template-columns:repeat(3,1fr);}
+  .bl-cell{height:140px;}
+  .bl-empty{height:56px;}
+  .bl-logo{max-height:58px;max-width:110px;}
+}
+@media(max-width:480px){
+  .bl-row{grid-template-columns:repeat(2,1fr);}
+  .bl-empty{height:40px;}
+  .bl-cell{height:110px;}
+  .bl-logo{max-height:46px;max-width:88px;}
+}
+
+/* ══════════════════════════════════════════════════════
+   SCROLL-VIDEO HERO — integrated from interactive-banner
+   All class names are scoped with .svh- prefix or are
+   unique names that don't exist elsewhere in this file.
+══════════════════════════════════════════════════════ */
+
+/* ── Scroll container: pulls up behind the floating header pill ── */
+.video-scroll-container{
+  position:relative;
+  height:600vh;
+  /* Desktop: gap(20px) + h-row(60px) + h-nav(44px) = 104px pill height */
+  margin-top:-104px;
+}
+
+.video-sticky{
+  position:sticky;
+  top:0;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  background:#000; /* shows during initial load before canvas paints */
+}
+
+/* Video element: visually hidden but in render tree so browsers decode & seek */
+.video-sticky video{
+  position:absolute;
+  width:0; height:0;
+  opacity:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+/* Canvas fills sticky viewport; cover-fit is handled in JS drawCover() */
+.video-sticky canvas{
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  display:block;
+}
+
+/* ── Loading bar (shown on first visit, hidden on cache hit) ── */
+.frame-loader{
+  position:fixed; inset:0;
+  z-index:500;                  /* above header (z-index:200) */
+  background:#000;
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:14px;
+  transition:opacity .5s ease;
+}
+.frame-loader.hidden{ opacity:0; pointer-events:none; }
+.frame-loader.done{ display:none; }
+.frame-loader-bar{
+  width:220px; height:3px;
+  background:rgba(255,255,255,.12);
+  border-radius:2px; overflow:hidden;
+}
+.frame-loader-fill{
+  height:100%; width:0%;
+  background:#FFD100;
+  border-radius:2px;
+  transition:width .08s linear;
+}
+.frame-loader-text{
+  font-family:'Inter',sans-serif;
+  font-size:12px; color:rgba(255,255,255,.35);
+  letter-spacing:.06em;
+}
+
+/* ── Thin progress bar across the very top of the viewport ── */
+.scroll-progress{
+  position:fixed; top:0; left:0;
+  height:2px; background:#FFD100;
+  z-index:999; width:0%;
+  pointer-events:none;
+}
+
+/* ── Title overlays (fade in / out as video plays) ── */
+.title-overlay{
+  position:absolute;
+  left:0; top:0; bottom:0;
+  z-index:10;
+  display:flex; align-items:center;
+  pointer-events:none;
+  opacity:0;
+  padding-left:clamp(40px,8vw,120px);
+  will-change:opacity,transform;
+}
+
+.title-text{
+  font-family:'Inter',sans-serif;
+  font-weight:900;
+  font-size:clamp(36px,5vw,68px);
+  line-height:1.15;
+  letter-spacing:-1.5px;
+  text-align:left;
+  max-width:700px;
+  text-shadow:0 2px 24px rgba(0,0,0,.85), 0 0 80px rgba(0,0,0,.5);
+}
+
+.title-text .word{
+  display:inline-block;
+  opacity:0; color:#FFD100;
+  text-shadow:0 2px 24px rgba(0,0,0,.85), 0 0 80px rgba(0,0,0,.5);
+  will-change:opacity,transform,color;
+}
+.title-text .word-space{
+  display:inline-block;
+  width:.35em;
+}
+
+/* Dark gradient scrim behind title text */
+.title-overlay::before{
+  content:'';
+  position:absolute; left:0; top:0; bottom:0;
+  width:60%;
+  background:linear-gradient(90deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.3) 60%,transparent 100%);
+  pointer-events:none; z-index:-1;
+}
+
+/* ── Final hero section (CTA + AI search) ── */
+.final-hero{
+  position:absolute; inset:0;
+  z-index:12;
+  display:flex;
+  justify-content:space-between;
+  gap:clamp(30px,4vw,60px);
+  padding:0 var(--px);
+  opacity:0; pointer-events:none;
+  will-change:opacity;
+  transform:translate3d(0,0,0);
+}
+.final-hero.active{ opacity:1; pointer-events:all; }
+
+.final-hero::before{
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.75) 0%,rgba(0,0,0,.5) 50%,rgba(0,0,0,.65) 100%);
+  z-index:-1;
+}
+
+.final-left{
+  flex:1; max-width:560px;
+  display:flex; flex-direction:column;
+  align-items:flex-start; justify-content:center;
+}
+
+.final-title{
+  font-family:'Inter',sans-serif;
+  font-weight:900;
+  font-size:clamp(32px,4.5vw,56px);
+  line-height:1.25; letter-spacing:-1.5px;
+  color:#fff; margin-bottom:40px;
+}
+.final-title .highlight{
+  display:inline-block;
+  background:#FFD100; color:#1A2F4A;
+  padding:2px 14px; border-radius:5px;
+  font-style:italic;
+}
+
+.browse-cta{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:14px 32px;
+  background:#FFD100; color:#1A2F4A;
+  font-family:'Inter',sans-serif;
+  font-weight:700; font-size:16px; letter-spacing:.02em;
+  border-radius:10px; text-decoration:none;
+  transition:background .2s, transform .15s;
+}
+.browse-cta:hover{ background:#E6C200; transform:translateY(-2px); }
+
+/* ── AI Search box (positioned inside final-hero) ── */
+.ai-search-box{
+  position:absolute;
+  right:var(--px);
+  width:100%; max-width:547px;
+}
+.ai-search-inner{
+  display:flex; align-items:center;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:60px;
+  padding:6px 6px 6px 20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.1);
+  transition:box-shadow .3s;
+}
+.ai-search-inner:focus-within{
+  box-shadow:0 8px 40px rgba(0,0,0,.4), 0 0 0 2px #FFD100;
+}
+.ai-search-icon{ width:20px; height:20px; flex-shrink:0; margin-right:12px; }
+.ai-search-input{
+  flex:1; border:none; outline:none; background:transparent;
+  font-family:'Inter',sans-serif;
+  font-size:15px; color:#1A2F4A; padding:12px 0; min-width:0;
+}
+.ai-search-input::placeholder{ color:#9BA8B5; }
+.ai-search-btn{
+  width:44px; height:44px; border-radius:50%;
+  background:#FFD100; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; transition:background .2s, transform .15s;
+}
+.ai-search-btn:hover{ background:#E6C200; transform:scale(1.05); }
+.ai-search-btn svg{ width:24px; height:24px; }
+.ai-search-hint{
+  position:absolute; left:20px; bottom:-28px;
+  display:flex; align-items:center; gap:6px;
+  font-family:'Inter',sans-serif;
+  font-size:12px; color:rgba(255,255,255,.45);
+  letter-spacing:.03em; white-space:nowrap;
+}
+
+/* ── Responsive overrides for scroll-video hero ── */
+@media(max-width:1024px){
+  .final-hero{ flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px var(--px); padding-bottom:60px; }
+  .final-left{ max-width:100%; align-items:center; }
+  .ai-search-box{ position:relative; top:auto!important; right:auto; max-width:547px; margin-top:30px; }
+}
+@media(max-width:768px){
+  /* Header at 768px: top:10px + h-row(54px) + h-nav(44px) = 98px */
+  .video-scroll-container{ margin-top:-98px; }
+  .title-overlay{ padding-left:6vw; }
+  .title-text{ font-size:clamp(28px,8vw,48px); letter-spacing:-0.5px; max-width:90vw; }
+  .final-title{ font-size:clamp(28px,7vw,42px); }
+  .ai-search-input{ font-size:14px; }
+}
+@media(max-width:640px){
+  /* Header at 640px: top:12px + h-row(52px) + h-nav(hidden) = 52px */
+  .video-scroll-container{ margin-top:-52px; }
+}
+@media(max-width:480px){
+  .title-text{ font-size:clamp(24px,7vw,36px); }
+  .final-title{ font-size:clamp(24px,7vw,34px); }
+}
+
+/* ═══════════════════════════════
+   FEATURES SECTION — premium scroll swap
+═══════════════════════════════ */
+.features-section{
+  position:relative;
+  height:600vh;
+  background:#FAFAF8;
+}
+.features-pin{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1s cubic-bezier(.22,.61,.36,1), transform 1s cubic-bezier(.22,.61,.36,1);
+}
+.features-pin.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.features-inner{
+  width:100%;
+  padding-left:var(--px);
+  display:grid;
+  grid-template-columns:minmax(320px, 1fr) 1.4fr;
+  gap:clamp(48px,7vw,120px);
+  align-items:center;
+  position:relative;
+  min-height:72vh;
+}
+.features-left{
+  position:relative;
+  height:72vh;
+  max-height:72vh;
+  overflow:visible;
+  display:flex;
+  align-items:center;
+  z-index:4;
+  pointer-events:none;
+}
+.feature-item{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translate3d(0,0,0);
+  will-change:transform,opacity,color;
+  pointer-events:auto;
+}
+.feature-title{
+  font-family:'Inter',sans-serif;
+  font-weight:700;
+  font-size:clamp(30px,3.4vw,48px);
+  line-height:1.05;
+  letter-spacing:-1.5px;
+  color:#DDD9D2;
+  margin:0;
+}
+.feature-title .word{
+  display:inline-block;
+  white-space:nowrap;
+}
+.feature-title .char{
+  display:inline-block;
+  color:#DDD9D2;
+  transform-origin:center bottom;
+  transition:transform .5s cubic-bezier(.22,.61,.36,1);
+  will-change:color,transform;
+}
+.feature-title .char.space{
+  width:.25em;
+}
+.features-right{
+  position:relative;
+  width:100%;
+  height:72vh;
+  max-height:72vh;
+  border-radius:28px 0 0 28px;
+  overflow:hidden;
+  background:#EEE;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 20px 50px -20px rgba(0,0,0,.18),
+    0 40px 80px -30px rgba(0,0,0,.12);
+  will-change:transform,clip-path,width,height,margin-left,border-radius;
+  clip-path:inset(100% 0 0 100% round 28px 0 0 28px);
+  transition:clip-path 1.2s cubic-bezier(.22,.61,.36,1),
+             border-radius 1.2s cubic-bezier(.22,.61,.36,1),
+             box-shadow 1.2s cubic-bezier(.22,.61,.36,1),
+             width 1.2s cubic-bezier(.22,.61,.36,1),
+             height 1.2s cubic-bezier(.22,.61,.36,1),
+             margin-left 1.2s cubic-bezier(.22,.61,.36,1),
+             transform 1.2s cubic-bezier(.22,.61,.36,1);
+}
+.features-pin.visible .features-right{
+  clip-path:inset(0 0 0 0 round 28px 0 0 28px);
+}
+/* Expanded: video covers full viewport width/height */
+.features-inner.expanded .features-right{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  width:auto;
+  height:100vh;
+  max-height:none;
+  border-radius:0;
+  z-index:2;
+}
+/* Expanded: the last (4th) feature title lifts above the video, centered, in white */
+.features-inner.expanded .features-left{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  width:auto;
+  height:100%;
+  max-height:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:5;
+}
+.features-inner.expanded .feature-item{
+  position:static;
+  text-align:center;
+  transform:none !important;
+}
+.features-inner.expanded .feature-item:not(.is-last){
+  display:none;
+}
+.features-inner.expanded .feature-title{
+  color:#fff;
+  text-align:center;
+  text-shadow:0 4px 24px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.35);
+}
+.features-inner.expanded .feature-title .char{
+  color:#fff !important;
+  transform:none !important;
+}
+.feature-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.06);
+  transform-origin:center center;
+  transition:opacity .9s cubic-bezier(.22,.61,.36,1), transform 1.1s cubic-bezier(.22,.61,.36,1);
+  will-change:opacity,transform;
+}
+.feature-video.active{
+  opacity:1;
+  transform:scale(1);
+}
+.features-progress{
+  position:absolute;
+  left:var(--px);
+  bottom:48px;
+  display:flex;
+  gap:10px;
+  z-index:5;
+}
+.features-dot{
+  width:28px;
+  height:2px;
+  background:rgba(10,10,10,.12);
+  border-radius:2px;
+  overflow:hidden;
+  position:relative;
+}
+.features-dot::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:#0A0A0A;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s cubic-bezier(.22,.61,.36,1);
+}
+.features-dot.active::after{transform:scaleX(1);}
+.features-dot.done::after{transform:scaleX(1);background:rgba(10,10,10,.35);}
+
+@media(max-width:1024px){
+  .features-inner{grid-template-columns:1fr;gap:40px;padding:0 var(--px);}
+  .features-left{min-height:auto;height:260px;}
+  .features-right{max-height:50vh;height:50vh;border-radius:20px;clip-path:inset(100% 0 0 100% round 20px);}
+  .features-pin.visible .features-right{clip-path:inset(0 0 0 0 round 20px);}
+  .features-progress{left:50%;transform:translateX(-50%);bottom:30px;}
+}
+@media(max-width:480px){
+  .feature-title{font-size:clamp(28px,8vw,36px);}
+}
 </style>
 </head>
 <body>
@@ -1309,177 +2077,164 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     <a href="#" class="nav-drawer-link">Finance</a>
     <a href="#" class="nav-drawer-link">About Us</a>
     <a href="#" class="nav-drawer-link">Contact</a>
+    <div class="nav-drawer-sep"></div>
+    <a href="#saved" class="nav-drawer-link-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      Saved Items
+    </a>
+    <a href="#login" class="nav-drawer-link-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Sign In / Account
+    </a>
   </nav>
 </div>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <span><strong style="color:var(--y);font-weight:700;">FAMCO Approved</strong> — UAE's Sole Volvo Distributor · Inspected · Certified · Ready to Work · Since 1978</span>
-  <div class="tb-right">
-    <div class="switch">
-      <span class="sw-btn on">AED</span>
-      <span class="sw-btn">USD</span>
-    </div>
-    <div class="switch">
-      <span class="sw-btn on">EN</span>
-      <span class="sw-btn ar">عربي</span>
-    </div>
-  </div>
-</div>
-
-<!-- HEADER -->
+<!-- HEADER: transparent outer positions the pill; .h-shell is the visible floating card -->
 <header>
-  <a href="#" class="logo">
-    <img src="images/branding-famco-logo.png" alt="FAMCO"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-    <div class="logo-fb">
-      <div class="logo-brand">FAM<em>CO</em></div>
-      <div class="logo-sub">Used Equipment</div>
-    </div>
-  </a>
+<div class="h-shell">
+  <!-- Row 1: logo + action icons -->
+  <div class="h-row">
+    <a href="#" class="logo">
+      <img src="images/branding-famco-logo.png" alt="FAMCO"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="logo-fb">
+        <div class="logo-brand">FAM<em>CO</em></div>
+        <div class="logo-sub">Used Equipment</div>
+      </div>
+    </a>
 
-  <div class="srch">
-    <div class="srch-wrap">
-      <select class="srch-cat">
-        <option>All Categories</option>
-        <option>Construction Equipment</option>
-        <option>Trucks &amp; Commercial</option>
-        <option>Material Handling</option>
-        <option>Buses &amp; Coaches</option>
-        <option>Industrial Machinery</option>
-      </select>
-      <input class="srch-input" type="text" placeholder="Search by make, model, year…">
-      <button class="srch-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <div class="h-acts">
+      <!-- Expandable search -->
+      <div class="h-srch-wrap" id="hSrchWrap">
+        <div class="h-srch-field" id="hSrchField">
+          <input type="text" class="h-srch-input" placeholder="Search equipment…" id="hSrchInput" autocomplete="off">
+          <button class="h-srch-close" id="hSrchClose" aria-label="Close search">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <button class="h-act h-srch-btn" id="hSrchBtn" aria-label="Search">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+      </div>
+
+      <!-- Saved -->
+      <button class="h-act h-saved" aria-label="Saved items">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
       </button>
-    </div>
-  </div>
 
-  <div class="h-acts">
-    <button class="h-act">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-      <span>Saved</span>
+      <!-- Account dropdown -->
+      <div class="h-acct">
+        <button class="h-cta">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span class="h-cta-txt">Account</span>
+          <svg class="h-cta-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="h-acct-drop">
+          <a href="#login" class="h-acct-link h-acct-primary">Sign In</a>
+          <a href="#register" class="h-acct-link">Create Account</a>
+        </div>
+      </div>
+
+      <!-- Locale switcher -->
+      <div class="h-locale">
+        <div class="switch">
+          <span class="sw-btn on">AED</span>
+          <span class="sw-btn">USD</span>
+        </div>
+        <div class="switch">
+          <span class="sw-btn on">EN</span>
+          <span class="sw-btn ar">عربي</span>
+        </div>
+      </div>
+    </div>
+    <!-- Hamburger — only visible on mobile (≤640px), lives in h-row so it's accessible when h-nav is hidden -->
+    <button class="nav-hamburger" aria-label="Open navigation menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
-    <a href="#login" class="h-btn-login">Login</a>
-    <a href="#register" class="h-cta">Register</a>
-  </div>
+  </div><!-- /.h-row -->
+
+  <!-- Row 2: primary navigation (hidden on mobile ≤640px via hamburger/drawer) -->
+  <nav class="h-nav">
+    <div class="nv-item"><a href="#" class="nv-link act">Home</a></div>
+    <div class="nv-item"><a href="BrowseEquipment.html" class="nv-link">Browse Equipment</a></div>
+    <div class="nv-item"><a href="#" class="nv-link">Sell Your Equipment</a></div>
+    <div class="nv-item"><a href="#" class="nv-link">About Us</a></div>
+    <div class="nv-item"><a href="#" class="nv-link">Contact</a></div>
+  </nav><!-- /.h-nav -->
+</div><!-- /.h-shell -->
 </header>
 
-<!-- NAV BAR -->
-<nav class="nav-bar">
-  <div class="nv-item">
-    <a href="#" class="nv-link act">Home</a>
-  </div>
-  <div class="nv-item">
-    <a href="BrowseEquipment.html" class="nv-link">Browse Equipment</a>
-  </div>
-  <div class="nv-item">
-    <a href="#" class="nv-link">Sell Your Equipment</a>
-  </div>
-  <div class="nv-item">
-    <a href="#" class="nv-link">FAMCO Approved Process</a>
-  </div>
-  <div class="nv-item">
-    <a href="#" class="nv-link">Finance</a>
-  </div>
-  <div class="nv-item">
-    <a href="#" class="nv-link">About Us</a>
-  </div>
-  <div class="nv-item">
-    <a href="#" class="nv-link">Contact</a>
-  </div>
-  <button class="nav-hamburger" aria-label="Open navigation menu">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
-</nav>
 
+<!-- SCROLL-VIDEO HERO -->
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-photo"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-bar"></div>
+<!-- Loading overlay: shown during first-visit frame extraction; hidden on cached revisit -->
+<div class="frame-loader" id="frameLoader">
+  <div class="frame-loader-bar"><div class="frame-loader-fill" id="loaderFill"></div></div>
+  <div class="frame-loader-text" id="loaderText">Loading...</div>
+</div>
 
-  <div class="hero-content">
-    <div class="hero-tag">
-      <span class="hero-dot"></span>
-      FAMCO Approved Standard
+<!-- Thin scroll-progress bar pinned to top of viewport -->
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="video-scroll-container" id="videoScrollContainer">
+  <div class="video-sticky">
+
+    <!-- Video: visually hidden but in render tree so the browser decodes & seeks correctly -->
+    <video id="scrollVideo" muted playsinline preload="auto">
+      <source src="famco-marketplace3.1-compressed.mp4" type="video/mp4">
+    </video>
+
+    <!-- Canvas: JS draws cover-fit frames here on every rAF tick -->
+    <canvas id="frameCanvas"></canvas>
+
+    <!-- ── Scroll-synced title overlays ── -->
+    <div class="title-overlay" id="title0" data-in="0.000" data-out="0.184">
+      <div class="title-text">Vehicle Drop-Off</div>
+    </div>
+    <div class="title-overlay" id="title1" data-in="0.185" data-out="0.295">
+      <div class="title-text">150-Point Inspection</div>
+    </div>
+    <div class="title-overlay" id="title2" data-in="0.296" data-out="0.332">
+      <div class="title-text">Rebuild</div>
+    </div>
+    <div class="title-overlay" id="title3" data-in="0.333" data-out="0.362">
+      <div class="title-text">FAMCO Certified</div>
+    </div>
+    <div class="title-overlay" id="title4" data-in="0.363" data-out="0.469">
+      <div class="title-text">Buy with<br>Confidence</div>
     </div>
 
-    <h1 class="hero-h">
-      Certified Used<br>Equipment.<br><em>Ready to Work.</em>
-    </h1>
-
-    <p class="hero-sub">
-      UAE's sole Volvo distributor. 47 years of Al-Futtaim heritage.
-      Every machine inspected, approved, and backed by our UAE service network.
-    </p>
-
-    <div class="hero-ctas">
-      <a href="#listings" class="btn-y">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Browse Inventory
-      </a>
-      <a href="#contact" class="btn-ghost">
-        Request a Quote
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-
-    <div class="hero-stats">
-      <div class="hs"><div class="hs-v">47<em>+</em></div><div class="hs-l">Years in UAE</div></div>
-      <div class="hs-div"></div>
-      <div class="hs"><div class="hs-v"><em>#1</em></div><div class="hs-l">Volvo Distributor UAE</div></div>
-      <div class="hs-div"></div>
-      <div class="hs"><div class="hs-v">500<em>+</em></div><div class="hs-l">Machines in Stock</div></div>
-      <div class="hs-div"></div>
-      <div class="hs"><div class="hs-v">3</div><div class="hs-l">UAE Service Centres</div></div>
-    </div>
-  </div>
-
-  <!-- Quick Search -->
-  <div class="hero-qs">
-    <div class="qs-card">
-      <div class="qs-ttl">Quick Search</div>
-      <div class="qs-f">
-        <div class="qs-lbl">Category</div>
-        <select class="qs-sel">
-          <option>All Categories</option>
-          <option>Construction Equipment</option>
-          <option>Trucks & Trailers</option>
-          <option>Material Handling</option>
-          <option>Buses</option>
-        </select>
+    <!-- ── Final hero: CTA + AI search (fades in at end of scroll sequence) ── -->
+    <div class="final-hero" id="finalHero">
+      <div class="final-left">
+        <h1 class="final-title">
+          <span style="white-space:nowrap">The GCC's Most Trusted</span>
+          <span class="highlight">FAMCO Approved</span> Marketplace
+        </h1>
+        <a href="BrowseEquipment.html" class="browse-cta">
+          Browse Equipment
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
       </div>
-      <div class="qs-f">
-        <div class="qs-lbl">Brand</div>
-        <select class="qs-sel">
-          <option>All Brands</option>
-          <option>Volvo</option>
-          <option>Caterpillar / CAT</option>
-          <option>Doosan</option>
-          <option>Komatsu</option>
-          <option>JCB</option>
-        </select>
-      </div>
-      <div class="qs-row">
-        <div class="qs-f">
-          <div class="qs-lbl">Year From</div>
-          <select class="qs-sel"><option>Any</option><option>2024</option><option>2023</option><option>2022</option><option>2020</option><option>2018</option></select>
+
+      <!-- AI Search box — top aligned with Browse CTA via JS -->
+      <div class="ai-search-box">
+        <div class="ai-search-inner">
+          <svg class="ai-search-icon" viewBox="0 0 24 24" fill="none" stroke="#9BA8B5" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" class="ai-search-input" placeholder="Search trucks, equipment, brands...">
+          <button class="ai-search-btn" aria-label="Search">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" fill="#1A2F4A"/><path d="M18 14l.75 2.25L21 17l-2.25.75L18 20l-.75-2.25L15 17l2.25-.75L18 14z" fill="#1A2F4A"/><path d="M5 16l.5 1.5L7 18l-1.5.5L5 20l-.5-1.5L3 18l1.5-.5L5 16z" fill="#1A2F4A"/></svg>
+          </button>
         </div>
-        <div class="qs-f">
-          <div class="qs-lbl">Year To</div>
-          <select class="qs-sel"><option>Any</option><option>2025</option><option>2024</option><option>2023</option></select>
+        <div class="ai-search-hint">
+          <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M8 1l.72 4.56L13.28 6.28 8.72 7.28 8 12 7.28 7.28 2.72 6.28 7.28 5.56 8 1z" fill="#FFD100"/></svg>
+          AI-powered search across 500+ listings
         </div>
       </div>
-      <button class="qs-go">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        Search Equipment
-      </button>
-      <div class="qs-ft">or <a href="#">browse all 500+ listings</a></div>
     </div>
+
   </div>
-</section>
+</div>
 
 
 <!-- CATEGORY GRID -->
@@ -1492,23 +2247,22 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     <a href="#" class="va">View All Categories <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
   <div class="cat-grid">
-    <div class="cat-card"><div class="cat-bg c1"><img src="images/Construction.jpg" alt="Construction Equipment" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">241 listings</div><div class="cat-name">Construction Equipment</div><div class="cat-sub">Excavators, Loaders, Cranes, Dozers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c2"><img src="images/Truck.jpg" alt="Trucks & Trailers" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">148 listings</div><div class="cat-name">Trucks & Trailers</div><div class="cat-sub">Volvo Trucks, Tank Trucks, Tippers &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c3"><img src="images/Forklift.jpg" alt="Material Handling" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">112 listings</div><div class="cat-name">Material Handling</div><div class="cat-sub">Forklifts, Reach Stackers, Pallet Trucks &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c4"><img src="images/Buses.jpg" alt="Buses" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-cnt">74 listings</div><div class="cat-name">Buses</div><div class="cat-sub">Coaches, City Buses, Eicher &amp; more</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c1"><img src="images/cat-construction.jpg" alt="Construction Equipment" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Construction Equipment</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c2"><img src="images/cat-truck.jpg" alt="Trucks & Trailers" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Trucks & Trailers</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c3"><img src="images/cat-forklift.jpg" alt="Material Handling" style="object-position:left center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Material Handling</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c4"><img src="images/cat-bus.jpg" alt="Buses" style="object-position:center 65%;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Buses</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
   </div>
 </section>
 
 
 <!-- FEATURED LISTINGS -->
-<section class="sec sec-alt" id="listings">
+<section class="sec" id="listings" style="padding-top:0">
   <div class="sec-hd">
     <div>
       <div class="sec-ey">FAMCO Approved</div>
       <h2 class="sec-t">Recently Added Equipment</h2>
-      <p class="sec-sub">Every listing inspected and certified before being listed. 3D walkthroughs and video tours available.</p>
     </div>
-    <a href="#" class="va">View All 500+ Listings <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    <a href="#" class="va">View All <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
 
   <div class="listings-grid">
@@ -1657,123 +2411,96 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 </section>
 
 
-<!-- FAMCO APPROVED TRUST -->
-<section class="sec sec-dk">
-  <div class="sec-hd">
-    <div>
-      <div class="sec-ey on-dk">Why FAMCO</div>
-      <h2 class="sec-t on-dk">The FAMCO Approved Standard</h2>
-      <p class="sec-sub on-dk">We don't just list equipment — we certify it. Every machine passes our structured approval process.</p>
-    </div>
-  </div>
-  <div class="trust-grid">
-    <div class="ti">
-      <div class="ti-icon">📅</div>
-      <div class="ti-num">47<em>+</em></div>
-      <div class="ti-lbl">Years in the UAE</div>
-      <div class="ti-desc">Al-Futtaim Group heritage since 1978. The most trusted name in commercial equipment in the region.</div>
-    </div>
-    <div class="ti">
-      <div class="ti-icon">🛡️</div>
-      <div class="ti-num"><em>✓</em></div>
-      <div class="ti-lbl">Sole Volvo Distributor</div>
-      <div class="ti-desc">Authorized sole distributor for Volvo Trucks, Buses, and Construction Equipment in the UAE.</div>
-    </div>
-    <div class="ti">
-      <div class="ti-icon">🔬</div>
-      <div class="ti-num">50<em>pt</em></div>
-      <div class="ti-lbl">Inspection Standard</div>
-      <div class="ti-desc">Every machine passes our 50-point FAMCO Approved check — mechanical, hydraulic, structural, electrical.</div>
-    </div>
-    <div class="ti">
-      <div class="ti-icon">📍</div>
-      <div class="ti-num">3</div>
-      <div class="ti-lbl">UAE Service Centres</div>
-      <div class="ti-desc">Dubai DIP, Umm Ramool & Abu Dhabi. Full aftersales support for every purchase we make.</div>
-    </div>
-  </div>
-  <div style="margin-top:32px;">
-    <div class="appr-band">
-      <div class="appr-ic">✓</div>
-      <div>
-        <div class="appr-t">FAMCO Approved Certification</div>
-        <div class="appr-s">Every listed machine carries the FAMCO Approved mark — assurance of quality, history, and service readiness.</div>
+<!-- ═══════════════════════════════
+     FEATURES — pinned scroll-swap (left text / right video)
+═══════════════════════════════ -->
+<section class="features-section" id="featuresSection">
+  <div class="features-pin">
+    <div class="features-inner">
+
+      <div class="features-left">
+        <div class="feature-item" data-idx="0">
+          <h2 class="feature-title">OEM backed certifications</h2>
+        </div>
+        <div class="feature-item" data-idx="1">
+          <h2 class="feature-title">Arabic-first platform</h2>
+        </div>
+        <div class="feature-item" data-idx="2">
+          <h2 class="feature-title">WhatsApp Commerce Enabled (with Arabic)</h2>
+        </div>
+        <div class="feature-item is-last" data-idx="3">
+          <h2 class="feature-title">Rebuilt in GCC, Shipping to the World</h2>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
 
-
-<!-- BRANDS -->
-<section class="sec" style="padding-top:48px;padding-bottom:48px;">
-  <div class="sec-hd" style="margin-bottom:28px;">
-    <div>
-      <div class="sec-ey">Trusted Brands</div>
-      <h2 class="sec-t" style="font-size:24px;">Machines from the World's Leading Manufacturers</h2>
-    </div>
-  </div>
-  <div class="brand-bar">
-    <div class="brand-item"><span class="bn">VOLVO</span></div>
-    <div class="brand-item"><span class="bn">CAT</span></div>
-    <div class="brand-item"><span class="bn">DOOSAN</span></div>
-    <div class="brand-item"><span class="bn">KOMATSU</span></div>
-    <div class="brand-item"><span class="bn">JCB</span></div>
-    <div class="brand-item"><span class="bn">YANMAR</span></div>
-    <div class="brand-item"><span class="bn">LINDE</span></div>
-    <div class="brand-item"><span class="bn">INGERSOLL RAND</span></div>
-  </div>
-</section>
-
-
-<!-- HOW IT WORKS -->
-<section class="sec sec-alt">
-  <div class="sec-hd" style="flex-direction:column;align-items:center;text-align:center;margin-bottom:56px;">
-    <div class="sec-ey">Simple Process</div>
-    <h2 class="sec-t">Buying Used Equipment, Simplified</h2>
-    <p class="sec-sub" style="text-align:center;margin:8px auto 0;">From search to delivery — no surprises, no hidden steps.</p>
-  </div>
-  <div class="steps">
-    <div class="step"><div class="step-ring"><div class="step-ico">🔍</div><div class="step-n">STEP 01</div></div><div class="step-t">Search & Filter</div><div class="step-d">Browse 500+ certified listings by category, brand, year, or spec. Use advanced filters to narrow exactly what you need.</div></div>
-    <div class="step"><div class="step-ring"><div class="step-ico">📋</div><div class="step-n">STEP 02</div></div><div class="step-t">Request a Quote</div><div class="step-d">Submit an enquiry on any machine. Our specialists respond within 24 hours with pricing and inspection reports.</div></div>
-    <div class="step"><div class="step-ring"><div class="step-ico">🔬</div><div class="step-n">STEP 03</div></div><div class="step-t">Inspect & Confirm</div><div class="step-d">Visit our UAE facility or review our comprehensive 50-point FAMCO Approved documentation remotely.</div></div>
-    <div class="step"><div class="step-ring"><div class="step-ico">🚀</div><div class="step-n">STEP 04</div></div><div class="step-t">Delivery & Support</div><div class="step-d">Equipment delivered to site. Every purchase backed by our aftersales network, parts, and trained technicians.</div></div>
-  </div>
-</section>
-
-
-<!-- TESTIMONIALS -->
-<section class="sec">
-  <div class="sec-hd" style="margin-bottom:36px;">
-    <div>
-      <div class="sec-ey">Customer Stories</div>
-      <h2 class="sec-t">What Our Clients Say</h2>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span style="font-size:24px;font-weight:900;color:var(--ink);">4.8</span>
-      <div>
-        <div style="display:flex;gap:2px;"><span style="color:var(--y);font-size:14px;">★★★★★</span></div>
-        <div style="font-size:11px;color:var(--muted);">Based on 240+ reviews</div>
+      <div class="features-right">
+        <video class="feature-video active" data-idx="0" muted playsinline loop autoplay>
+          <source src="OEM%20Certification.mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="1" muted playsinline loop>
+          <source src="Arabic-first%20platform.mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="2" muted playsinline loop>
+          <source src="WhatsApp%20(Arabic).mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="3" muted playsinline loop>
+          <source src="Ship%20Worldwide.mp4" type="video/mp4">
+        </video>
       </div>
+
     </div>
-  </div>
-  <div class="testi-grid">
-    <div class="tc">
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-      <p class="tq">"We purchased three Volvo excavators through FAMCO for our Abu Dhabi project. The FAMCO Approved inspection reports gave us confidence we wouldn't get from a private seller. All three machines delivered on time and performed without issue."</p>
-      <div class="ta"><div class="av av1">AK</div><div><div class="an">Ahmed Al-Khatib</div><div class="ac">Project Director, Gulf Contracting Co.</div></div></div>
-    </div>
-    <div class="tc">
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-      <p class="tq">"The trade-in valuation was seamless. FAMCO assessed our old fleet fairly and helped us upgrade to newer models. The bilingual support in English and Arabic made the whole process smooth for our team."</p>
-      <div class="ta"><div class="av av2">RS</div><div><div class="an">Rajiv Sharma</div><div class="ac">Fleet Manager, Transguard Group</div></div></div>
-    </div>
-    <div class="tc">
-      <div class="stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star off">★</span></div>
-      <p class="tq">"As a logistics company scaling our forklift fleet, FAMCO's material handling inventory is unmatched in the UAE. The Linde forklifts we purchased were exactly as described. Aftersales parts availability is a major bonus."</p>
-      <div class="ta"><div class="av av3">MH</div><div><div class="an">Mohammed Hassan</div><div class="ac">COO, Emirates Logistics Solutions</div></div></div>
+
+    <div class="features-progress" id="featuresProgress">
+      <div class="features-dot active" data-idx="0"></div>
+      <div class="features-dot" data-idx="1"></div>
+      <div class="features-dot" data-idx="2"></div>
+      <div class="features-dot" data-idx="3"></div>
     </div>
   </div>
 </section>
+
+
+<!-- BRANDS: terminal-style grid -->
+<section class="bl-sec">
+  <p class="bl-lbl">Our Trusted Partners</p>
+  <!-- top structural row -->
+  <div class="bl-row bl-empty" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+  <!-- logo row -->
+  <div class="bl-row bl-logos">
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo1.svg" alt="Partner brand 1"></div>
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo2.svg" alt="Partner brand 2"></div>
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo3.svg" alt="Partner brand 3"></div>
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo4.svg" alt="Partner brand 4"></div>
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo5.svg" alt="Partner brand 5"></div>
+    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo6.svg" alt="Partner brand 6"></div>
+  </div>
+  <!-- bottom structural row -->
+  <div class="bl-row bl-empty" aria-hidden="true">
+    <span></span><span></span><span></span>
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+
+<!-- TESTIMONIAL -->
+<section class="tq-sec">
+  <div class="tq-bg" id="tqBg"></div>
+  <div class="tq-overlay"></div>
+  <div class="tq-inner">
+    <span class="tq-mark" aria-hidden="true">&ldquo;</span>
+    <p class="tq-quote">We needed certified, field-ready equipment fast. FAMCO's inspection standard and aftersales coverage gave us the confidence to commit — the machines arrived exactly as described.</p>
+    <div class="tq-divider"></div>
+    <div class="tq-name">Ahmed Al Mansoori</div>
+    <div class="tq-role">Fleet Manager &nbsp;·&nbsp; Al Habtoor Contracting</div>
+  </div>
+</section>
+
+
+
+
 
 
 <!-- OFFERS BANNER -->
@@ -1795,123 +2522,59 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 </div>
 
 
-<!-- LATEST INSIGHTS -->
-<section class="sec">
-  <div class="sec-hd">
-    <div>
-      <div class="sec-ey">From Our Blog</div>
-      <h2 class="sec-t">Latest Insights</h2>
-    </div>
-    <a href="#" class="va">View All Articles
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-  </div>
-  <div class="insights-grid">
-
-    <div class="insight-card">
-      <div class="ic-img">
-        <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=600&h=400&fit=crop" alt="Construction equipment on site"
-             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
-      </div>
-      <div class="ic-body">
-        <div class="ic-meta">
-          <span>12 Apr 2026</span>
-          <span class="ic-meta-dot"></span>
-          <span>5 min read</span>
-        </div>
-        <div class="ic-title">How to Choose the Right Excavator for Your Project</div>
-        <div class="ic-desc">From bucket capacity to operating weight, learn the key specifications that matter most when selecting a pre-owned excavator for UAE construction sites.</div>
-        <a href="#" class="ic-link">Read More
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="insight-card">
-      <div class="ic-img">
-        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&h=400&fit=crop" alt="Volvo truck on highway"
-             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
-      </div>
-      <div class="ic-body">
-        <div class="ic-meta">
-          <span>5 Apr 2026</span>
-          <span class="ic-meta-dot"></span>
-          <span>4 min read</span>
-        </div>
-        <div class="ic-title">FAMCO Approved: What the Certification Really Means</div>
-        <div class="ic-desc">Every vehicle bearing the FAMCO Approved stamp goes through a rigorous multi-point inspection. Here's exactly what our certified technicians check before a unit is cleared for sale.</div>
-        <a href="#" class="ic-link">Read More
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="insight-card">
-      <div class="ic-img">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop" alt="Forklift in warehouse"
-             onerror="this.parentElement.style.background='var(--surface)';this.style.display='none';">
-      </div>
-      <div class="ic-body">
-        <div class="ic-meta">
-          <span>28 Mar 2026</span>
-          <span class="ic-meta-dot"></span>
-          <span>6 min read</span>
-        </div>
-        <div class="ic-title">Used vs New Equipment: Making the Smart Financial Decision</div>
-        <div class="ic-desc">With equipment financing options available across the UAE, is buying used still the better investment? We break down the total cost of ownership for both paths.</div>
-        <a href="#" class="ic-link">Read More
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
-
-  </div>
-</section>
 
 
 <!-- LOCATIONS + ENQUIRY -->
-<section class="sec sec-alt" id="contact">
-  <div class="sec-hd" style="margin-bottom:36px;">
-    <div>
-      <div class="sec-ey">Find Us</div>
-      <h2 class="sec-t">Our UAE Facilities</h2>
-      <p class="sec-sub">Visit any of our three locations to inspect equipment in person, or send an enquiry online.</p>
+<section class="sec" id="contact">
+  <div class="loc-layout">
+
+    <!-- Left: heading + facility cards -->
+    <div class="loc-left">
+      <div class="loc-heading">
+        <h2 class="sec-t">Our UAE Facilities</h2>
+        <p class="sec-sub">Visit any of our three locations to inspect equipment in person, or send an enquiry online.</p>
+      </div>
+      <div class="loc-cards">
+        <div class="loc-card">
+          <div class="loc-ic"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22V8l9-6 9 6v14"/><path d="M9 22v-6h6v6"/><rect x="9" y="10" width="2" height="2"/><rect x="13" y="10" width="2" height="2"/></svg></div>
+          <div class="loc-name">FAMCO Dubai Investment Park</div>
+          <div class="loc-addr">Dubai Investment Park 1,<br>Street 12, Dubai, UAE</div>
+          <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+          <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="loc-card">
+          <div class="loc-ic"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <div class="loc-name">FAMCO Umm Ramool</div>
+          <div class="loc-addr">Umm Ramool Industrial Area,<br>Al Khail Road, Dubai, UAE</div>
+          <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+          <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="loc-card">
+          <div class="loc-ic"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div class="loc-name">TMH Abu Dhabi</div>
+          <div class="loc-addr">Mussafah Industrial Area,<br>Abu Dhabi, UAE</div>
+          <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
+          <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="loc-grid">
-    <div class="loc-card">
-      <div class="loc-ic">🏭</div>
-      <div class="loc-name">FAMCO Dubai Investment Park</div>
-      <div class="loc-addr">Dubai Investment Park 1,<br>Street 12, Dubai, UAE</div>
-      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
-      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+
+    <!-- Right: sticky enquiry form -->
+    <div class="loc-right">
+      <div class="enq-card">
+        <div class="enq-t">Send an Enquiry</div>
+        <div class="enq-s">Our team responds within 24 hours.</div>
+        <div class="enq-f"><input type="text" class="enq-inp" placeholder="Your Name"></div>
+        <div class="enq-f"><input type="text" class="enq-inp" placeholder="Phone / WhatsApp"></div>
+        <div class="enq-f"><input type="text" class="enq-inp" placeholder="Equipment of Interest"></div>
+        <div class="enq-f"><textarea class="enq-ta" placeholder="Tell us about your requirements…"></textarea></div>
+        <button class="enq-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          Send Enquiry
+        </button>
+      </div>
     </div>
-    <div class="loc-card">
-      <div class="loc-ic">🔧</div>
-      <div class="loc-name">FAMCO Umm Ramool</div>
-      <div class="loc-addr">Umm Ramool Industrial Area,<br>Al Khail Road, Dubai, UAE</div>
-      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
-      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-    <div class="loc-card">
-      <div class="loc-ic">⚙️</div>
-      <div class="loc-name">TMH Umm Ramool</div>
-      <div class="loc-addr">Umm Ramool Industrial Area,<br>Dubai, UAE</div>
-      <div class="loc-hrs"><span class="loc-dot"></span>Open: Mon–Sat 8:00AM – 6:00PM</div>
-      <a href="#" class="loc-link">Get Directions <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-    </div>
-    <div class="enq-card">
-      <div class="enq-t">Send an Enquiry</div>
-      <div class="enq-s">Our team responds within 24 hours.</div>
-      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Your Name"></div>
-      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Phone / WhatsApp"></div>
-      <div class="enq-f"><input type="text" class="enq-inp" placeholder="Equipment of Interest"></div>
-      <div class="enq-f"><textarea class="enq-ta" placeholder="Tell us about your requirements…"></textarea></div>
-      <button class="enq-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
-        Send Enquiry
-      </button>
-    </div>
+
   </div>
 </section>
 
@@ -1966,9 +2629,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     </div>
     <div class="ft-col">
       <div class="ft-ct">Contact</div>
-      <div class="ft-ci"><span class="ft-ci-ic">📞</span>800 32626</div>
-      <div class="ft-ci"><span class="ft-ci-ic">✉️</span>info@famco.ae</div>
-      <div class="ft-ci"><span class="ft-ci-ic">📍</span>Dubai, UAE · 3 Locations</div>
+      <div class="ft-ci"><span class="ft-ci-ic"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg></span>800 32626</div>
+      <div class="ft-ci"><span class="ft-ci-ic"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>info@famco.ae</div>
+      <div class="ft-ci"><span class="ft-ci-ic"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></span>Dubai, UAE · 3 Locations</div>
       <div style="margin-top:16px;" class="ft-lang">
         <span class="on">English</span>
         <span class="sep">|</span>
@@ -2059,5 +2722,611 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
 <script src="autocomplete.js"></script>
 <script src="color-picker.js"></script>
+
+<script>
+/* ── Expandable header search ── */
+(function(){
+  var wrap  = document.getElementById('hSrchWrap');
+  var btn   = document.getElementById('hSrchBtn');
+  var close = document.getElementById('hSrchClose');
+  var input = document.getElementById('hSrchInput');
+  if(!wrap) return;
+  function open(){
+    wrap.classList.add('open');
+    setTimeout(function(){input.focus();},270);
+  }
+  function close_(){
+    wrap.classList.remove('open');
+    input.value='';
+  }
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    wrap.classList.contains('open') ? close_() : open();
+  });
+  close.addEventListener('click',function(e){e.stopPropagation();close_();});
+  document.addEventListener('click',function(e){
+    if(!wrap.contains(e.target)) close_();
+  },{passive:true});
+  input.addEventListener('keydown',function(e){if(e.key==='Escape') close_();});
+})();
+</script>
+
+<script>
+/* ── Process section scroll animation ── */
+(function(){
+  var grid = document.getElementById('processSection');
+  if(!grid) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('animate');
+        obs.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.3});
+  obs.observe(grid);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCROLL-VIDEO HERO — scripts
+     Self-contained IIFEs operating only on IDs/classes
+     unique to the scroll-video hero section.
+═══════════════════════════════════════════════════════ -->
+
+<script>
+/* ── Split .title-text content into individually-animatable word spans ── */
+(function(){
+  document.querySelectorAll('.title-text').forEach(function(el){
+    var nodes = Array.prototype.slice.call(el.childNodes);
+    var items = [];
+    nodes.forEach(function(node){
+      if(node.nodeName === 'BR'){
+        items.push({type:'br'});
+      } else {
+        node.textContent.split(/(\s+)/).forEach(function(w){
+          if(!w) return;
+          if(/^\s+$/.test(w)) items.push({type:'space'});
+          else items.push({type:'word', text:w});
+        });
+      }
+    });
+    el.innerHTML = '';
+    items.forEach(function(item){
+      if(item.type === 'br'){
+        el.appendChild(document.createElement('br'));
+      } else if(item.type === 'space'){
+        var sp = document.createElement('span');
+        sp.className = 'word word-space';
+        el.appendChild(sp);
+      } else {
+        var span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = item.text;
+        el.appendChild(span);
+      }
+    });
+  });
+})();
+</script>
+
+<script>
+/* ── IndexedDB frame-cache + Apple-style scroll-video engine ── */
+(function(){
+  var video     = document.getElementById('scrollVideo');
+  var canvas    = document.getElementById('frameCanvas');
+  var ctx       = canvas.getContext('2d');
+  var container = document.getElementById('videoScrollContainer');
+  var bar       = document.getElementById('scrollProgress');
+  var finalHero = document.getElementById('finalHero');
+  var loader    = document.getElementById('frameLoader');
+  var loaderFill= document.getElementById('loaderFill');
+  var loaderText= document.getElementById('loaderText');
+
+  /* ── Align AI search box top with Browse CTA top ── */
+  var searchBox = document.querySelector('.ai-search-box');
+  var ctaBtn    = document.querySelector('.browse-cta');
+  function alignSearchBox(){
+    if(!searchBox || !ctaBtn || !finalHero) return;
+    var ctaRect  = ctaBtn.getBoundingClientRect();
+    var heroRect = finalHero.getBoundingClientRect();
+    searchBox.style.top = (ctaRect.top - heroRect.top) + 'px';
+  }
+  alignSearchBox();
+  window.addEventListener('resize', alignSearchBox);
+
+  if(!video || !container || !canvas) return;
+
+  var frames       = [];
+  var totalFrames  = 0;
+  var FPS          = 24;
+  var useDuration  = 0;
+  var currentFrame = -1;
+  var canvasW = 0, canvasH = 0;
+
+  var DB_NAME    = 'famco-frames';
+  var DB_VERSION = 1;
+  var STORE_NAME = 'frames';
+  var CACHE_KEY  = 'famco-marketplace3.1-v4';
+
+  /* ── IndexedDB helpers ── */
+  function openDB(){
+    return new Promise(function(resolve, reject){
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function(e){
+        var db = e.target.result;
+        if(!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME);
+      };
+      req.onsuccess = function(e){ resolve(e.target.result); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+  function dbGet(db, key){
+    return new Promise(function(resolve, reject){
+      var tx  = db.transaction(STORE_NAME, 'readonly');
+      var req = tx.objectStore(STORE_NAME).get(key);
+      req.onsuccess = function(){ resolve(req.result || null); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+  function dbPut(db, key, value){
+    return new Promise(function(resolve, reject){
+      var tx  = db.transaction(STORE_NAME, 'readwrite');
+      var req = tx.objectStore(STORE_NAME).put(value, key);
+      req.onsuccess = function(){ resolve(); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+
+  /* ── Load cached bitmaps from IndexedDB ── */
+  function loadFromCache(db){
+    return dbGet(db, CACHE_KEY).then(function(data){
+      if(!data || !data.blobs || !data.w || !data.h) return null;
+      canvasW = data.w; canvasH = data.h;
+      totalFrames = data.blobs.length;
+      useDuration = data.useDuration || 0;
+      return Promise.all(data.blobs.map(function(blob){ return createImageBitmap(blob); }));
+    });
+  }
+
+  /* ── Extract frames from video and persist to IndexedDB ── */
+  function extractAndCache(db){
+    return new Promise(function(resolve){
+      var duration = video.duration;
+      useDuration = Math.max(0, duration - 1.5);
+      totalFrames = Math.ceil(useDuration * FPS);
+      if(totalFrames < 1){ resolve([]); return; }
+      var vw = video.videoWidth, vh = video.videoHeight;
+      var scale = Math.min(1, 960 / Math.max(vw, vh));
+      canvasW = Math.round(vw * scale);
+      canvasH = Math.round(vh * scale);
+      var tempCanvas = document.createElement('canvas');
+      tempCanvas.width = canvasW; tempCanvas.height = canvasH;
+      var tempCtx = tempCanvas.getContext('2d');
+      var bitmaps = [], blobs = [], idx = 0;
+      function grabNext(){
+        if(idx >= totalFrames){
+          dbPut(db, CACHE_KEY, { blobs:blobs, w:canvasW, h:canvasH, useDuration:useDuration, ts:Date.now() }).catch(function(){});
+          resolve(bitmaps);
+          return;
+        }
+        var t = (idx / totalFrames) * useDuration;
+        video.currentTime = (idx === 0) ? Math.max(0.001, t) : t;
+      }
+      video.onseeked = function(){
+        tempCtx.drawImage(video, 0, 0, canvasW, canvasH);
+        createImageBitmap(tempCanvas).then(function(bmp){
+          bitmaps[idx] = bmp;
+          tempCanvas.toBlob(function(blob){
+            blobs[idx] = blob; idx++;
+            var pct = Math.round((idx / totalFrames) * 100);
+            if(loaderFill) loaderFill.style.width = pct + '%';
+            if(loaderText) loaderText.textContent = 'Caching frames... ' + pct + '%';
+            grabNext();
+          }, 'image/webp', 0.75);
+        });
+      };
+      grabNext();
+    });
+  }
+
+  /* ── Easing helpers ── */
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function easeOutQuart(t){ return 1 - Math.pow(1 - t, 4); }
+
+  /* ── Cover-draw a bitmap into the canvas ── */
+  function drawCover(bmp, alpha){
+    var cw = canvas.width, ch = canvas.height;
+    var bw = bmp.width,  bh = bmp.height;
+    var scale = Math.max(cw / bw, ch / bh);
+    var sw = bw * scale, sh = bh * scale;
+    var ox = (cw - sw) / 2, oy = (ch - sh) / 2;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(bmp, ox, oy, sw, sh);
+  }
+
+  /* ── Draw frame with sub-frame blending ── */
+  function drawFrameSmooth(exactIndex){
+    var maxIdx = frames.length - 1;
+    if(maxIdx < 0) return;
+    exactIndex = Math.max(0, Math.min(maxIdx, exactIndex));
+    var lo = Math.floor(exactIndex);
+    var hi = Math.min(lo + 1, maxIdx);
+    var blend = exactIndex - lo;
+    if(lo === currentFrame && blend < 0.01) return;
+    currentFrame = lo;
+    var cw = canvas.width, ch = canvas.height;
+    if(!cw || !ch || !frames[lo]) return;
+    ctx.clearRect(0, 0, cw, ch);
+    if(blend < 0.02 || lo === hi || !frames[hi]){
+      drawCover(frames[lo], 1);
+    } else {
+      drawCover(frames[lo], 1);
+      drawCover(frames[hi], blend);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ── Resize canvas to viewport x DPR for sharp rendering ── */
+  function resizeCanvas(){
+    var dpr = window.devicePixelRatio || 1;
+    var w = Math.round(window.innerWidth  * dpr);
+    var h = Math.round(window.innerHeight * dpr);
+    if(canvas.width !== w || canvas.height !== h){
+      canvas.width = w; canvas.height = h;
+      currentFrame = -1;
+    }
+  }
+
+  /* ── Title data ── */
+  var titleEls = document.querySelectorAll('.title-overlay');
+  var titleData = [];
+  titleEls.forEach(function(el){
+    titleData.push({
+      el:el, words:el.querySelectorAll('.word:not(.word-space)'),
+      inAt:parseFloat(el.dataset.in), outAt:parseFloat(el.dataset.out),
+      _lastLocal:-999
+    });
+  });
+
+  /* ── Animate title words ── */
+  function updateTitles(progress){
+    titleData.forEach(function(td){
+      var local = (progress - td.inAt) / (td.outAt - td.inAt);
+      if(Math.abs(local - td._lastLocal) < 0.001) return;
+      td._lastLocal = local;
+      if(local < -0.01 || local > 1.01){ td.el.style.opacity = '0'; return; }
+      td.el.style.opacity = '1';
+      if(local <= 0.10){
+        var e = easeOutCubic(local / 0.10);
+        td.words.forEach(function(w){
+          w.style.opacity = String(e); w.style.color = '#FFD100';
+          w.style.transform = 'translate3d(0,' + (10*(1-e)) + 'px,0)';
+        });
+      } else if(local <= 0.20){
+        var e = easeInOutCubic((local - 0.10) / 0.10);
+        var g = Math.round(209 + 46*e), b = Math.round(255*e);
+        td.words.forEach(function(w){
+          w.style.opacity = '1'; w.style.color = 'rgb(255,'+g+','+b+')';
+          w.style.transform = 'translate3d(0,0,0)';
+        });
+      } else if(local <= 0.80){
+        td.words.forEach(function(w){
+          w.style.opacity = '1'; w.style.color = '#fff';
+          w.style.transform = 'translate3d(0,0,0)';
+        });
+      } else {
+        var e = easeOutQuart((local - 0.80) / 0.20);
+        td.el.style.opacity = String(1 - e);
+        td.words.forEach(function(w){
+          w.style.color = '#fff';
+          w.style.transform = 'translate3d(0,'+(-14*e)+'px,0)';
+        });
+      }
+    });
+  }
+
+  /* ── Final hero smooth fade ── */
+  var smoothHeroOpacity = 0;
+  function updateFinalHero(progress){
+    var targetOpacity = (progress >= 0.47) ? easeOutCubic(Math.min(1, (progress - 0.47) / 0.05)) : 0;
+    smoothHeroOpacity += (targetOpacity - smoothHeroOpacity) * 0.12;
+    if(Math.abs(smoothHeroOpacity - targetOpacity) < 0.005) smoothHeroOpacity = targetOpacity;
+    finalHero.style.opacity = String(smoothHeroOpacity);
+    if(smoothHeroOpacity > 0.5){ if(!finalHero.classList.contains('active')) finalHero.classList.add('active'); }
+    else { finalHero.classList.remove('active'); }
+  }
+
+  /* ── Apple-style lerp scroll loop ── */
+  var smoothProgress = 0;
+  var LERP = 0.08;
+  function loop(){
+    var rect = container.getBoundingClientRect();
+    var total = container.offsetHeight - window.innerHeight;
+    var scrolled = -rect.top;
+    var rawProgress = Math.max(0, Math.min(1, scrolled / total));
+    smoothProgress += (rawProgress - smoothProgress) * LERP;
+    if(Math.abs(smoothProgress - rawProgress) < 0.0001) smoothProgress = rawProgress;
+    drawFrameSmooth(Math.min(smoothProgress / 0.50, 1.0) * (totalFrames - 1));
+    updateTitles(smoothProgress);
+    updateFinalHero(smoothProgress);
+    var pageTotal  = document.documentElement.scrollHeight - window.innerHeight;
+    var pageScroll = window.scrollY || window.pageYOffset;
+    bar.style.width = (pageTotal > 0 ? (pageScroll / pageTotal) * 100 : 0) + '%';
+    requestAnimationFrame(loop);
+  }
+
+  /* ── Show canvas and start loop ── */
+  function hideLoaderAndStart(){
+    canvas.style.width  = '100%';
+    canvas.style.height = '100%';
+    resizeCanvas();
+    drawFrameSmooth(0);
+    if(loader){
+      loader.classList.add('hidden');
+      setTimeout(function(){ loader.classList.add('done'); }, 500);
+    }
+    window.addEventListener('resize', function(){ resizeCanvas(); alignSearchBox(); });
+    loop();
+  }
+
+  /* ── Memory-only extraction (no toBlob) — used for file:// and IDB fallback ── */
+  function runDirectExtraction(){
+    if(loaderText) loaderText.textContent = 'Loading...';
+    var duration = video.duration;
+    useDuration = Math.max(0, duration - 1.5);
+    totalFrames = Math.ceil(useDuration * FPS);
+    var vw = video.videoWidth, vh = video.videoHeight;
+    var scale = Math.min(1, 960 / Math.max(vw, vh));
+    canvasW = Math.round(vw * scale); canvasH = Math.round(vh * scale);
+    var tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvasW; tempCanvas.height = canvasH;
+    var tempCtx = tempCanvas.getContext('2d');
+    var idx = 0;
+    function grab(){
+      if(idx >= totalFrames){ hideLoaderAndStart(); return; }
+      var t = (idx / totalFrames) * useDuration;
+      video.currentTime = (idx === 0) ? Math.max(0.001, t) : t;
+    }
+    video.onseeked = function(){
+      tempCtx.drawImage(video, 0, 0, canvasW, canvasH);
+      createImageBitmap(tempCanvas).then(function(bmp){
+        frames[idx] = bmp; idx++;
+        var pct = Math.round((idx / totalFrames) * 100);
+        if(loaderFill) loaderFill.style.width = pct + '%';
+        if(loaderText) loaderText.textContent = 'Loading... ' + pct + '%';
+        grab();
+      });
+    };
+    grab();
+  }
+
+  video.addEventListener('loadedmetadata', function(){
+    /* file:// protocol: canvas taint blocks toBlob() — skip IDB entirely */
+    if(location.protocol === 'file:'){
+      runDirectExtraction();
+      return;
+    }
+    openDB().then(function(db){
+      return loadFromCache(db).then(function(cached){
+        if(cached && cached.length > 0){
+          if(loaderText) loaderText.textContent = '';
+          frames = cached; hideLoaderAndStart();
+        } else {
+          if(loaderText) loaderText.textContent = 'Preparing first visit...';
+          return extractAndCache(db).then(function(bitmaps){ frames = bitmaps; hideLoaderAndStart(); });
+        }
+      });
+    }).catch(runDirectExtraction);
+  });
+
+  video.addEventListener('error', function(){
+    if(loaderText) loaderText.textContent = 'Error: video file not found or unsupported.';
+    if(loaderFill){ loaderFill.style.background = '#dc2626'; loaderFill.style.width = '100%'; }
+    console.error('[FAMCO scroll-video] Failed to load video. Check the <source src> path.');
+  });
+
+  video.load();
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════
+   FEATURES — premium scroll-swap (left text / right video)
+═══════════════════════════════ */
+(function(){
+  var section = document.getElementById('featuresSection');
+  if(!section) return;
+
+  var pin    = section.querySelector('.features-pin');
+  var inner  = section.querySelector('.features-inner');
+  var rightPanel = section.querySelector('.features-right');
+  var items  = section.querySelectorAll('.feature-item');
+  var videos = section.querySelectorAll('.feature-video');
+  var dots   = section.querySelectorAll('.features-dot');
+  var count  = items.length;
+  var currentIdx = -1;
+
+  var titleChars = [];
+  items.forEach(function(item){
+    var titleEl = item.querySelector('.feature-title');
+    var text = titleEl.textContent;
+    titleEl.textContent = '';
+    var spans = [];
+    var words = text.split(/(\s+)/);
+    words.forEach(function(word){
+      if(word === '') return;
+      if(/^\s+$/.test(word)){
+        var sp = document.createElement('span');
+        sp.className = 'char space';
+        sp.textContent = ' ';
+        titleEl.appendChild(sp);
+        spans.push(sp);
+        return;
+      }
+      var wordWrap = document.createElement('span');
+      wordWrap.className = 'word';
+      for(var i = 0; i < word.length; i++){
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = word[i];
+        wordWrap.appendChild(span);
+        spans.push(span);
+      }
+      titleEl.appendChild(wordWrap);
+    });
+    titleChars.push(spans);
+  });
+
+  function lerpColor(t){
+    var gray   = [221, 217, 210];
+    var yellow = [255, 209, 0];
+    var black  = [11, 31, 26];
+    var a, b, p;
+    if(t < 0.15){
+      a = gray; b = yellow; p = t / 0.15;
+    } else if(t < 0.80){
+      return 'rgb(255,209,0)';
+    } else {
+      a = yellow; b = black; p = (t - 0.80) / 0.20;
+    }
+    var r = Math.round(a[0] + (b[0] - a[0]) * p);
+    var g = Math.round(a[1] + (b[1] - a[1]) * p);
+    var bl = Math.round(a[2] + (b[2] - a[2]) * p);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        pin.classList.add('visible');
+      }
+    });
+  }, {threshold:0.15});
+  io.observe(section);
+
+  function setActive(idx){
+    items.forEach(function(el, i){
+      el.classList.toggle('active', i === idx);
+    });
+    if(idx === currentIdx) return;
+    currentIdx = idx;
+
+    videos.forEach(function(v, i){
+      v.classList.toggle('active', i === idx);
+      if(i === idx){
+        v.play().catch(function(){});
+      } else {
+        v.pause();
+      }
+    });
+    dots.forEach(function(d, i){
+      d.classList.toggle('active', i === idx);
+      d.classList.toggle('done', i < idx);
+    });
+  }
+
+  var ticking = false;
+  function onScroll(){
+    var rect = section.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if(total <= 0) return;
+    var scrolled = -rect.top;
+    var progress = Math.max(0, Math.min(1, scrolled / total));
+
+    var travelDist = rightPanel ? rightPanel.getBoundingClientRect().height / 2 : 300;
+    var segment = 1 / count;
+
+    items.forEach(function(el, i){
+      var itemStart = (i - 1) * segment;
+      var itemEnd   = (i + 1) * segment;
+      var local = (progress - itemStart) / (itemEnd - itemStart);
+      var clamped = Math.max(-0.5, Math.min(1.5, local));
+
+      var isLast = (i === count - 1);
+
+      var y;
+      if(isLast && clamped >= 0.5){
+        y = 0;
+      } else if(clamped <= 0.5){
+        var pA = clamped / 0.5;
+        y = (1 - pA) * travelDist;
+      } else {
+        var pB = (clamped - 0.5) / 0.5;
+        y = -pB * travelDist;
+      }
+      if(!(isLast && inner && inner.classList.contains('expanded'))){
+        el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(1)';
+      }
+
+      var chars = titleChars[i];
+      if(!chars) return;
+      var charCount = chars.length;
+
+      var activateStart = 0.50;
+      var activateEnd   = 0.80;
+      var activateRange = activateEnd - activateStart;
+      var charWindow = activateRange / charCount;
+
+      for(var ci = 0; ci < charCount; ci++){
+        var t;
+        if(clamped < activateStart){
+          t = 0;
+        } else if(clamped >= activateEnd){
+          t = 1;
+        } else {
+          var charStart = activateStart + ci * charWindow;
+          var charEnd   = charStart + charWindow;
+          if(clamped < charStart) t = 0;
+          else if(clamped >= charEnd) t = 1;
+          else t = (clamped - charStart) / charWindow;
+        }
+
+        chars[ci].style.color = lerpColor(t);
+        var liftT = 1 - Math.abs(t - 0.5) * 2;
+        var ty = -6 * liftT;
+        var scale = 1 + 0.08 * liftT;
+        chars[ci].style.transform = 'translate3d(0,' + ty.toFixed(2) + 'px,0) scale(' + scale.toFixed(3) + ')';
+      }
+    });
+
+    var activeIdx = Math.min(count - 1, Math.max(0, Math.floor(progress * count)));
+    setActive(activeIdx);
+
+    var expandThreshold = 0.92;
+    var shouldExpand = progress >= expandThreshold;
+    if(inner){
+      inner.classList.toggle('expanded', shouldExpand);
+    }
+    if(pin){
+      pin.classList.toggle('last-screen-active', shouldExpand);
+    }
+
+    if(rightPanel){
+      if(shouldExpand){
+        rightPanel.style.transform = '';
+      } else {
+        var parallaxRange = 40;
+        var offset = (progress - 0.5) * parallaxRange;
+        rightPanel.style.transform = 'translate3d(0,' + offset.toFixed(2) + 'px,0)';
+      }
+    }
+
+    ticking = false;
+  }
+
+  function requestTick(){
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', requestTick, {passive:true});
+  window.addEventListener('resize', requestTick);
+  onScroll();
+})();
+</script>
 </body>
 </html>

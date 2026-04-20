@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAMCO — Scroll Video</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;-webkit-overflow-scrolling:touch;}
+body{
+  background:#000;
+  overflow-x:hidden;
+  font-family:'DM Sans',sans-serif;
+}
+
+.video-scroll-container{
+  position:relative;
+  height:600vh;
+}
+
+.video-sticky{
+  position:sticky;
+  top:0;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+}
+
+.video-sticky video{
+  /* Visually hidden but still in the render tree so browsers decode & seek correctly.
+     display:none suspends the media pipeline — onseeked never fires. */
+  position:absolute;
+  width:0; height:0;
+  opacity:0;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.video-sticky canvas{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  display:block;
+  /* object-fit has no effect on canvas — cover-fit is handled in JS drawCover() */
+}
+
+/* ═══════════════════════════════
+   LOADING BAR (first visit only)
+═══════════════════════════════ */
+.frame-loader{
+  position:fixed;inset:0;
+  z-index:100;
+  background:#000;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:14px;
+  transition:opacity .5s ease;
+}
+.frame-loader.hidden{opacity:0;pointer-events:none;}
+.frame-loader.done{display:none;}
+.frame-loader-bar{
+  width:220px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden;
+}
+.frame-loader-fill{
+  height:100%;width:0%;background:#FFD100;border-radius:2px;transition:width .08s linear;
+}
+.frame-loader-text{
+  font-family:'DM Sans',sans-serif;font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.06em;
+}
+
+/* ═══════════════════════════════
+   TITLE OVERLAYS
+═══════════════════════════════ */
+.title-overlay{
+  position:absolute;
+  left:0;top:0;bottom:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  pointer-events:none;
+  opacity:0;
+  padding-left:clamp(40px,8vw,120px);
+  will-change:opacity,transform;
+}
+
+.title-text{
+  font-family:'Outfit',sans-serif;
+  font-weight:900;
+  font-size:clamp(36px,5vw,68px);
+  line-height:1.15;
+  letter-spacing:-1.5px;
+  text-align:left;
+  max-width:700px;
+  text-shadow:0 2px 24px rgba(0,0,0,.85), 0 0 80px rgba(0,0,0,.5);
+}
+
+.title-text .word{
+  display:inline-block;
+  opacity:0;
+  color:#FFD100;
+  text-shadow:0 2px 24px rgba(0,0,0,.85), 0 0 80px rgba(0,0,0,.5);
+  will-change:opacity,transform,color;
+}
+
+.title-text .word-space{
+  display:inline-block;
+  width:.35em;
+}
+
+/* Dark gradient scrim behind titles for contrast */
+.title-overlay::before{
+  content:'';
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:60%;
+  background:linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.3) 60%, transparent 100%);
+  pointer-events:none;
+  z-index:-1;
+}
+
+
+/* ═══════════════════════════════
+   FINAL SECTION — Hero + Search
+═══════════════════════════════ */
+.final-hero{
+  position:absolute;
+  inset:0;
+  z-index:12;
+  display:flex;
+  justify-content:space-between;
+  gap:clamp(30px,4vw,60px);
+  padding:0 clamp(40px,8vw,120px);
+  opacity:0;
+  pointer-events:none;
+  will-change:opacity;
+  transform:translate3d(0,0,0);
+}
+.final-hero.active{
+  opacity:1;
+  pointer-events:all;
+}
+
+.final-hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    rgba(0,0,0,.75) 0%,
+    rgba(0,0,0,.5) 50%,
+    rgba(0,0,0,.65) 100%
+  );
+  z-index:-1;
+}
+
+.final-left{
+  flex:1;
+  max-width:560px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+.final-title{
+  font-family:'Outfit',sans-serif;
+  font-weight:900;
+  font-size:clamp(32px,4.5vw,56px);
+  line-height:1.25;
+  letter-spacing:-1.5px;
+  color:#fff;
+  margin-bottom:40px;
+}
+
+.final-title .highlight{
+  display:inline-block;
+  background:#FFD100;
+  color:#1A2F4A;
+  padding:2px 14px;
+  border-radius:5px;
+  font-style:italic;
+}
+
+.browse-cta{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:14px 32px;
+  background:#FFD100;
+  color:#1A2F4A;
+  font-family:'Outfit',sans-serif;
+  font-weight:700;
+  font-size:16px;
+  letter-spacing:.02em;
+  border-radius:10px;
+  text-decoration:none;
+  transition:background .2s, transform .15s;
+}
+.browse-cta:hover{
+  background:#E6C200;
+  transform:translateY(-2px);
+}
+
+/* ── AI Search Box ── */
+.ai-search-box{
+  position:absolute;
+  right:clamp(40px,8vw,120px);
+  width:100%;
+  max-width:547px;
+}
+
+
+.ai-search-inner{
+  display:flex;
+  align-items:center;
+  background:rgba(255,255,255,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-radius:60px;
+  padding:6px 6px 6px 20px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3), 0 0 0 1px rgba(255,255,255,.1);
+  transition:box-shadow .3s;
+}
+.ai-search-inner:focus-within{
+  box-shadow:0 8px 40px rgba(0,0,0,.4), 0 0 0 2px #FFD100;
+}
+
+.ai-search-icon{
+  width:20px;height:20px;flex-shrink:0;margin-right:12px;
+}
+
+.ai-search-input{
+  flex:1;
+  border:none;
+  outline:none;
+  background:transparent;
+  font-family:'DM Sans',sans-serif;
+  font-size:15px;
+  color:#1A2F4A;
+  padding:12px 0;
+  min-width:0;
+}
+.ai-search-input::placeholder{
+  color:#9BA8B5;
+}
+
+.ai-search-btn{
+  width:44px;height:44px;
+  border-radius:50%;
+  background:#FFD100;
+  border:none;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background .2s, transform .15s;
+}
+.ai-search-btn:hover{
+  background:#E6C200;
+  transform:scale(1.05);
+}
+.ai-search-btn svg{
+  width:24px;height:24px;
+}
+
+.ai-search-hint{
+  position:absolute;
+  left:20px;
+  bottom:-28px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-family:'DM Sans',sans-serif;
+  font-size:12px;
+  color:rgba(255,255,255,.45);
+  letter-spacing:.03em;
+  white-space:nowrap;
+}
+
+
+
+/* ═══════════════════════════════
+   FEATURES SECTION — premium scroll swap
+═══════════════════════════════ */
+.features-section{
+  position:relative;
+  height:600vh;
+  background:#FAFAF8;
+}
+.features-pin{
+  position:sticky;
+  top:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1s cubic-bezier(.22,.61,.36,1), transform 1s cubic-bezier(.22,.61,.36,1);
+}
+.features-pin.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.features-inner{
+  width:100%;
+  max-width:1360px;
+  margin:0 auto;
+  padding:0 clamp(40px,7vw,100px);
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  gap:clamp(48px,7vw,120px);
+  align-items:center;
+  position:relative;
+  min-height:72vh;
+}
+.features-left{
+  position:relative;
+  height:72vh;
+  max-height:72vh;
+  /* overflow visible so the last title can scale/translate out of its own column */
+  overflow:visible;
+  display:flex;
+  align-items:center;
+  z-index:4;
+  pointer-events:none;
+}
+/* All left-column titles fade out when expansion starts — the centered overlay takes over. */
+.features-inner.expanded .feature-item{
+  opacity:0;
+  transition:opacity .8s cubic-bezier(.22,.61,.36,1);
+}
+.feature-item{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  transform:translate3d(0,0,0);
+  will-change:transform,opacity,color;
+  pointer-events:auto;
+}
+.feature-title{
+  font-family:'Outfit',sans-serif;
+  font-weight:700;
+  font-size:clamp(30px,3.4vw,48px);
+  line-height:1.05;
+  letter-spacing:-1.5px;
+  color:#DDD9D2;
+  margin:0;
+}
+.feature-title .char{
+  display:inline-block;
+  color:#DDD9D2;
+  transform-origin:center bottom;
+  transition:transform .5s cubic-bezier(.22,.61,.36,1);
+  will-change:color,transform;
+}
+.feature-title .char.space{
+  width:.25em;
+}
+.features-right{
+  position:relative;
+  aspect-ratio:5/6;
+  max-height:72vh;
+  border-radius:28px;
+  overflow:hidden;
+  background:#EEE;
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.04),
+    0 20px 50px -20px rgba(0,0,0,.18),
+    0 40px 80px -30px rgba(0,0,0,.12);
+  will-change:transform,clip-path,width,height,margin;
+  clip-path:inset(100% 0 0 100% round 28px);
+  transition:clip-path 1.2s cubic-bezier(.22,.61,.36,1),
+             border-radius 2.2s cubic-bezier(.25,.46,.45,.94),
+             box-shadow 2.2s cubic-bezier(.25,.46,.45,.94),
+             width 2.4s cubic-bezier(.25,.46,.45,.94),
+             height 2.4s cubic-bezier(.25,.46,.45,.94),
+             margin 2.4s cubic-bezier(.25,.46,.45,.94),
+             aspect-ratio 2.4s cubic-bezier(.25,.46,.45,.94),
+             transform 1.2s cubic-bezier(.22,.61,.36,1);
+}
+.features-pin.visible .features-right{
+  clip-path:inset(0 0 0 0 round 28px);
+}
+.features-inner.expanded .features-right{
+  /* Right edge stays anchored; width grows leftward only. JS sets width in px so CSS can
+     animate from the current natural width → full inner-container width. */
+  height:72vh;
+  aspect-ratio:auto;
+  max-height:72vh;
+  border-radius:20px;
+}
+/* Final centered "Ship Worldwide" — pure CSS, fixed within the pin container.
+   Spans the whole pin, flex-centers its child — guaranteed screen center on any viewport. */
+.last-screen-title{
+  position:absolute;
+  inset:0;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  opacity:0;
+  transform:scale(.88);
+  transition:opacity 1.2s cubic-bezier(.22,.61,.36,1) .25s,
+             transform 1.6s cubic-bezier(.22,.61,.36,1) .25s;
+  will-change:opacity,transform;
+}
+.last-screen-title span{
+  font-family:'Outfit',sans-serif;
+  font-weight:800;
+  font-size:clamp(44px,7vw,104px);
+  line-height:1;
+  letter-spacing:-2.5px;
+  color:#FFFFFF;
+  text-shadow:0 6px 48px rgba(0,0,0,.55), 0 2px 8px rgba(0,0,0,.35);
+  text-align:center;
+  padding:0 24px;
+}
+.features-pin.last-screen-active .last-screen-title{
+  opacity:1;
+  transform:scale(1);
+}
+.features-inner.expanded .final-overlay-title{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:all;
+}
+.final-overlay-title h2{
+  font-family:'Outfit',sans-serif;
+  font-weight:800;
+  font-size:clamp(44px,6.5vw,96px);
+  line-height:1;
+  letter-spacing:-2.5px;
+  color:#fff;
+  text-align:center;
+  text-shadow:0 4px 40px rgba(0,0,0,.4);
+}
+.feature-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transform:scale(1.06);
+  transform-origin:center center;
+  transition:opacity .9s cubic-bezier(.22,.61,.36,1), transform 1.1s cubic-bezier(.22,.61,.36,1);
+  will-change:opacity,transform;
+}
+.feature-video.active{
+  opacity:1;
+  transform:scale(1);
+}
+/* When the parent is scaled up horizontally, object-fit keeps the video
+   covering; since the parent's aspect changes, the video naturally reveals more
+   of itself horizontally. No counter-scale needed for <video object-fit:cover>. */
+.features-progress{
+  position:absolute;
+  left:clamp(40px,7vw,100px);
+  bottom:48px;
+  display:flex;
+  gap:10px;
+  z-index:5;
+}
+.features-dot{
+  width:28px;
+  height:2px;
+  background:rgba(10,10,10,.12);
+  border-radius:2px;
+  overflow:hidden;
+  position:relative;
+}
+.features-dot::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:#0A0A0A;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .5s cubic-bezier(.22,.61,.36,1);
+}
+.features-dot.active::after{transform:scaleX(1);}
+.features-dot.done::after{transform:scaleX(1);background:rgba(10,10,10,.35);}
+
+/* ═══════════════════════════════
+   RESPONSIVE
+═══════════════════════════════ */
+@media(max-width:1024px){
+  .final-hero{flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 6vw;padding-bottom:60px;}
+  .final-left{max-width:100%;align-items:center;}
+  .ai-search-box{position:relative;top:auto!important;right:auto;max-width:547px;margin-top:30px;}
+}
+@media(max-width:768px){
+  .title-overlay{padding-left:6vw;}
+  .title-text{font-size:clamp(28px,8vw,48px);letter-spacing:-0.5px;max-width:90vw;}
+  .final-title{font-size:clamp(28px,7vw,42px);}
+  .ai-search-input{font-size:14px;}
+}
+@media(max-width:1024px){
+  .features-inner{grid-template-columns:1fr;gap:40px;}
+  .features-left{min-height:auto;height:260px;}
+  .features-right{max-height:50vh;}
+  .features-progress{left:50%;transform:translateX(-50%);bottom:30px;}
+}
+@media(max-width:480px){
+  .title-text{font-size:clamp(24px,7vw,36px);}
+  .final-title{font-size:clamp(24px,7vw,34px);}
+  .feature-title{font-size:clamp(28px,8vw,36px);}
+  .feature-desc{font-size:15px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading bar (shown on first visit while extracting, hidden on cached revisit) -->
+<div class="frame-loader" id="frameLoader">
+  <div class="frame-loader-bar"><div class="frame-loader-fill" id="loaderFill"></div></div>
+  <div class="frame-loader-text" id="loaderText">Loading...</div>
+</div>
+
+<div class="video-scroll-container" id="videoScrollContainer">
+  <div class="video-sticky">
+
+    <video id="scrollVideo" muted playsinline preload="auto">
+      <source src="famco-marketplace3.1-compressed.mp4" type="video/mp4">
+    </video>
+    <canvas id="frameCanvas"></canvas>
+
+    <div class="title-overlay" id="title0" data-in="0.000" data-out="0.184">
+      <div class="title-text">Vehicle Drop-Off</div>
+    </div>
+
+    <div class="title-overlay" id="title1" data-in="0.185" data-out="0.295">
+      <div class="title-text">150-Point Inspection</div>
+    </div>
+
+    <div class="title-overlay" id="title2" data-in="0.296" data-out="0.332">
+      <div class="title-text">Rebuild</div>
+    </div>
+
+    <div class="title-overlay" id="title3" data-in="0.333" data-out="0.362">
+      <div class="title-text">FAMCO Certified</div>
+    </div>
+
+    <div class="title-overlay" id="title4" data-in="0.363" data-out="0.469">
+      <div class="title-text">Buy with<br>Confidence</div>
+    </div>
+
+    <!-- FINAL HERO -->
+    <div class="final-hero" id="finalHero">
+        <div class="final-left">
+          <h1 class="final-title">
+            <span style="white-space:nowrap">The GCC's Most Trusted</span> <span class="highlight">FAMCO Approved</span> Marketplace
+          </h1>
+          <a href="listing.html" class="browse-cta">Browse Equipment <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+
+        <!-- AI Search Box -->
+        <div class="ai-search-box">
+          <div class="ai-search-inner">
+            <svg class="ai-search-icon" viewBox="0 0 24 24" fill="none" stroke="#9BA8B5" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" class="ai-search-input" placeholder="Search trucks, equipment, brands...">
+            <button class="ai-search-btn" aria-label="Search">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" fill="#1A2F4A"/><path d="M18 14l.75 2.25L21 17l-2.25.75L18 20l-.75-2.25L15 17l2.25-.75L18 14z" fill="#1A2F4A"/><path d="M5 16l.5 1.5L7 18l-1.5.5L5 20l-.5-1.5L3 18l1.5-.5L5 16z" fill="#1A2F4A"/></svg>
+            </button>
+          </div>
+          <div class="ai-search-hint">
+            <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M8 1l.72 4.56L13.28 6.28 8.72 7.28 8 12 7.28 7.28 2.72 6.28 7.28 5.56 8 1z" fill="#FFD100"/></svg>
+            AI-powered search across 500+ listings
+          </div>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════
+     FEATURES — pinned scroll-swap
+═══════════════════════════════ -->
+<section class="features-section" id="featuresSection">
+  <div class="features-pin">
+    <div class="features-inner">
+
+      <div class="features-left">
+        <div class="feature-item" data-idx="0">
+          <h2 class="feature-title">OEM Certification</h2>
+        </div>
+        <div class="feature-item" data-idx="1">
+          <h2 class="feature-title">Arabic-first platform</h2>
+        </div>
+        <div class="feature-item" data-idx="2">
+          <h2 class="feature-title">WhatsApp in Arabic</h2>
+        </div>
+        <div class="feature-item is-last" data-idx="3">
+          <h2 class="feature-title">Ship to the Worldwide</h2>
+        </div>
+      </div>
+
+      <div class="features-right">
+        <video class="feature-video active" data-idx="0" muted playsinline loop autoplay>
+          <source src="OEM%20Certification.mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="1" muted playsinline loop>
+          <source src="Arabic-first%20platform.mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="2" muted playsinline loop>
+          <source src="WhatsApp%20(Arabic).mp4" type="video/mp4">
+        </video>
+        <video class="feature-video" data-idx="3" muted playsinline loop>
+          <source src="Ship%20Worldwide.mp4" type="video/mp4">
+        </video>
+      </div>
+
+    </div>
+
+    <!-- Final centered title. Sits inside the pin (100vw × 100vh) so flex-centering yields
+         true screen center on desktop AND mobile regardless of inner container math. -->
+    <div class="last-screen-title" aria-hidden="true">
+      <span>Ship to the Worldwide</span>
+    </div>
+
+    <div class="features-progress" id="featuresProgress">
+      <div class="features-dot active" data-idx="0"></div>
+      <div class="features-dot" data-idx="1"></div>
+      <div class="features-dot" data-idx="2"></div>
+      <div class="features-dot" data-idx="3"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ═══════════════════════════════
+   SPLIT TITLES INTO WORDS
+═══════════════════════════════ */
+(function(){
+  document.querySelectorAll('.title-text').forEach(function(el){
+    var nodes = Array.prototype.slice.call(el.childNodes);
+    var items = [];
+    nodes.forEach(function(node){
+      if(node.nodeName === 'BR'){
+        items.push({type:'br'});
+      } else {
+        node.textContent.split(/(\s+)/).forEach(function(w){
+          if(!w) return;
+          if(/^\s+$/.test(w)) items.push({type:'space'});
+          else items.push({type:'word', text:w});
+        });
+      }
+    });
+    el.innerHTML = '';
+    items.forEach(function(item){
+      if(item.type === 'br'){
+        el.appendChild(document.createElement('br'));
+      } else if(item.type === 'space'){
+        var sp = document.createElement('span');
+        sp.className = 'word word-space';
+        el.appendChild(sp);
+      } else {
+        var span = document.createElement('span');
+        span.className = 'word';
+        span.textContent = item.text;
+        el.appendChild(span);
+      }
+    });
+  });
+})();
+
+
+/* ═══════════════════════════════
+   IndexedDB FRAME CACHE + SCROLL
+═══════════════════════════════ */
+(function(){
+  var video     = document.getElementById('scrollVideo');
+  var canvas    = document.getElementById('frameCanvas');
+  var ctx       = canvas.getContext('2d');
+  var container = document.getElementById('videoScrollContainer');
+  var finalHero = document.getElementById('finalHero');
+  var loader    = document.getElementById('frameLoader');
+  var loaderFill= document.getElementById('loaderFill');
+  var loaderText= document.getElementById('loaderText');
+
+  /* ── Align search box top with CTA top ── */
+  var searchBox = document.querySelector('.ai-search-box');
+  var ctaBtn    = document.querySelector('.browse-cta');
+  function alignSearchBox(){
+    if(!searchBox || !ctaBtn || !finalHero) return;
+    var ctaRect  = ctaBtn.getBoundingClientRect();
+    var heroRect = finalHero.getBoundingClientRect();
+    searchBox.style.top = (ctaRect.top - heroRect.top) + 'px';
+  }
+  alignSearchBox();
+  window.addEventListener('resize', alignSearchBox);
+
+  if(!video || !container || !canvas) return;
+
+  var frames       = [];   // ImageBitmap array
+  var totalFrames  = 0;
+  var FPS          = 24;   // 24fps — good balance of smoothness vs cache size
+  var useDuration  = 0;
+  var currentFrame = -1;
+  var canvasW = 0, canvasH = 0;
+
+  var DB_NAME    = 'famco-frames';
+  var DB_VERSION = 1;
+  var STORE_NAME = 'frames';
+  var CACHE_KEY  = 'famco-marketplace3.1-v4'; // change if video changes
+
+  /* ═══════════════════════════════
+     IndexedDB helpers
+  ═══════════════════════════════ */
+  function openDB(){
+    return new Promise(function(resolve, reject){
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function(e){
+        var db = e.target.result;
+        if(!db.objectStoreNames.contains(STORE_NAME)){
+          db.createObjectStore(STORE_NAME);
+        }
+      };
+      req.onsuccess = function(e){ resolve(e.target.result); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+
+  function dbGet(db, key){
+    return new Promise(function(resolve, reject){
+      var tx = db.transaction(STORE_NAME, 'readonly');
+      var req = tx.objectStore(STORE_NAME).get(key);
+      req.onsuccess = function(){ resolve(req.result || null); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+
+  function dbPut(db, key, value){
+    return new Promise(function(resolve, reject){
+      var tx = db.transaction(STORE_NAME, 'readwrite');
+      var req = tx.objectStore(STORE_NAME).put(value, key);
+      req.onsuccess = function(){ resolve(); };
+      req.onerror   = function(){ reject(req.error); };
+    });
+  }
+
+  /* ═══════════════════════════════
+     Load cached frames from IDB
+     Returns array of Blob or null
+  ═══════════════════════════════ */
+  function loadFromCache(db){
+    return dbGet(db, CACHE_KEY).then(function(data){
+      if(!data || !data.blobs || !data.w || !data.h) return null;
+      canvasW = data.w;
+      canvasH = data.h;
+      totalFrames = data.blobs.length;
+      useDuration = data.useDuration || 0;
+      // Convert blobs → ImageBitmap
+      var promises = data.blobs.map(function(blob){
+        return createImageBitmap(blob);
+      });
+      return Promise.all(promises);
+    });
+  }
+
+  /* ═══════════════════════════════
+     Extract frames from video + save to IDB
+  ═══════════════════════════════ */
+  function extractAndCache(db){
+    return new Promise(function(resolve){
+      var duration = video.duration;
+      useDuration = Math.max(0, duration - 1.5);
+      totalFrames = Math.ceil(useDuration * FPS);
+      if(totalFrames < 1){ resolve([]); return; }
+
+      var vw = video.videoWidth;
+      var vh = video.videoHeight;
+      var scale = Math.min(1, 960 / Math.max(vw, vh)); // 960px cap for smaller cache
+      canvasW = Math.round(vw * scale);
+      canvasH = Math.round(vh * scale);
+
+      var tempCanvas = document.createElement('canvas');
+      tempCanvas.width  = canvasW;
+      tempCanvas.height = canvasH;
+      var tempCtx = tempCanvas.getContext('2d');
+
+      var bitmaps = [];
+      var blobs   = [];
+      var idx = 0;
+
+      function grabNext(){
+        if(idx >= totalFrames){
+          // Save to IDB in background
+          dbPut(db, CACHE_KEY, {
+            blobs: blobs,
+            w: canvasW,
+            h: canvasH,
+            useDuration: useDuration,
+            ts: Date.now()
+          }).catch(function(){});
+          resolve(bitmaps);
+          return;
+        }
+        // Small epsilon on frame 0: seeking to exactly 0 when video is already
+        // at time 0 does not fire 'seeked' in some browsers → stalls extraction
+        var t = (idx / totalFrames) * useDuration;
+        video.currentTime = (idx === 0) ? Math.max(0.001, t) : t;
+      }
+
+      video.onseeked = function(){
+        tempCtx.drawImage(video, 0, 0, canvasW, canvasH);
+
+        // Create bitmap for immediate use
+        createImageBitmap(tempCanvas).then(function(bmp){
+          bitmaps[idx] = bmp;
+
+          // Create blob for cache (WebP if supported, else PNG)
+          tempCanvas.toBlob(function(blob){
+            blobs[idx] = blob;
+            idx++;
+            var pct = Math.round((idx / totalFrames) * 100);
+            if(loaderFill) loaderFill.style.width = pct + '%';
+            if(loaderText) loaderText.textContent = 'Caching frames... ' + pct + '%';
+            grabNext();
+          }, 'image/webp', 0.75);
+        });
+      };
+
+      grabNext();
+    });
+  }
+
+  /* ═══════════════════════════════
+     APPLE-STYLE SMOOTH SCROLL ENGINE
+     - Lerp-smoothed progress (no snap)
+     - Sub-frame canvas blending
+     - Cubic bezier easing on all values
+  ═══════════════════════════════ */
+
+  var smoothProgress = 0;  // lerped scroll position
+  var LERP = 0.08;         // smoothing factor (lower = silkier, 0.06–0.10 sweet spot)
+
+  /* Easing helpers */
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function easeOutQuart(t){ return 1 - Math.pow(1 - t, 4); }
+
+  /* ── Cover-draw a bitmap into the canvas (JS equivalent of object-fit:cover) ── */
+  function drawCover(bmp, alpha){
+    var cw = canvas.width, ch = canvas.height;
+    var bw = bmp.width,  bh = bmp.height;
+    var scale = Math.max(cw / bw, ch / bh);
+    var sw = bw * scale, sh = bh * scale;
+    var ox = (cw - sw) / 2, oy = (ch - sh) / 2;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(bmp, ox, oy, sw, sh);
+  }
+
+  /* ── Resize canvas to exact viewport pixels (DPR-aware for sharp output) ── */
+  function resizeCanvas(){
+    var dpr = window.devicePixelRatio || 1;
+    var w = Math.round(window.innerWidth  * dpr);
+    var h = Math.round(window.innerHeight * dpr);
+    if(canvas.width !== w || canvas.height !== h){
+      canvas.width  = w;
+      canvas.height = h;
+      currentFrame = -1; // force redraw on next loop tick
+    }
+  }
+
+  /* ── Draw frame with sub-frame blending + cover aspect-ratio ── */
+  function drawFrameSmooth(exactIndex){
+    var maxIdx = frames.length - 1;
+    if(maxIdx < 0) return;
+    exactIndex = Math.max(0, Math.min(maxIdx, exactIndex));
+
+    var lo = Math.floor(exactIndex);
+    var hi = Math.min(lo + 1, maxIdx);
+    var blend = exactIndex - lo;
+
+    // Skip if same integer frame and negligible blend
+    if(lo === currentFrame && blend < 0.01) return;
+    currentFrame = lo;
+
+    var cw = canvas.width, ch = canvas.height;
+    if(!cw || !ch || !frames[lo]) return;
+
+    ctx.clearRect(0, 0, cw, ch);
+
+    if(blend < 0.02 || lo === hi || !frames[hi]){
+      drawCover(frames[lo], 1);
+    } else {
+      // Sub-frame blend: base frame at full alpha, next frame at blend alpha
+      drawCover(frames[lo], 1);
+      drawCover(frames[hi], blend);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  /* ── Title data ── */
+  var titleEls = document.querySelectorAll('.title-overlay');
+  var titleData = [];
+  titleEls.forEach(function(el){
+    titleData.push({
+      el: el,
+      words: el.querySelectorAll('.word:not(.word-space)'),
+      inAt: parseFloat(el.dataset.in),
+      outAt: parseFloat(el.dataset.out),
+      _lastLocal: -999
+    });
+  });
+
+  /* ── Update titles — word by word with smooth easing ── */
+  function updateTitles(progress){
+    titleData.forEach(function(td){
+      var local = (progress - td.inAt) / (td.outAt - td.inAt);
+
+      // Skip DOM updates if value barely changed
+      if(Math.abs(local - td._lastLocal) < 0.001) return;
+      td._lastLocal = local;
+
+      if(local < -0.01 || local > 1.01){
+        td.el.style.opacity = '0';
+        return;
+      }
+
+      td.el.style.opacity = '1';
+      var count = td.words.length;
+
+      /* Phase 1: 0–10% — quick fade in yellow */
+      if(local <= 0.10){
+        var p = local / 0.10;
+        var e = easeOutCubic(p);
+        td.words.forEach(function(w){
+          w.style.opacity = String(e);
+          w.style.color = '#FFD100';
+          w.style.transform = 'translate3d(0,' + (10 * (1 - e)) + 'px,0)';
+        });
+      }
+      /* Phase 2: 10–20% — yellow → white */
+      else if(local <= 0.20){
+        var p = (local - 0.10) / 0.10;
+        var e = easeInOutCubic(p);
+        var g = Math.round(209 + 46 * e);
+        var b = Math.round(255 * e);
+        td.words.forEach(function(w){
+          w.style.opacity = '1';
+          w.style.color = 'rgb(255,' + g + ',' + b + ')';
+          w.style.transform = 'translate3d(0,0,0)';
+        });
+      }
+      /* Phase 3: 20–80% — hold white (full readable window) */
+      else if(local <= 0.80){
+        td.words.forEach(function(w){
+          w.style.opacity = '1';
+          w.style.color = '#fff';
+          w.style.transform = 'translate3d(0,0,0)';
+        });
+      }
+      /* Phase 4: 80–100% — fade out upward */
+      else {
+        var p = (local - 0.80) / 0.20;
+        var e = easeOutQuart(p);
+        td.el.style.opacity = String(1 - e);
+        td.words.forEach(function(w){
+          w.style.color = '#fff';
+          w.style.transform = 'translate3d(0,' + (-14 * e) + 'px,0)';
+        });
+      }
+    });
+  }
+
+  /* ── Final hero with smooth fade ── */
+  var smoothHeroOpacity = 0;
+
+  function updateFinalHero(progress){
+    var targetOpacity = 0;
+    if(progress >= 0.47){
+      var fadeIn = Math.min(1, (progress - 0.47) / 0.05);
+      targetOpacity = easeOutCubic(fadeIn);
+    }
+
+    // Lerp the hero opacity for silk-smooth transition
+    smoothHeroOpacity += (targetOpacity - smoothHeroOpacity) * 0.12;
+    if(Math.abs(smoothHeroOpacity - targetOpacity) < 0.005) smoothHeroOpacity = targetOpacity;
+
+    finalHero.style.opacity = String(smoothHeroOpacity);
+
+    if(smoothHeroOpacity > 0.5){
+      if(!finalHero.classList.contains('active')) finalHero.classList.add('active');
+    } else {
+      finalHero.classList.remove('active');
+    }
+  }
+
+  /* ── Main scroll loop — Apple-style lerp ── */
+  function loop(){
+    var rect     = container.getBoundingClientRect();
+    var total    = container.offsetHeight - window.innerHeight;
+    var scrolled = -rect.top;
+    var rawProgress = Math.max(0, Math.min(1, scrolled / total));
+
+    // Lerp: smooth the scroll position (this is the key to Apple feel)
+    smoothProgress += (rawProgress - smoothProgress) * LERP;
+
+    // Snap to target when very close (prevents infinite micro-drift)
+    if(Math.abs(smoothProgress - rawProgress) < 0.0001) smoothProgress = rawProgress;
+
+    // Map video: full duration into 0–30% of smooth scroll
+    var videoProgress = Math.min(smoothProgress / 0.50, 1.0);
+    var exactFrame = videoProgress * (totalFrames - 1);
+    drawFrameSmooth(exactFrame);
+
+    updateTitles(smoothProgress);
+    updateFinalHero(smoothProgress);
+
+    requestAnimationFrame(loop);
+  }
+
+  /* ── Hide loader + start loop ── */
+  function hideLoaderAndStart(){
+    canvas.style.width  = '100%';
+    canvas.style.height = '100%';
+    resizeCanvas();      // set native canvas size = viewport × DPR (sharp on retina)
+    drawFrameSmooth(0);
+
+    if(loader){
+      loader.classList.add('hidden');
+      setTimeout(function(){ loader.classList.add('done'); }, 500);
+    }
+
+    window.addEventListener('resize', function(){
+      resizeCanvas();
+      alignSearchBox();
+    });
+
+    loop();
+  }
+
+  /* ═══════════════════════════════
+     INIT — try cache first, fallback to extract
+  ═══════════════════════════════ */
+
+  /* Memory-only extraction — no toBlob, no IndexedDB.
+     Required for file:// (canvas CORS taint blocks toBlob) and as IDB fallback. */
+  function runDirectExtraction(){
+    if(loaderText) loaderText.textContent = 'Loading...';
+
+    var duration = video.duration;
+    useDuration = Math.max(0, duration - 1.5);
+    totalFrames = Math.ceil(useDuration * FPS);
+    var vw = video.videoWidth, vh = video.videoHeight;
+    var scale = Math.min(1, 960 / Math.max(vw, vh));
+    canvasW = Math.round(vw * scale);
+    canvasH = Math.round(vh * scale);
+
+    var tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvasW; tempCanvas.height = canvasH;
+    var tempCtx = tempCanvas.getContext('2d');
+    var idx = 0;
+
+    function grab(){
+      if(idx >= totalFrames){ hideLoaderAndStart(); return; }
+      // Epsilon on frame 0: seeking to exactly 0 doesn't fire 'seeked' in some browsers
+      var t = (idx / totalFrames) * useDuration;
+      video.currentTime = (idx === 0) ? Math.max(0.001, t) : t;
+    }
+    video.onseeked = function(){
+      tempCtx.drawImage(video, 0, 0, canvasW, canvasH);
+      createImageBitmap(tempCanvas).then(function(bmp){
+        frames[idx] = bmp;
+        idx++;
+        var pct = Math.round((idx / totalFrames) * 100);
+        if(loaderFill) loaderFill.style.width = pct + '%';
+        if(loaderText) loaderText.textContent = 'Loading... ' + pct + '%';
+        grab();
+      });
+    };
+    grab();
+  }
+
+  video.addEventListener('loadedmetadata', function(){
+    /* file:// protocol: drawing video to canvas taints it, making toBlob()
+       throw a SecurityError. Skip IndexedDB entirely and extract in memory. */
+    if(location.protocol === 'file:'){
+      runDirectExtraction();
+      return;
+    }
+
+    openDB().then(function(db){
+      // Try loading from IndexedDB cache
+      return loadFromCache(db).then(function(cached){
+        if(cached && cached.length > 0){
+          // Cache hit — instant start
+          if(loaderText) loaderText.textContent = '';
+          frames = cached;
+          hideLoaderAndStart();
+        } else {
+          // Cache miss — extract frames and persist
+          if(loaderText) loaderText.textContent = 'Preparing first visit...';
+          return extractAndCache(db).then(function(bitmaps){
+            frames = bitmaps;
+            hideLoaderAndStart();
+          });
+        }
+      });
+    }).catch(runDirectExtraction); // IDB unavailable → memory-only fallback
+  });
+
+  /* Show a visible error if the video file fails to load */
+  video.addEventListener('error', function(){
+    if(loaderText) loaderText.textContent = 'Error: video file not found or unsupported.';
+    if(loaderFill){ loaderFill.style.background = '#dc2626'; loaderFill.style.width = '100%'; }
+    console.error('[FAMCO scroll-video] Failed to load video. Check the <source src> path.');
+  });
+
+  video.load();
+})();
+
+/* ═══════════════════════════════
+   FEATURES — premium scroll-swap
+═══════════════════════════════ */
+(function(){
+  var section = document.getElementById('featuresSection');
+  if(!section) return;
+
+  var pin    = section.querySelector('.features-pin');
+  var inner  = section.querySelector('.features-inner');
+  var rightPanel = section.querySelector('.features-right');
+  var items  = section.querySelectorAll('.feature-item');
+  var videos = section.querySelectorAll('.feature-video');
+  var dots   = section.querySelectorAll('.features-dot');
+  var count  = items.length;
+  var currentIdx = -1;
+
+  /* Split each title into character spans for per-char color animation */
+  var titleChars = []; // array of arrays of spans
+  items.forEach(function(item){
+    var titleEl = item.querySelector('.feature-title');
+    var text = titleEl.textContent;
+    titleEl.textContent = '';
+    var spans = [];
+    for(var i = 0; i < text.length; i++){
+      var span = document.createElement('span');
+      span.className = 'char' + (text[i] === ' ' ? ' space' : '');
+      span.textContent = text[i];
+      titleEl.appendChild(span);
+      spans.push(span);
+    }
+    titleChars.push(spans);
+  });
+
+  /* Color interpolation helper: grey → yellow (long hold) → black
+     t: 0–0.15 = gray→yellow ramp, 0.15–0.80 = hold yellow, 0.80–1.0 = yellow→black */
+  function lerpColor(t){
+    var gray   = [221, 217, 210];  // #DDD9D2
+    var yellow = [255, 209, 0];    // #FFD100
+    var black  = [11, 31, 26];     // #0B1F1A
+    var a, b, p;
+    if(t < 0.15){
+      a = gray; b = yellow; p = t / 0.15;
+    } else if(t < 0.80){
+      return 'rgb(255,209,0)';
+    } else {
+      a = yellow; b = black; p = (t - 0.80) / 0.20;
+    }
+    var r = Math.round(a[0] + (b[0] - a[0]) * p);
+    var g = Math.round(a[1] + (b[1] - a[1]) * p);
+    var bl = Math.round(a[2] + (b[2] - a[2]) * p);
+    return 'rgb(' + r + ',' + g + ',' + bl + ')';
+  }
+
+  /* Intersection-based reveal — triggers the initial slide-up + clip reveal */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        pin.classList.add('visible');
+      }
+    });
+  }, {threshold:0.15});
+  io.observe(section);
+
+  function setActive(idx){
+    items.forEach(function(el, i){
+      el.classList.toggle('active', i === idx);
+    });
+    if(idx === currentIdx) return;
+    currentIdx = idx;
+
+    videos.forEach(function(v, i){
+      v.classList.toggle('active', i === idx);
+      if(i === idx){
+        v.play().catch(function(){});
+      } else {
+        v.pause();
+      }
+    });
+    dots.forEach(function(d, i){
+      d.classList.toggle('active', i === idx);
+      d.classList.toggle('done', i < idx);
+    });
+  }
+
+  var ticking = false;
+  function onScroll(){
+    var rect = section.getBoundingClientRect();
+    var total = rect.height - window.innerHeight;
+    if(total <= 0) return;
+    var scrolled = -rect.top;
+    var progress = Math.max(0, Math.min(1, scrolled / total));
+
+    /* Each title occupies 1/count of progress; within its window
+       it travels from +travelDist (below center) → 0 (center) → -travelDist (above center).
+       We also show neighbors slightly offset so the stack flows smoothly. */
+    var travelDist = rightPanel ? rightPanel.getBoundingClientRect().height / 2 : 300;
+    var segment = 1 / count;
+
+    items.forEach(function(el, i){
+      /* Overlap: each title spans TWO segments (2x wider window). */
+      var itemStart = (i - 1) * segment;
+      var itemEnd   = (i + 1) * segment;
+      var local = (progress - itemStart) / (itemEnd - itemStart);
+      var clamped = Math.max(-0.5, Math.min(1.5, local));
+
+      /* Last title stays pinned at center once it arrives — never scrolls up. */
+      var isLast = (i === count - 1);
+
+      var y;
+      if(isLast && clamped >= 0.5){
+        /* Pin last title at center */
+        y = 0;
+      } else if(clamped <= 0.5){
+        var pA = clamped / 0.5;
+        y = (1 - pA) * travelDist;
+      } else {
+        var pB = (clamped - 0.5) / 0.5;
+        y = -pB * travelDist;
+      }
+      /* Skip inline transform override for the last item while expanded — its transform
+         is managed by the expansion block below so the CSS transition can animate it. */
+      if(!(isLast && inner && inner.classList.contains('expanded'))){
+        el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(1)';
+      }
+
+      /* Per-char color — only activates near center.
+         Outside the center zone all chars stay gray.
+         Near center: sweep gray → yellow → black (left→right), peak at center,
+         then reverse black → yellow → gray as it leaves upward. */
+      var chars = titleChars[i];
+      if(!chars) return;
+      var charCount = chars.length;
+
+      /* Activation zone: only run char animation when clamped is roughly between 0.3 and 0.7.
+         Outside this zone, all chars reset to gray. */
+      /* Sequential char activation — one char at a time sweeps gray → yellow → black,
+         fully completing before the next starts.
+         Activation runs across clamped 0.3 → 0.6 (rising portion). */
+      /* Char activation only starts AFTER the title arrives at center (clamped >= 0.5),
+         runs through 0.5 → 0.80 so the yellow → black sweep happens while title is at/near center. */
+      var activateStart = 0.50;
+      var activateEnd   = 0.80;
+      var activateRange = activateEnd - activateStart;
+      var charWindow = activateRange / charCount;
+
+      for(var ci = 0; ci < charCount; ci++){
+        var t;
+        if(clamped < activateStart){
+          t = 0; // title still rising — all chars gray
+        } else if(clamped >= activateEnd){
+          t = 1; // sweep complete — all black
+        } else {
+          var charStart = activateStart + ci * charWindow;
+          var charEnd   = charStart + charWindow;
+          if(clamped < charStart) t = 0;
+          else if(clamped >= charEnd) t = 1;
+          else t = (clamped - charStart) / charWindow;
+        }
+
+        chars[ci].style.color = lerpColor(t);
+        var liftT = 1 - Math.abs(t - 0.5) * 2;
+        var ty = -6 * liftT;
+        var scale = 1 + 0.08 * liftT;
+        chars[ci].style.transform = 'translate3d(0,' + ty.toFixed(2) + 'px,0) scale(' + scale.toFixed(3) + ')';
+      }
+    });
+
+    var activeIdx = Math.min(count - 1, Math.max(0, Math.floor(progress * count)));
+    setActive(activeIdx);
+
+    /* Expand to fullscreen width ONLY after the last title fully reaches black (clamped 0.80).
+       Last title clamped 0.80 = progress 0.90. Start expansion slightly after so color is settled. */
+    var expandThreshold = 0.92;
+    var shouldExpand = progress >= expandThreshold;
+    if(inner){
+      inner.classList.toggle('expanded', shouldExpand);
+    }
+
+    /* Fresh last-screen: toggle a class on the pin; CSS handles the centered title. */
+    if(pin){
+      pin.classList.toggle('last-screen-active', shouldExpand);
+    }
+
+    /* Video expansion: width grows, right edge stays anchored (margin-left goes negative). */
+    if(rightPanel){
+      if(shouldExpand){
+        rightPanel.style.transform = '';
+        if(!rightPanel.dataset.expandedMarginApplied){
+          var innerRect = inner.getBoundingClientRect();
+          var innerStyle = window.getComputedStyle(inner);
+          var padL = parseFloat(innerStyle.paddingLeft) || 0;
+          var padR = parseFloat(innerStyle.paddingRight) || 0;
+          var targetWidth = innerRect.width - padL - padR;
+          var r = rightPanel.getBoundingClientRect();
+          var deltaLeft = targetWidth - r.width;
+          rightPanel.style.width = targetWidth + 'px';
+          rightPanel.style.marginLeft = (-deltaLeft) + 'px';
+          rightPanel.dataset.expandedMarginApplied = '1';
+        }
+      } else {
+        if(rightPanel.dataset.expandedMarginApplied){
+          rightPanel.style.width = '';
+          rightPanel.style.marginLeft = '';
+          delete rightPanel.dataset.expandedMarginApplied;
+        }
+        var parallaxRange = 40;
+        var offset = (progress - 0.5) * parallaxRange;
+        rightPanel.style.transform = 'translate3d(0,' + offset.toFixed(2) + 'px,0)';
+      }
+    }
+
+    ticking = false;
+  }
+
+  function requestTick(){
+    if(!ticking){
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', requestTick, {passive:true});
+  window.addEventListener('resize', function(){
+    /* Clear the expansion guard so measurements re-run against the new viewport size. */
+    if(rightPanel && rightPanel.dataset.expandedMarginApplied){
+      rightPanel.style.width = '';
+      rightPanel.style.marginLeft = '';
+      delete rightPanel.dataset.expandedMarginApplied;
+    }
+    requestTick();
+  });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
