@@ -2686,13 +2686,17 @@ function generateInspectionPDF() {
     doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
     doc.setLineWidth(0.7);
     doc.roundedRect(x, yStart, w, h, 6, 6, 'FD');
-    /* Heading chip */
-    doc.setFillColor(accent[0], accent[1], accent[2]);
-    doc.roundedRect(x + 10, yStart - 8, doc.getTextWidth(label) + 20, 17, 3, 3, 'F');
+    /* Heading chip — set font first so getTextWidth measures at the actual render size */
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8.5);
+    var lbl = pdfSafe(label).toUpperCase();
+    var chipW = doc.getTextWidth(lbl) + 20;
+    /* Clamp chip so it never overflows the card's right edge */
+    if (chipW > w - 20) chipW = w - 20;
+    doc.setFillColor(accent[0], accent[1], accent[2]);
+    doc.roundedRect(x + 10, yStart - 8, chipW, 17, 3, 3, 'F');
     doc.setTextColor(255, 255, 255);
-    doc.text(label.toUpperCase(), x + 20, yStart + 3.5);
+    doc.text(lbl, x + 20, yStart + 3.5);
     return yStart + 22;
   }
 
@@ -2968,27 +2972,64 @@ function generateInspectionPDF() {
   });
   y += Math.ceil(checkGroups.length / 2) * (gH + 10) + 10;
 
-  /* Inspection notes section */
-  var condEl = document.getElementById('ipanel-condition');
-  var condText = '';
-  if (condEl) {
-    condText = pdfSafe((condEl.innerText || condEl.textContent || ''));
+  /* Inspection notes section — pull structured data from the condition DOM */
+  var condItems = [];
+  document.querySelectorAll('#ipanel-condition .cond-item').forEach(function (ci) {
+    var lab = ci.querySelector('.cond-label');
+    var sc = ci.querySelector('.cond-score');
+    if (lab && sc) condItems.push([pdfSafe(lab.textContent), pdfSafe(sc.textContent)]);
+  });
+  var inspNoteEl = document.querySelector('#ipanel-condition .insp-text');
+  var inspNoteText = inspNoteEl ? pdfSafe(inspNoteEl.textContent) : '';
+  if (!inspNoteText || inspNoteText.length < 40) {
+    inspNoteText = 'This vehicle has been comprehensively assessed by Al-Futtaim Famco certified technicians as part of our 150-point FAMCO Approved inspection programme. All engine, drivetrain, chassis, brakes, electrical, and interior systems have been evaluated against manufacturer specifications. Service history has been verified and the odometer reading is certified accurate.';
   }
-  if (!condText || condText.length < 40) {
-    condText = 'This vehicle has been comprehensively assessed by Al-Futtaim Famco certified technicians as part of our 150-point FAMCO Approved inspection programme. All engine, drivetrain, chassis, brakes, electrical, and interior systems have been evaluated against manufacturer specifications. Minor cosmetic observations, where applicable, are disclosed in the full condition report available on request. Service history has been verified and the odometer reading is certified accurate.';
-  }
+
   /* Notes card */
   var notesH = pageH - y - 60;
   if (notesH > 50) {
     var notesInner = drawSectionCard(margin, y, pageW - margin * 2, notesH, 'Inspector Notes', BLUE_DK);
+    var cursorY = notesInner + 2;
+    var innerLeft = margin + 14;
+    var innerRight = pageW - margin - 14;
+    var innerWidth = innerRight - innerLeft;
+
+    /* Condition scores — 2-column grid */
+    if (condItems.length) {
+      var colW = (innerWidth - 14) / 2;
+      var rowH = 14;
+      condItems.forEach(function (item, i) {
+        var col = i % 2;
+        var rowIdx = Math.floor(i / 2);
+        var cx = innerLeft + col * (colW + 14);
+        var cy = cursorY + rowIdx * rowH;
+        if (cy > y + notesH - 60) return;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+        doc.text(item[0], cx, cy);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(INK[0], INK[1], INK[2]);
+        var scoreMax = colW - doc.getTextWidth(item[0]) - 10;
+        var scoreStr = doc.splitTextToSize(item[1], scoreMax > 40 ? scoreMax : 40)[0] || item[1];
+        doc.text(scoreStr, cx + colW, cy, { align: 'right' });
+      });
+      cursorY += Math.ceil(condItems.length / 2) * rowH + 10;
+      /* Divider before the note paragraph */
+      doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+      doc.setLineWidth(0.5);
+      doc.line(innerLeft, cursorY, innerRight, cursorY);
+      cursorY += 10;
+    }
+
+    /* Inspection note paragraph */
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9.5);
     doc.setTextColor(60, 70, 82);
-    var noteLines = doc.splitTextToSize(condText.slice(0, 1400), pageW - margin * 2 - 24);
-    var cursorY = notesInner;
+    var noteLines = doc.splitTextToSize(inspNoteText.slice(0, 1400), innerWidth);
     for (var i = 0; i < noteLines.length; i++) {
-      if (cursorY > y + notesH - 14) break;
-      doc.text(noteLines[i], margin + 12, cursorY);
+      if (cursorY > y + notesH - 40) break;
+      doc.text(noteLines[i], innerLeft, cursorY);
       cursorY += 13;
     }
     /* Signature strip at bottom of notes card */
