@@ -2418,7 +2418,7 @@ function generateInspectionPDF() {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(20);
   doc.setTextColor(INK[0], INK[1], INK[2]);
-  var titleLines = doc.splitTextToSize(title, pageW - margin * 2);
+  var titleLines = doc.splitTextToSize(pdfSafe(title), pageW - margin * 2);
   titleLines.forEach(function (ln) { doc.text(ln, margin, y); y += 22; });
 
   y += 4;
@@ -2436,9 +2436,40 @@ function generateInspectionPDF() {
     doc.text(txt, pillX + 8, pillY + 13);
     pillX += w + 6;
   }
-  if (refTxt) drawPill(refTxt, [232, 240, 250], BLUE_DK);
-  if (gradeTxt) drawPill(gradeTxt, YELLOW, INK);
-  if (badgeTxt) drawPill('✓ ' + badgeTxt, [22, 163, 74], [255, 255, 255]);
+  /* Strip non-ASCII glyphs (emoji, checkmarks, curly quotes) that trigger
+     jsPDF's fallback renderer and cause extra letter-spacing in the output. */
+  function pdfSafe(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/[\u{1F000}-\u{1FFFF}]/gu, '')   /* supplementary emoji plane */
+      .replace(/[☀-➿]/g, '')          /* misc symbols + dingbats */
+      .replace(/[︀-️]/g, '')          /* variation selectors VS1-VS16 */
+      .replace(/[​-‏﻿]/g, '')    /* zero-width + dir marks + BOM */
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/…/g, '...')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  if (refTxt) drawPill(pdfSafe(refTxt), [232, 240, 250], BLUE_DK);
+  if (gradeTxt) drawPill(pdfSafe(gradeTxt), YELLOW, INK);
+  if (badgeTxt) {
+    var bSafe = pdfSafe(badgeTxt);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.5);
+    var bw = doc.getTextWidth(bSafe) + 24;
+    doc.setFillColor(22, 163, 74);
+    doc.roundedRect(pillX, pillY, bw, pillH, 10, 10, 'F');
+    doc.setDrawColor(255, 255, 255);
+    doc.setLineWidth(1.3);
+    doc.setLineCap('round');
+    doc.line(pillX + 7, pillY + 11, pillX + 10, pillY + 14);
+    doc.line(pillX + 10, pillY + 14, pillX + 15, pillY + 7);
+    doc.setTextColor(255, 255, 255);
+    doc.text(bSafe, pillX + 18, pillY + 13);
+    pillX += bw + 6;
+  }
   y += pillH + 16;
 
   var mainImg = document.getElementById('main-img');
@@ -2478,12 +2509,12 @@ function generateInspectionPDF() {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(7.5);
       doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
-      var label = pair[0].toUpperCase();
+      var label = pdfSafe(pair[0]).toUpperCase();
       doc.text(doc.splitTextToSize(label, cardW - 16)[0], cx + 8, y + 18);
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
       doc.setTextColor(INK[0], INK[1], INK[2]);
-      var valLines = doc.splitTextToSize(pair[1], cardW - 16);
+      var valLines = doc.splitTextToSize(pdfSafe(pair[1]), cardW - 16);
       doc.text(valLines[0], cx + 8, y + 38);
       if (valLines[1]) {
         doc.setFontSize(9);
@@ -2513,10 +2544,12 @@ function generateInspectionPDF() {
       }
       doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
       doc.setFont('helvetica', 'normal');
-      doc.text(pair[0], rx, ry);
+      var keyStr = pdfSafe(pair[0]);
+      var valSafe = pdfSafe(pair[1]);
+      doc.text(keyStr, rx, ry);
       doc.setTextColor(INK[0], INK[1], INK[2]);
       doc.setFont('helvetica', 'bold');
-      var valStr = doc.splitTextToSize(pair[1], colW - doc.getTextWidth(pair[0]) - 12)[0] || pair[1];
+      var valStr = doc.splitTextToSize(valSafe, colW - doc.getTextWidth(keyStr) - 12)[0] || valSafe;
       doc.text(valStr, rx + colW - 8, ry, { align: 'right' });
     });
   }
@@ -2537,10 +2570,16 @@ function generateInspectionPDF() {
 
   doc.setFillColor(22, 163, 74);
   doc.roundedRect(margin, y, pageW - margin * 2, 46, 6, 6, 'F');
+  /* Vector check-mark so we don't depend on a non-WinAnsi glyph */
+  doc.setDrawColor(255, 255, 255);
+  doc.setLineWidth(1.8);
+  doc.setLineCap('round');
+  doc.line(margin + 14, y + 16, margin + 18, y + 20);
+  doc.line(margin + 18, y + 20, margin + 26, y + 10);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
   doc.setTextColor(255, 255, 255);
-  doc.text('✓  INSPECTION PASSED', margin + 18, y + 20);
+  doc.text('INSPECTION PASSED', margin + 34, y + 20);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.text('All critical safety, mechanical, and structural checks cleared the required standard.', margin + 18, y + 36);
@@ -2588,7 +2627,7 @@ function generateInspectionPDF() {
   var condEl = document.getElementById('ipanel-condition');
   var condText = '';
   if (condEl) {
-    condText = (condEl.innerText || condEl.textContent || '').trim().replace(/\s+/g, ' ');
+    condText = pdfSafe((condEl.innerText || condEl.textContent || ''));
   }
   if (!condText || condText.length < 40) {
     condText = 'This vehicle has been comprehensively assessed by Al-Futtaim Famco certified technicians as part of our 150-point FAMCO Approved inspection programme. All engine, drivetrain, chassis, brakes, electrical, and interior systems have been evaluated against manufacturer specifications. Minor cosmetic observations, where applicable, are disclosed in the full condition report available on request. Service history has been verified and the odometer reading is certified accurate.';
