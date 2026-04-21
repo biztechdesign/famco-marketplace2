@@ -99,7 +99,7 @@ header{
 .h-row > .nav-hamburger{grid-column:3;justify-self:end;}
 
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.logo img{height:34px;width:auto;}
+.logo img{height:34px;width:auto;filter:brightness(0) invert(1);}
 .logo-fb{display:none;flex-direction:column;justify-content:center;}
 .logo-brand{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1;}
 .logo-brand em{color:var(--y);font-style:normal;}
@@ -2121,8 +2121,12 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
-        <button class="h-act h-srch-btn" id="hSrchBtn" aria-label="Search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <button class="h-act h-srch-btn" id="hSrchBtn" aria-label="AI Search">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="13" r="5"/>
+            <path d="M19 23l-4.5-4.5"/>
+            <path d="M17.5 1.5l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z" fill="currentColor" stroke="none"/>
+          </svg>
         </button>
       </div>
 
