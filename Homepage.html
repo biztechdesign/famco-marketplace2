@@ -2258,11 +2258,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       </div>
 
       <!-- AI Search box — top aligned with Browse CTA via JS -->
-      <div class="ai-search-box">
+      <form class="ai-search-box srch" role="search" onsubmit="return heroSubmitSearch(event)">
         <div class="ai-search-inner">
           <svg class="ai-search-icon" viewBox="0 0 24 24" fill="none" stroke="#9BA8B5" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" class="ai-search-input" placeholder="Search trucks, equipment, brands...">
-          <button class="ai-search-btn" aria-label="Search">
+          <input type="search" class="ai-search-input srch-input" id="heroSrchInput" placeholder="Try “grade a truck” or “volvo tractor”…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="hero-srch-q" role="combobox" aria-autocomplete="list" aria-expanded="false" data-ac-float>
+          <button type="submit" class="ai-search-btn" aria-label="Search">
             <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" fill="#1A2F4A"/><path d="M18 14l.75 2.25L21 17l-2.25.75L18 20l-.75-2.25L15 17l2.25-.75L18 14z" fill="#1A2F4A"/><path d="M5 16l.5 1.5L7 18l-1.5.5L5 20l-.5-1.5L3 18l1.5-.5L5 16z" fill="#1A2F4A"/></svg>
           </button>
         </div>
@@ -2270,7 +2270,23 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <svg viewBox="0 0 16 16" fill="none" width="14" height="14"><path d="M8 1l.72 4.56L13.28 6.28 8.72 7.28 8 12 7.28 7.28 2.72 6.28 7.28 5.56 8 1z" fill="#FFD100"/></svg>
           AI-powered search across 500+ listings
         </div>
-      </div>
+      </form>
+      <script>
+      function heroSubmitSearch(e){
+        e.preventDefault();
+        var q = (document.getElementById('heroSrchInput').value || '').trim();
+        var url = 'BrowseEquipment.html';
+        if (q) {
+          var params = [];
+          params.push('q=' + encodeURIComponent(q));
+          var gm = q.match(/grade\s+([a-c])\b/i);
+          if (gm) params.push('grade=' + gm[1].toUpperCase());
+          url += '?' + params.join('&');
+        }
+        window.location.href = url;
+        return false;
+      }
+      </script>
     </div>
 
   </div>
@@ -2689,7 +2705,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     </div>
   </div>
   <div class="ft-bot">
-    <div class="ft-copy">© 2025 FAMCO Used Equipment. An Al-Futtaim Group Company. All rights reserved.</div>
+    <div class="ft-copy">© 2026 FAMCO Used Equipment. An Al-Futtaim Group Company. All rights reserved.</div>
     <div class="ft-leg">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>

@@ -16,6 +16,7 @@
       category: 'Trucks & Commercial',
       brand:    'Volvo',
       year:     '2022',
+      grade:    'A',
       meta:     '2022 · 210,000 km · Dubai, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -24,6 +25,7 @@
       category: 'Trucks & Commercial',
       brand:    'Volvo',
       year:     '2021',
+      grade:    'B',
       meta:     '2021 · 310,000 km · Sharjah, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -32,6 +34,7 @@
       category: 'Trucks & Commercial',
       brand:    'Volvo',
       year:     '2020',
+      grade:    'A',
       meta:     '2020 · 390,000 km · Dubai, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -40,6 +43,7 @@
       category: 'Trucks & Commercial',
       brand:    'Volvo',
       year:     '2024',
+      grade:    'A',
       meta:     '2024 · 28,000 km · Abu Dhabi, UAE',
       href:     'EquipmentDetail2.html'
     },
@@ -48,6 +52,7 @@
       category: 'Construction Equipment',
       brand:    'Caterpillar',
       year:     '2021',
+      grade:    'B',
       meta:     '2021 · 4,200 hrs · Sharjah, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -56,6 +61,7 @@
       category: 'Material Handling',
       brand:    'Toyota',
       year:     '2020',
+      grade:    'A',
       meta:     '2020 · 3,800 hrs · Dubai, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -64,6 +70,7 @@
       category: 'Construction Equipment',
       brand:    'JCB',
       year:     '2021',
+      grade:    'B',
       meta:     '2021 · 5,100 hrs · Abu Dhabi, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -72,6 +79,7 @@
       category: 'Material Handling',
       brand:    'Hyster',
       year:     '2019',
+      grade:    'C',
       meta:     '2019 · 6,200 hrs · Dubai, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -80,6 +88,7 @@
       category: 'Construction Equipment',
       brand:    'Komatsu',
       year:     '2020',
+      grade:    'B',
       meta:     '2020 · 4,900 hrs · Sharjah, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -88,6 +97,7 @@
       category: 'Trucks & Commercial',
       brand:    'Mercedes-Benz',
       year:     '2022',
+      grade:    'A',
       meta:     '2022 · 180,000 km · Dubai, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -96,6 +106,7 @@
       category: 'Material Handling',
       brand:    'Linde',
       year:     '2021',
+      grade:    'A',
       meta:     '2021 · 2,100 hrs · Fujairah, UAE',
       href:     'EquipmentDetail.html'
     },
@@ -104,6 +115,7 @@
       category: 'Construction Equipment',
       brand:    'Volvo',
       year:     '2022',
+      grade:    'B',
       meta:     '2022 · 3,200 hrs · Dubai, UAE',
       href:     'EquipmentDetail.html'
     }
@@ -181,6 +193,13 @@
         'color:#C9A400;background:#FFFBE6;',
         'padding:2px 7px;border-radius:4px;flex-shrink:0;',
       '}',
+      '.ac-grade{',
+        'font-size:10px;font-weight:800;letter-spacing:.4px;',
+        'color:#065F46;background:#D1FAE5;',
+        'padding:2px 6px;border-radius:4px;flex-shrink:0;',
+      '}',
+      '.ac-grade-b{color:#92400E;background:#FEF3C7;}',
+      '.ac-grade-c{color:#991B1B;background:#FEE2E2;}',
       '.ac-meta{font-size:11.5px;color:#9CA3AF;}',
 
       /* --- match highlight --- */
@@ -266,14 +285,28 @@
   function scoreItem(item, raw, tokens) {
     var nameLow = item.name.toLowerCase();
     var rawLow  = raw.trim().toLowerCase();
-    var hay     = [item.name, item.category, item.brand, item.year, item.meta]
+    var gradeLabel = item.grade ? ('grade ' + item.grade).toLowerCase() : '';
+    var hay     = [item.name, item.category, item.brand, item.year, item.meta, gradeLabel]
                     .join(' ').toLowerCase();
 
-    /* All tokens must appear somewhere — baseline gate */
+    /* Grade token normalization: treat "grade" + next letter as a compound attribute
+       so "grade a" must match grade A exactly (not match "a" anywhere in the name). */
+    var gradeMatch = rawLow.match(/grade\s+([a-c])\b/);
+    if (gradeMatch) {
+      if (!item.grade || item.grade.toLowerCase() !== gradeMatch[1]) return 0;
+      /* Strip the grade clause from tokens; remaining tokens still need to match */
+      var rest = rawLow.replace(/grade\s+[a-c]\b/g, ' ').trim();
+      tokens = rest ? rest.split(/\s+/).filter(Boolean) : [];
+    }
+
+    /* All remaining tokens must appear somewhere — baseline gate */
     var allContained = tokens.every(function (t) {
       return hay.indexOf(t) !== -1;
     });
     if (!allContained) return 0;
+
+    /* Empty query after grade stripping still counts as a valid grade-only match */
+    if (!tokens.length) return 2;
 
     /* Prefix on full name (highest priority) */
     if (nameLow.indexOf(rawLow) === 0) return 3;
@@ -326,14 +359,36 @@
     if (!srch) return;
 
     var isHeader = srch.classList.contains('h-srch-wrap');
+    /* Floating mode: dropdown is appended to <body> with fixed-viewport coords so it
+       escapes any ancestor overflow:hidden clipping (video-sticky hero, page-banner, etc). */
+    var isFloating = input.hasAttribute('data-ac-float');
 
     /* Create and append the dropdown */
     var drop = document.createElement('div');
-    drop.className = 'ac-drop' + (isHeader ? ' ac-drop-header' : '');
+    drop.className = 'ac-drop' + (isHeader ? ' ac-drop-header' : '') + (isFloating ? ' ac-drop-floating' : '');
     drop.setAttribute('role', 'listbox');
     drop.setAttribute('aria-label', 'Search suggestions');
-    /* Header wraps the field with overflow:hidden — anchor dropdown to the wrap itself */
-    srch.appendChild(drop);
+    if (isFloating) {
+      document.body.appendChild(drop);
+    } else {
+      srch.appendChild(drop);
+    }
+
+    function positionFloating() {
+      if (!isFloating) return;
+      var r = input.getBoundingClientRect();
+      drop.style.position = 'fixed';
+      drop.style.top    = (r.bottom + 6) + 'px';
+      drop.style.left   = r.left + 'px';
+      drop.style.width  = Math.max(r.width, 320) + 'px';
+      drop.style.zIndex = '10002';
+    }
+    if (isFloating) {
+      window.addEventListener('scroll', positionFloating, { passive: true });
+      window.addEventListener('resize', positionFloating);
+      input.addEventListener('focus', positionFloating);
+      input.addEventListener('input', function(){ requestAnimationFrame(positionFloating); });
+    }
 
     var hits   = [];   /* current result array  */
     var cursor = -1;   /* keyboard-focused index */
@@ -370,12 +425,19 @@
         row.className = 'ac-item';
         row.setAttribute('role', 'option');
         row.setAttribute('aria-selected', 'false');
+        var gradeCls = item.grade
+          ? 'ac-grade' + (item.grade === 'B' ? ' ac-grade-b' : item.grade === 'C' ? ' ac-grade-c' : '')
+          : '';
+        var gradePill = item.grade
+          ? '<span class="' + gradeCls + '">Grade ' + esc(item.grade) + '</span>'
+          : '';
         row.innerHTML =
           '<div class="ac-icon">' + ITEM_ICON + '</div>' +
           '<div class="ac-body">' +
             '<div class="ac-name">' + highlight(item.name, tokens) + '</div>' +
             '<div class="ac-sub">' +
               '<span class="ac-badge">' + esc(item.category) + '</span>' +
+              gradePill +
               '<span class="ac-meta">' + esc(item.meta) + '</span>' +
             '</div>' +
           '</div>';
@@ -478,9 +540,11 @@
       }
     });
 
-    /* Close on any click outside the search container */
+    /* Close on any click outside the search container (or the floating dropdown itself) */
     document.addEventListener('click', function (e) {
-      if (!srch.contains(e.target)) close();
+      if (srch.contains(e.target)) return;
+      if (isFloating && drop.contains(e.target)) return;
+      close();
     });
   }
 

@@ -174,8 +174,8 @@ header {
   background: var(--ink);
   margin-top: -104px;
   padding: 164px var(--px) 60px;
-  overflow: hidden;
   z-index: 1;
+  /* overflow intentionally visible so .bb-search autocomplete dropdown isn't clipped */
 }
 /* Background image layer */
 .pb-bg {
@@ -183,8 +183,6 @@ header {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transform: scale(1.05);
-  will-change: transform;
 }
 /* Directional dark overlay — strong on left for text legibility */
 .pb-overlay {
@@ -226,6 +224,54 @@ header {
   font-size: 30px; font-weight: 800;
   color: var(--white); letter-spacing: -0.5px;
   line-height: 1.15;
+}
+
+/* Banner attribute search */
+.bb-search {
+  position: relative;
+  margin-top: 18px;
+  display: flex; align-items: stretch; gap: 0;
+  width: min(720px, 100%);
+  background: rgba(255,255,255,.98);
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.22);
+  overflow: visible;
+}
+.bb-search.srch { /* .srch anchor lets autocomplete.js attach here */ }
+.bb-cat {
+  flex: 0 0 auto; min-width: 160px;
+  border: none; background: transparent;
+  padding: 0 14px 0 16px; font-size: 13.5px; font-weight: 600;
+  color: var(--ink); font-family: inherit; outline: none; cursor: pointer;
+  border-right: 1px solid var(--border); border-radius: 12px 0 0 12px;
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 10px center;
+  padding-right: 28px;
+}
+.bb-input {
+  flex: 1; min-width: 0;
+  border: none; background: transparent;
+  padding: 0 14px; height: 50px;
+  font-size: 14px; color: var(--ink); font-family: inherit; outline: none;
+}
+.bb-input::placeholder { color: rgba(17,24,39,.45); }
+.bb-btn {
+  flex: 0 0 auto;
+  border: none; background: var(--y); color: var(--ink);
+  padding: 0 22px; font-size: 13.5px; font-weight: 800; cursor: pointer;
+  border-radius: 0 12px 12px 0;
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: inherit; transition: background var(--t);
+}
+.bb-btn:hover { background: var(--y-deeper); }
+@media (max-width: 640px) {
+  .bb-search { flex-wrap: wrap; border-radius: 10px; }
+  .bb-cat { flex: 1 1 50%; min-width: 0; height: 42px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); border-radius: 10px 0 0 0; }
+  .bb-grade { flex: 1 1 50%; border-right: none; border-radius: 0 10px 0 0; }
+  .bb-input { flex: 1 1 60%; height: 44px; border-radius: 0 0 0 10px; }
+  .bb-btn { flex: 0 0 auto; height: 44px; padding: 0 16px; border-radius: 0 0 10px 0; }
 }
 
 /* ── BROWSE PAGE ── */
@@ -831,8 +877,43 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       <span class="pb-crumb-cur">Browse Equipment</span>
     </nav>
     <h1 class="pb-title">Browse Equipment</h1>
+    <form class="bb-search srch" id="bbSearchForm" role="search" onsubmit="return bbSubmitSearch(event)">
+      <select class="bb-cat" id="bbSrchCat" aria-label="Category">
+        <option value="">All Categories</option>
+        <option value="Trucks">Trucks &amp; Commercial</option>
+        <option value="Construction">Construction Equipment</option>
+        <option value="Material Handling">Material Handling</option>
+        <option value="Generators">Generators &amp; Power</option>
+        <option value="Trailers">Trailers</option>
+      </select>
+      <select class="bb-cat bb-grade" id="bbSrchGrade" aria-label="Grade">
+        <option value="">Any Grade</option>
+        <option value="A">Grade A</option>
+        <option value="B">Grade B</option>
+        <option value="C">Grade C</option>
+      </select>
+      <input type="search" class="bb-input srch-input" id="bbSrchInput" placeholder="Try “grade a truck” or “grade b jcb”…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" name="bb-srch-q" role="combobox" aria-autocomplete="list" aria-expanded="false" data-ac-float>
+      <button type="submit" class="bb-btn" aria-label="Search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        Search
+      </button>
+    </form>
   </div>
 </section>
+<script>
+function bbSubmitSearch(e) {
+  e.preventDefault();
+  var q = (document.getElementById('bbSrchInput').value || '').trim();
+  var c = document.getElementById('bbSrchCat').value;
+  var g = document.getElementById('bbSrchGrade').value;
+  var params = new URLSearchParams();
+  if (q) params.set('q', q);
+  if (c) params.set('category', c);
+  if (g) params.set('grade', g);
+  window.location.href = 'BrowseEquipment.html' + (params.toString() ? '?' + params.toString() : '');
+  return false;
+}
+</script>
 
 <!-- BROWSE LAYOUT -->
 <div class="browse-wrap">
@@ -1285,7 +1366,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     </div>
   </div>
   <div class="ft-bot">
-    <div class="ft-copy">© 2025 FAMCO Used Equipment. An Al-Futtaim Group Company. All rights reserved.</div>
+    <div class="ft-copy">© 2026 FAMCO Used Equipment. An Al-Futtaim Group Company. All rights reserved.</div>
     <div class="ft-leg">
       <a href="#">Privacy Policy</a>
       <a href="#">Terms of Use</a>
@@ -1368,26 +1449,49 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 /* ── SEARCH FILTER ON PAGE LOAD ── */
 (function(){
   var params = new URLSearchParams(window.location.search);
-  var q = params.get('q');
-  if (!q) return;
+  var q = params.get('q') || '';
+  var cat = params.get('category') || '';
+  var grade = (params.get('grade') || '').toUpperCase();
+  if (!q && !cat && !grade) return;
 
-  /* Populate the search input */
+  /* Populate all search inputs */
   var inp = document.getElementById('hSrchInput');
-  if (inp) { inp.value = q; document.getElementById('hSrchWrap').classList.add('open'); }
+  if (inp && q) { inp.value = q; document.getElementById('hSrchWrap').classList.add('open'); }
+  var binp = document.getElementById('bbSrchInput');
+  if (binp && q) binp.value = q;
+  var bsel = document.getElementById('bbSrchCat');
+  if (bsel && cat) bsel.value = cat;
+  var bgrd = document.getElementById('bbSrchGrade');
+  if (bgrd && grade) bgrd.value = grade;
 
-  var qLow = q.toLowerCase();
+  /* Strip an inline "grade X" clause from the free-text query so it doesn't leak into
+     the token contains-check (the dedicated grade filter handles it instead). */
+  var qWork = q;
+  var inlineGrade = qWork.match(/grade\s+([a-c])\b/i);
+  var effectiveGrade = grade;
+  if (inlineGrade) {
+    if (!effectiveGrade) effectiveGrade = inlineGrade[1].toUpperCase();
+    qWork = qWork.replace(/grade\s+[a-c]\b/ig, ' ').trim();
+  }
+
+  var qLow = qWork.toLowerCase();
+  var catLow = cat.toLowerCase();
   var tokens = qLow.split(/\s+/).filter(Boolean);
   var cards = document.querySelectorAll('.browse-grid .lc');
   var visible = 0;
 
   cards.forEach(function(card){
     var name = (card.querySelector('.lc-name') || {}).textContent || '';
-    var cat  = (card.querySelector('.lc-cat')  || {}).textContent || '';
+    var cardCat = (card.querySelector('.lc-cat')  || {}).textContent || '';
     var specs = (card.querySelector('.lc-specs') || {}).textContent || '';
-    var hay  = (name + ' ' + cat + ' ' + specs).toLowerCase();
+    var cardGrade = (card.querySelector('.lc-grade') || {}).textContent || '';
+    var cardGradeLetter = (cardGrade.match(/grade\s+([a-c])/i) || [])[1] || '';
+    var hay  = (name + ' ' + cardCat + ' ' + specs + ' ' + cardGrade).toLowerCase();
 
-    var match = tokens.every(function(t){ return hay.indexOf(t) !== -1; });
-    if (match) {
+    var tokenMatch = !tokens.length || tokens.every(function(t){ return hay.indexOf(t) !== -1; });
+    var catMatch = !catLow || cardCat.toLowerCase().indexOf(catLow) !== -1;
+    var gradeMatch = !effectiveGrade || cardGradeLetter.toUpperCase() === effectiveGrade;
+    if (tokenMatch && catMatch && gradeMatch) {
       card.style.display = '';
       visible++;
     } else {
@@ -1398,8 +1502,13 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Update results count */
   var countEl = document.querySelector('.results-count');
   if (countEl) {
+    var parts = [];
+    if (q) parts.push(q);
+    if (cat) parts.push(cat);
+    if (effectiveGrade) parts.push('Grade ' + effectiveGrade);
+    var label = parts.join(' · ') || 'all equipment';
     countEl.innerHTML = 'Showing <strong>' + visible + '</strong> result' +
-      (visible !== 1 ? 's' : '') + ' for <strong>' + q.replace(/</g,'&lt;') + '</strong>';
+      (visible !== 1 ? 's' : '') + ' for <strong>' + label.replace(/</g,'&lt;') + '</strong>';
   }
 
   /* Hide pagination when filtered */
@@ -1419,7 +1528,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           '</svg>' +
         '</div>' +
         '<div class="no-results-title">Product not available</div>' +
-        '<div class="no-results-sub">We couldn’t find any equipment matching “<strong>' + q.replace(/</g,'&lt;') + '</strong>” right now. Save this search and we’ll email you the moment a matching unit arrives in our inventory.</div>' +
+        '<div class="no-results-sub">We couldn’t find any equipment matching “<strong>' + (q || cat || ('Grade ' + effectiveGrade)).replace(/</g,'&lt;') + '</strong>” right now. Save this search and we’ll email you the moment a matching unit arrives in our inventory.</div>' +
         '<button type="button" class="no-results-cta" onclick="openSaveSearch()">' +
           '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
           'Notify me when available' +
