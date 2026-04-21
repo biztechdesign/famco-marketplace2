@@ -78,7 +78,7 @@ header{
 
 /* Inner pill — carries all visual styling (dark glass, radius, border) */
 .h-shell{
-  background:rgba(10,14,20,.82);
+  background:rgba(40,48,60,.62);
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
   border:1px solid rgba(255,255,255,.10);
@@ -89,8 +89,14 @@ header{
 /* ── Top row: logo + action icons ── */
 .h-row{
   padding:0 20px;height:60px;
-  display:flex;align-items:center;gap:20px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:20px;
 }
+.h-row > .logo{grid-column:1;justify-self:start;}
+.h-row > .h-acts{grid-column:3;justify-self:end;margin-left:0;}
+.h-row > .nav-hamburger{grid-column:3;justify-self:end;}
 
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .logo img{height:34px;width:auto;}
@@ -187,7 +193,7 @@ header{
 /* ── Nav row (integrated second row inside the pill) ── */
 .h-nav{
   padding:0 12px;
-  display:flex;align-items:center;height:44px;gap:2px;
+  display:flex;align-items:center;justify-content:center;height:44px;gap:2px;
   border-top:1px solid rgba(255,255,255,.07);
   border-radius:0 0 14px 14px; /* match pill bottom corners */
 }
@@ -1487,6 +1493,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   border-top:1px solid rgba(17,24,39,.065);
   border-bottom:1px solid rgba(17,24,39,.065);
 }
+.bl-logos-row2{border-top:none;}
+.bl-cell-empty{pointer-events:none;}
+.bl-cell-empty::before,.bl-cell-empty::after{display:none !important;}
 .bl-empty{height:140px;}
 .bl-cell{
   height:260px;
@@ -1511,11 +1520,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   max-width:150px;
   width:auto;
   height:auto;
-  opacity:0.22;
-  transition:opacity .2s;
-  filter:brightness(0);      /* strip original colour → pure ink */
+  opacity:0.55;
+  transition:opacity .2s, filter .2s;
+  filter:grayscale(1);
 }
-.bl-cell:hover .bl-logo{opacity:0.55;}
+.bl-cell:hover .bl-logo{opacity:1;filter:grayscale(0);}
 
 
 /* ── TESTIMONIAL ── */
@@ -1628,7 +1637,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 /* ── Scroll container: pulls up behind the floating header pill ── */
 .video-scroll-container{
   position:relative;
-  height:600vh;
+  height:220vh;
   /* Desktop: gap(20px) + h-row(60px) + h-nav(44px) = 104px pill height */
   margin-top:-104px;
 }
@@ -1871,8 +1880,8 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   align-items:center;
   overflow:hidden;
   opacity:0;
-  transform:translateY(40px);
-  transition:opacity 1s cubic-bezier(.22,.61,.36,1), transform 1s cubic-bezier(.22,.61,.36,1);
+  transform:translateY(20px);
+  transition:opacity .35s cubic-bezier(.22,.61,.36,1), transform .35s cubic-bezier(.22,.61,.36,1);
 }
 .features-pin.visible{
   opacity:1;
@@ -1944,13 +1953,13 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     0 40px 80px -30px rgba(0,0,0,.12);
   will-change:transform,clip-path,width,height,margin-left,border-radius;
   clip-path:inset(100% 0 0 100% round 28px 0 0 28px);
-  transition:clip-path 1.2s cubic-bezier(.22,.61,.36,1),
-             border-radius 1.2s cubic-bezier(.22,.61,.36,1),
-             box-shadow 1.2s cubic-bezier(.22,.61,.36,1),
-             width 1.2s cubic-bezier(.22,.61,.36,1),
-             height 1.2s cubic-bezier(.22,.61,.36,1),
-             margin-left 1.2s cubic-bezier(.22,.61,.36,1),
-             transform 1.2s cubic-bezier(.22,.61,.36,1);
+  transition:clip-path .45s cubic-bezier(.22,.61,.36,1),
+             border-radius .45s cubic-bezier(.22,.61,.36,1),
+             box-shadow .45s cubic-bezier(.22,.61,.36,1),
+             width .45s cubic-bezier(.22,.61,.36,1),
+             height .45s cubic-bezier(.22,.61,.36,1),
+             margin-left .45s cubic-bezier(.22,.61,.36,1),
+             transform .45s cubic-bezier(.22,.61,.36,1);
 }
 .features-pin.visible .features-right{
   clip-path:inset(0 0 0 0 round 28px 0 0 28px);
@@ -2007,7 +2016,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   opacity:0;
   transform:scale(1.06);
   transform-origin:center center;
-  transition:opacity .9s cubic-bezier(.22,.61,.36,1), transform 1.1s cubic-bezier(.22,.61,.36,1);
+  transition:opacity .35s cubic-bezier(.22,.61,.36,1), transform .45s cubic-bezier(.22,.61,.36,1);
   will-change:opacity,transform;
 }
 .feature-video.active{
@@ -2189,7 +2198,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
     <!-- ── Scroll-synced title overlays ── -->
     <div class="title-overlay" id="title0" data-in="0.000" data-out="0.184">
-      <div class="title-text">Vehicle Drop-Off</div>
+      <div class="title-text">Vehicle Arrival</div>
     </div>
     <div class="title-overlay" id="title1" data-in="0.185" data-out="0.295">
       <div class="title-text">150-Point Inspection</div>
@@ -2468,14 +2477,23 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     <span></span><span></span><span></span>
     <span></span><span></span><span></span>
   </div>
-  <!-- logo row -->
+  <!-- logo row 1 -->
   <div class="bl-row bl-logos">
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo1.svg" alt="Partner brand 1"></div>
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo2.svg" alt="Partner brand 2"></div>
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo3.svg" alt="Partner brand 3"></div>
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo4.svg" alt="Partner brand 4"></div>
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo5.svg" alt="Partner brand 5"></div>
-    <div class="bl-cell"><img class="bl-logo" src="images/partner-logo6.svg" alt="Partner brand 6"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/068a2f65-9c18-4a91-8092-21e602901178/renditions/6df4f546-45f2-4ebd-a150-0f1d2696b7a1?binary=true&mformat=true" alt="Partner brand 1"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/658ba8f9-eaa1-4337-a24a-e4512674aa90/renditions/ec8ae134-0d58-41b5-a7f4-e2d409f54dd0?binary=true&mformat=true" alt="Partner brand 2"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/9be25b36-ba82-4417-9eca-665842b68d82/renditions/afef6c48-f4a7-4fac-b548-b76a5844beb1?binary=true&mformat=true" alt="Partner brand 3"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/c69a31b8-7a8c-4c84-bd20-cdecb35cf7e1/renditions/6d253ae8-7fe0-4d18-a756-5dc4e67c5464?binary=true&mformat=true" alt="Partner brand 4"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/a1fb37da-bd51-4902-a343-94edddd75e75/items/0be41eec-81c4-4e3e-a550-e04bfbca730a/renditions/af68f2d8-28b7-4647-aed4-3dbce5a1afc8?binary=true&mformat=true" alt="Partner brand 5"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/ceebfb26-1689-4831-ad11-a076b49ebca3/renditions/01e1932d-22a6-432f-bd3b-e38328048413?binary=true&mformat=true" alt="Partner brand 6"></div>
+  </div>
+  <!-- logo row 2 (6 logos, Volvo twice + brand 5 repeated for grid balance) -->
+  <div class="bl-row bl-logos bl-logos-row2">
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/068a2f65-9c18-4a91-8092-21e602901178/renditions/6df4f546-45f2-4ebd-a150-0f1d2696b7a1?binary=true&mformat=true" alt="Partner brand Volvo"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/1be7556f-c29d-4466-adec-6f6f6023f287/renditions/aa702db0-f1eb-4117-a8e3-be2b2fbb6d80?binary=true&mformat=true" alt="Partner brand 7"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/a1fb37da-bd51-4902-a343-94edddd75e75/items/0be41eec-81c4-4e3e-a550-e04bfbca730a/renditions/af68f2d8-28b7-4647-aed4-3dbce5a1afc8?binary=true&mformat=true" alt="Partner brand 5"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/79013610-8df2-4986-9c39-6d70c09fce04/renditions/9ed0e1a5-d742-4b9c-bd1b-ad9e031e1f56?binary=true&mformat=true" alt="Partner brand 8"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/451536a3-abc1-4b46-b265-3b9d23148e73/renditions/d31c941b-2395-4ca6-93af-bf4dbdcb267e?binary=true&mformat=true" alt="Partner brand 9"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/ceebfb26-1689-4831-ad11-a076b49ebca3/renditions/01e1932d-22a6-432f-bd3b-e38328048413?binary=true&mformat=true" alt="Partner brand 6"></div>
   </div>
   <!-- bottom structural row -->
   <div class="bl-row bl-empty" aria-hidden="true">
@@ -3030,7 +3048,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* ── Final hero smooth fade ── */
   var smoothHeroOpacity = 0;
   function updateFinalHero(progress){
-    var targetOpacity = (progress >= 0.47) ? easeOutCubic(Math.min(1, (progress - 0.47) / 0.05)) : 0;
+    var targetOpacity = (progress >= 0.82) ? easeOutCubic(Math.min(1, (progress - 0.82) / 0.10)) : 0;
     smoothHeroOpacity += (targetOpacity - smoothHeroOpacity) * 0.12;
     if(Math.abs(smoothHeroOpacity - targetOpacity) < 0.005) smoothHeroOpacity = targetOpacity;
     finalHero.style.opacity = String(smoothHeroOpacity);
@@ -3048,8 +3066,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     var rawProgress = Math.max(0, Math.min(1, scrolled / total));
     smoothProgress += (rawProgress - smoothProgress) * LERP;
     if(Math.abs(smoothProgress - rawProgress) < 0.0001) smoothProgress = rawProgress;
-    drawFrameSmooth(Math.min(smoothProgress / 0.50, 1.0) * (totalFrames - 1));
-    updateTitles(smoothProgress);
+    drawFrameSmooth(Math.min(smoothProgress / 0.80, 1.0) * (totalFrames - 1));
+    /* Titles were authored for 0-0.47 range; remap so they play across 0-0.78 */
+    var titleProgress = Math.min(smoothProgress * (0.47 / 0.78), 0.47);
+    updateTitles(titleProgress);
     updateFinalHero(smoothProgress);
     var pageTotal  = document.documentElement.scrollHeight - window.innerHeight;
     var pageScroll = window.scrollY || window.pageYOffset;
@@ -3203,7 +3223,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         pin.classList.add('visible');
       }
     });
-  }, {threshold:0.15});
+  }, {threshold:0.01, rootMargin:'0px 0px -10% 0px'});
   io.observe(section);
 
   function setActive(idx){

@@ -75,12 +75,19 @@ header {
   background: transparent; padding: 0 var(--px);
 }
 .h-shell {
-  background: rgba(10,14,20,.82);
+  background: rgba(40,48,60,.62);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,.10);
   border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.35);
 }
-.h-row { padding: 0 20px; height: 60px; display: flex; align-items: center; gap: 20px; }
+.h-row {
+  padding: 0 20px; height: 60px;
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; gap: 20px;
+}
+.h-row > .logo { grid-column: 1; justify-self: start; }
+.h-row > .h-acts { grid-column: 3; justify-self: end; margin-left: 0; }
+.h-row > .nav-hamburger { grid-column: 3; justify-self: end; }
 .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .logo img { height: 34px; width: auto; }
 .logo-fb { display: none; flex-direction: column; justify-content: center; }
@@ -109,7 +116,7 @@ header {
 .h-locale .switch { background: rgba(255,255,255,.1); }
 .h-locale .sw-btn { font-size: 10px; padding: 2px 7px; color: rgba(255,255,255,.5); }
 .h-locale .sw-btn.on { background: var(--white); color: var(--ink); }
-.h-nav { padding: 0 12px; display: flex; align-items: center; height: 44px; gap: 2px; border-top: 1px solid rgba(255,255,255,.07); border-radius: 0 0 14px 14px; }
+.h-nav { padding: 0 12px; display: flex; align-items: center; justify-content: center; height: 44px; gap: 2px; border-top: 1px solid rgba(255,255,255,.07); border-radius: 0 0 14px 14px; }
 .nv-item { position: relative; height: 100%; display: flex; align-items: center; }
 .nv-link { display: flex; align-items: center; gap: 6px; padding: 0 16px; height: 100%; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7); letter-spacing: .1px; white-space: nowrap; transition: all var(--t); cursor: pointer; }
 .nv-link:hover, .nv-item:hover>.nv-link { color: var(--white); background: rgba(255,255,255,.08); }
@@ -336,6 +343,159 @@ header {
 /* ── Accordion headers (mobile only — hidden on desktop) ── */
 .acc-hd {
   display: none; /* shown only inside the 768px media query */
+}
+
+/* ── Finance Options panel ── */
+.finance-wrap{display:flex;flex-direction:column;gap:20px;}
+.finance-head{margin-bottom:4px;}
+.finance-title{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.01em;margin-bottom:6px;}
+.finance-sub{font-size:13.5px;color:var(--body);}
+
+.finance-grid{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:24px;
+  align-items:stretch;
+}
+
+.finance-inputs{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:22px 22px 18px;
+  display:flex;flex-direction:column;gap:22px;
+}
+
+.fin-row{display:flex;flex-direction:column;gap:10px;}
+.fin-row-hd{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+  flex-wrap:wrap;
+}
+.fin-label{
+  font-size:12.5px;font-weight:700;color:var(--ink-3);
+  text-transform:none;letter-spacing:.01em;
+}
+.fin-value{
+  font-size:15px;font-weight:800;color:var(--ink);
+  display:inline-flex;align-items:baseline;gap:6px;
+}
+.fin-value-sub{font-size:12.5px;font-weight:600;color:var(--muted);}
+
+/* Range slider */
+.fin-slider{
+  -webkit-appearance:none;appearance:none;
+  width:100%;height:6px;background:var(--border);
+  border-radius:999px;outline:none;cursor:pointer;
+  background-image:linear-gradient(var(--ink),var(--ink));
+  background-size:var(--fin-fill,28%) 100%;
+  background-repeat:no-repeat;
+  transition:background-size .08s linear;
+}
+.fin-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--ink);border:3px solid var(--white);
+  box-shadow:0 2px 6px rgba(17,24,39,.25), 0 0 0 1px var(--border);
+  cursor:pointer;transition:transform .12s ease;
+}
+.fin-slider::-webkit-slider-thumb:hover{transform:scale(1.08);}
+.fin-slider::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--ink);border:3px solid var(--white);
+  box-shadow:0 2px 6px rgba(17,24,39,.25), 0 0 0 1px var(--border);
+  cursor:pointer;
+}
+.fin-slider::-moz-range-track{background:var(--border);height:6px;border-radius:999px;}
+.fin-ticks{
+  display:flex;justify-content:space-between;
+  font-size:11px;font-weight:600;color:var(--muted);
+}
+
+/* Term buttons */
+.fin-term-group{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+}
+.fin-term-btn{
+  height:42px;border:1.5px solid var(--border);background:var(--white);
+  color:var(--ink-3);font-size:14px;font-weight:700;
+  border-radius:8px;cursor:pointer;
+  transition:all .15s ease;
+}
+.fin-term-btn:hover{border-color:var(--ink-3);color:var(--ink);}
+.fin-term-btn.on{
+  background:var(--ink);color:var(--white);
+  border-color:var(--ink);
+  box-shadow:0 2px 8px rgba(17,24,39,.2);
+}
+
+/* Summary card */
+.finance-summary{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:22px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.fin-sum-title{
+  font-size:11px;font-weight:800;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:2px;
+}
+.fin-sum-row{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 0;border-bottom:1px dashed var(--border);
+  font-size:13.5px;
+}
+.fin-sum-row:last-of-type{border-bottom:none;}
+.fin-sum-key{color:var(--body);font-weight:500;}
+.fin-sum-val{color:var(--ink);font-weight:700;text-align:right;}
+.fin-sum-est{
+  display:inline-block;margin-left:4px;
+  font-size:10.5px;font-weight:700;color:var(--muted);
+  padding:2px 6px;border-radius:4px;background:var(--white);
+  border:1px solid var(--border);vertical-align:middle;
+}
+
+.fin-sum-pay{
+  margin-top:6px;
+  background:linear-gradient(135deg, var(--ink) 0%, var(--ink-2) 100%);
+  color:var(--white);border-radius:10px;
+  padding:16px 18px;text-align:center;
+}
+.fin-sum-pay-lbl{
+  font-size:10.5px;font-weight:800;letter-spacing:1.2px;
+  text-transform:uppercase;color:rgba(255,255,255,.72);
+  margin-bottom:6px;
+}
+.fin-sum-pay-val{
+  font-size:26px;font-weight:900;letter-spacing:-.01em;
+  color:var(--y);
+}
+
+.fin-sum-cta{
+  margin-top:6px;
+  background:var(--y);color:var(--ink);border:none;
+  height:44px;border-radius:8px;font-size:13.5px;font-weight:800;
+  cursor:pointer;transition:background .15s ease, transform .1s ease;
+}
+.fin-sum-cta:hover{background:var(--y-deeper);color:var(--white);}
+.fin-sum-cta:active{transform:translateY(1px);}
+
+.fin-disclaimer{
+  font-size:11.5px;color:var(--muted);line-height:1.6;
+  padding:12px 14px;background:var(--surface);
+  border:1px dashed var(--border);border-radius:8px;
+}
+
+/* Finance responsive */
+@media (max-width:960px){
+  .finance-grid{grid-template-columns:1fr;}
+}
+@media (max-width:480px){
+  .finance-inputs,.finance-summary{padding:16px;}
+  .fin-term-btn{height:38px;font-size:13px;}
+  .fin-sum-pay-val{font-size:22px;}
+  .finance-title{font-size:17px;}
 }
 
 /* Condition panel */
@@ -1301,7 +1461,6 @@ section, footer, .video-insp-card, .price-card,
   <div class="pb-bg" style="background-image:url('images/Volvo FH500 Globetrotter.jpg');"></div>
   <div class="pb-overlay"></div>
   <div class="pb-pattern"></div>
-  <div class="pb-bar"></div>
   <div class="pb-inner">
     <nav class="pb-crumb">
       <a href="Homepage.html">Home</a>
@@ -1331,8 +1490,8 @@ section, footer, .video-insp-card, .price-card,
           Gallery (3)
         </div>
         <div class="gtab" onclick="switchGTab(this,'video')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg>
-          360 View
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          Video
         </div>
       </div>
 
@@ -1370,7 +1529,7 @@ section, footer, .video-insp-card, .price-card,
       <div id="panel-video" style="display:none;">
         <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;">
           <iframe id="yt-video"
-            data-src="https://www.youtube.com/embed/1mwVA_fJuF4?rel=0&amp;modestbranding=1&amp;mute=1"
+            data-src="https://www.youtube.com/embed/1mwVA_fJuF4?rel=0&amp;modestbranding=1&amp;mute=1&amp;showinfo=0&amp;iv_load_policy=3&amp;playsinline=1"
             style="width:100%;height:100%;border:none;display:block;"
             allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
             allowfullscreen
@@ -1387,6 +1546,7 @@ section, footer, .video-insp-card, .price-card,
         <div class="itab" onclick="switchITab(this,'desc')">Description</div>
         <div class="itab" onclick="switchITab(this,'condition')">Condition Report</div>
         <div class="itab" onclick="switchITab(this,'warranty')">Warranty &amp; Docs</div>
+        <div class="itab" onclick="switchITab(this,'finance')">Finance Options</div>
       </div>
 
       <!-- Accordion header: Specifications -->
@@ -1554,6 +1714,101 @@ section, footer, .video-insp-card, .price-card,
               <span style="font-size:16px;flex-shrink:0;">🔒</span> <span style="word-break:break-word;overflow-wrap:break-word;">Warranty Terms &amp; Conditions</span>
             </div>
             <a href="#" style="font-size:12px;font-weight:700;color:var(--y-deeper);white-space:nowrap;flex-shrink:0;margin-left:10px;">View →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accordion header: Finance Options -->
+      <button class="acc-hd" onclick="toggleAcc('finance',this)" aria-expanded="false">
+        <span>Finance Options</span>
+        <svg class="acc-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+
+      <!-- Finance Options Panel -->
+      <div class="info-panel" id="ipanel-finance">
+        <div class="finance-wrap">
+          <div class="finance-head">
+            <div class="finance-title">Finance Calculator</div>
+            <div class="finance-sub">Estimate your monthly payments and plan your budget.</div>
+          </div>
+
+          <div class="finance-grid">
+            <!-- LEFT: Inputs -->
+            <div class="finance-inputs">
+
+              <!-- Equipment Price -->
+              <div class="fin-row">
+                <div class="fin-row-hd">
+                  <label class="fin-label" for="finPrice">Equipment Price (AED)</label>
+                  <div class="fin-value" id="finPriceVal">AED 285,000</div>
+                </div>
+                <input type="range" id="finPrice" class="fin-slider" min="50000" max="1000000" step="1000" value="285000">
+                <div class="fin-ticks">
+                  <span>AED 50K</span>
+                  <span>AED 1M+</span>
+                </div>
+              </div>
+
+              <!-- Down Payment -->
+              <div class="fin-row">
+                <div class="fin-row-hd">
+                  <label class="fin-label" for="finDown">Down Payment (%)</label>
+                  <div class="fin-value">
+                    <span id="finDownPct">25</span>%
+                    <span class="fin-value-sub">· AED <span id="finDownAmt">71,250</span></span>
+                  </div>
+                </div>
+                <input type="range" id="finDown" class="fin-slider" min="10" max="50" step="1" value="25">
+                <div class="fin-ticks">
+                  <span>10%</span>
+                  <span>50%</span>
+                </div>
+              </div>
+
+              <!-- Finance Term -->
+              <div class="fin-row">
+                <div class="fin-row-hd">
+                  <label class="fin-label">Finance Term (Months)</label>
+                </div>
+                <div class="fin-term-group" id="finTermGroup">
+                  <button type="button" class="fin-term-btn" data-term="12">12</button>
+                  <button type="button" class="fin-term-btn" data-term="24">24</button>
+                  <button type="button" class="fin-term-btn on" data-term="36">36</button>
+                  <button type="button" class="fin-term-btn" data-term="48">48</button>
+                </div>
+              </div>
+
+            </div><!-- /.finance-inputs -->
+
+            <!-- RIGHT: Summary -->
+            <div class="finance-summary">
+              <div class="fin-sum-title">Estimated Summary</div>
+
+              <div class="fin-sum-row">
+                <span class="fin-sum-key">Loan Amount</span>
+                <span class="fin-sum-val" id="finLoanAmt">AED 213,750</span>
+              </div>
+              <div class="fin-sum-row">
+                <span class="fin-sum-key">Interest Rate</span>
+                <span class="fin-sum-val">4.5% p.a. <span class="fin-sum-est">Est.</span></span>
+              </div>
+              <div class="fin-sum-row">
+                <span class="fin-sum-key">Total Term</span>
+                <span class="fin-sum-val" id="finTotalTerm">36 Months</span>
+              </div>
+
+              <div class="fin-sum-pay">
+                <div class="fin-sum-pay-lbl">Estimated Monthly Payment</div>
+                <div class="fin-sum-pay-val" id="finMonthly">AED 6,358</div>
+              </div>
+
+              <button type="button" class="fin-sum-cta">Apply for Finance</button>
+            </div>
+
+          </div><!-- /.finance-grid -->
+
+          <div class="fin-disclaimer">
+            * Estimates only. Final rates and terms are subject to approval by Al-Futtaim Finance. Actual monthly payment may vary based on credit profile, documentation, and applicable fees.
           </div>
         </div>
       </div>
@@ -2118,6 +2373,67 @@ function toggleAcc(panel, hdrEl) {
     });
   }
 }
+/* ── Finance Calculator ── */
+(function(){
+  var priceEl   = document.getElementById('finPrice');
+  var downEl    = document.getElementById('finDown');
+  var termGroup = document.getElementById('finTermGroup');
+  if(!priceEl || !downEl || !termGroup) return;
+
+  var priceVal   = document.getElementById('finPriceVal');
+  var downPct    = document.getElementById('finDownPct');
+  var downAmt    = document.getElementById('finDownAmt');
+  var loanAmtEl  = document.getElementById('finLoanAmt');
+  var totalTermEl= document.getElementById('finTotalTerm');
+  var monthlyEl  = document.getElementById('finMonthly');
+
+  var rate = 0.045; // 4.5% p.a.
+  var termMonths = 36;
+
+  function fmt(n){
+    return Math.round(n).toLocaleString('en-US');
+  }
+  function setSliderFill(el){
+    var min = +el.min, max = +el.max, val = +el.value;
+    var pct = ((val - min) / (max - min)) * 100;
+    el.style.setProperty('--fin-fill', pct + '%');
+  }
+  function calc(){
+    var price = +priceEl.value;
+    var dPct  = +downEl.value;
+    var downPaymentAmt = price * (dPct / 100);
+    var loan  = price - downPaymentAmt;
+
+    // Standard amortization: M = P * r / (1 - (1+r)^-n)
+    var r = rate / 12;
+    var n = termMonths;
+    var monthly = (r === 0) ? (loan / n) : (loan * r) / (1 - Math.pow(1 + r, -n));
+
+    if(priceVal)    priceVal.textContent    = 'AED ' + fmt(price);
+    if(downPct)     downPct.textContent     = dPct;
+    if(downAmt)     downAmt.textContent     = fmt(downPaymentAmt);
+    if(loanAmtEl)   loanAmtEl.textContent   = 'AED ' + fmt(loan);
+    if(totalTermEl) totalTermEl.textContent = termMonths + ' Months';
+    if(monthlyEl)   monthlyEl.textContent   = 'AED ' + fmt(monthly);
+  }
+
+  priceEl.addEventListener('input', function(){ setSliderFill(priceEl); calc(); });
+  downEl .addEventListener('input', function(){ setSliderFill(downEl);  calc(); });
+
+  termGroup.addEventListener('click', function(e){
+    var b = e.target.closest('.fin-term-btn');
+    if(!b) return;
+    termGroup.querySelectorAll('.fin-term-btn').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    termMonths = +b.getAttribute('data-term');
+    calc();
+  });
+
+  setSliderFill(priceEl);
+  setSliderFill(downEl);
+  calc();
+})();
+
 // Back to top — deferred until DOM is fully parsed
 document.addEventListener('DOMContentLoaded', function(){
   var btn=document.getElementById('backToTop');
