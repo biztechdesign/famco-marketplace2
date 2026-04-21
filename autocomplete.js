@@ -135,6 +135,13 @@
       '}',
       '.ac-drop.open{display:block;}',
 
+      /* --- header variant: position below the expanding field (300px wide, sits to the left of the search button) --- */
+      '.ac-drop-header{',
+        'top:calc(100% + 10px);',
+        'left:auto;right:calc(100% + 4px);',
+        'width:300px;',
+      '}',
+
       /* --- suggestion row --- */
       '.ac-item{',
         'display:flex;align-items:center;gap:12px;',
@@ -199,9 +206,16 @@
 
       /* --- empty state --- */
       '.ac-empty{',
-        'padding:20px 16px;text-align:center;',
-        'font-size:13px;color:#9CA3AF;',
-      '}'
+        'padding:24px 16px;text-align:center;',
+        'display:flex;flex-direction:column;align-items:center;gap:8px;',
+      '}',
+      '.ac-empty-icon{',
+        'width:36px;height:36px;border-radius:50%;',
+        'background:#FEF3C7;color:#C9A400;',
+        'display:flex;align-items:center;justify-content:center;',
+      '}',
+      '.ac-empty-title{font-size:13.5px;font-weight:600;color:#111827;}',
+      '.ac-empty-sub{font-size:12px;color:#6B7280;}'
     ].join('');
     document.head.appendChild(styleEl);
   }
@@ -308,14 +322,17 @@
      4. ATTACH AUTOCOMPLETE TO ONE INPUT
      ───────────────────────────────────────── */
   function attach(input) {
-    var srch = input.closest('.srch');
+    var srch = input.closest('.srch') || input.closest('.h-srch-wrap');
     if (!srch) return;
+
+    var isHeader = srch.classList.contains('h-srch-wrap');
 
     /* Create and append the dropdown */
     var drop = document.createElement('div');
-    drop.className = 'ac-drop';
+    drop.className = 'ac-drop' + (isHeader ? ' ac-drop-header' : '');
     drop.setAttribute('role', 'listbox');
     drop.setAttribute('aria-label', 'Search suggestions');
+    /* Header wraps the field with overflow:hidden — anchor dropdown to the wrap itself */
     srch.appendChild(drop);
 
     var hits   = [];   /* current result array  */
@@ -333,7 +350,14 @@
       if (hits.length === 0) {
         var emptyEl = document.createElement('div');
         emptyEl.className = 'ac-empty';
-        emptyEl.innerHTML = 'No equipment found for \u201c<strong>' + esc(raw.trim()) + '</strong>\u201d';
+        emptyEl.innerHTML =
+          '<div class="ac-empty-icon">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+              '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' +
+            '</svg>' +
+          '</div>' +
+          '<div class="ac-empty-title">Product not available</div>' +
+          '<div class="ac-empty-sub">No matches for \u201c' + esc(raw.trim()) + '\u201d</div>';
         drop.appendChild(emptyEl);
         open();
         return;
@@ -464,7 +488,7 @@
      5. INITIALISE
      ───────────────────────────────────────── */
   function init() {
-    document.querySelectorAll('.srch-input').forEach(attach);
+    document.querySelectorAll('.srch-input, .h-srch-input').forEach(attach);
   }
 
   if (document.readyState === 'loading') {

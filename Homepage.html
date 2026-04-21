@@ -76,14 +76,14 @@ header{
   padding:0 var(--px); /* horizontal inset matches page content column */
 }
 
-/* Inner pill — carries all visual styling (dark glass, radius, border) */
+/* Inner pill — translucent white with blur so video shows through softly */
 .h-shell{
-  background:rgba(40,48,60,.62);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.82) 120px, rgba(255,255,255,.65) 260px, rgba(255,255,255,.48) 400px, rgba(255,255,255,.38) 560px, rgba(255,255,255,.35) 100%);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.35);
   border-radius:14px;
-  box-shadow:0 8px 32px rgba(0,0,0,.35);
+  box-shadow:0 8px 32px rgba(0,0,0,.18);
 }
 
 /* ── Top row: logo + action icons ── */
@@ -99,7 +99,7 @@ header{
 .h-row > .nav-hamburger{grid-column:3;justify-self:end;}
 
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.logo img{height:34px;width:auto;filter:brightness(0) invert(1);}
+.logo img{height:40px;width:auto;}
 .logo-fb{display:none;flex-direction:column;justify-content:center;}
 .logo-brand{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-1px;line-height:1;}
 .logo-brand em{color:var(--y);font-style:normal;}
@@ -112,9 +112,9 @@ header{
 .h-act{
   width:38px;height:38px;border-radius:var(--r);
   display:flex;align-items:center;justify-content:center;
-  transition:background var(--t);color:rgba(255,255,255,.8);cursor:pointer;flex-shrink:0;
+  transition:background var(--t);color:rgba(17,24,39,.8);cursor:pointer;flex-shrink:0;
 }
-.h-act:hover{background:rgba(255,255,255,.12);color:var(--white);}
+.h-act:hover{background:rgba(17,24,39,.08);color:var(--ink);}
 
 /* Expandable search */
 .h-srch-wrap{position:relative;display:flex;align-items:center;}
@@ -124,7 +124,7 @@ header{
   width:0;overflow:hidden;
   transition:width .26s cubic-bezier(.4,0,.2,1);
   display:flex;align-items:center;
-  background:var(--ink-2);
+  background:rgba(17,24,39,.06);
   border:1.5px solid transparent;
   border-radius:var(--r);
   margin-right:4px;
@@ -136,16 +136,16 @@ header{
 }
 .h-srch-input{
   flex:1;height:36px;border:none;background:transparent;
-  padding:0 10px;font-size:13px;font-family:inherit;color:var(--white);outline:none;
+  padding:0 10px;font-size:13px;font-family:inherit;color:var(--ink);outline:none;
 }
-.h-srch-input::placeholder{color:rgba(255,255,255,.38);}
+.h-srch-input::placeholder{color:rgba(17,24,39,.5);}
 .h-srch-close{
   flex-shrink:0;width:34px;height:36px;
   display:flex;align-items:center;justify-content:center;
-  color:rgba(255,255,255,.5);cursor:pointer;background:none;border:none;
+  color:rgba(17,24,39,.5);cursor:pointer;background:none;border:none;
   transition:color var(--t);
 }
-.h-srch-close:hover{color:var(--white);}
+.h-srch-close:hover{color:var(--ink);}
 
 /* Account dropdown */
 .h-acct{position:relative;margin-left:4px;}
@@ -184,29 +184,29 @@ header{
 .h-locale{
   display:flex;align-items:center;gap:5px;
   padding-left:10px;margin-left:4px;
-  border-left:1px solid rgba(255,255,255,.15);
+  border-left:1px solid rgba(17,24,39,.15);
 }
-.h-locale .switch{background:rgba(255,255,255,.1);}
-.h-locale .sw-btn{font-size:10px;padding:2px 7px;color:rgba(255,255,255,.5);}
-.h-locale .sw-btn.on{background:var(--white);color:var(--ink);}
+.h-locale .switch{background:rgba(17,24,39,.08);}
+.h-locale .sw-btn{font-size:10px;padding:2px 7px;color:rgba(17,24,39,.6);}
+.h-locale .sw-btn.on{background:var(--ink);color:var(--white);}
 
 /* ── Nav row (integrated second row inside the pill) ── */
 .h-nav{
   padding:0 12px;
   display:flex;align-items:center;justify-content:center;height:44px;gap:2px;
-  border-top:1px solid rgba(255,255,255,.07);
-  border-radius:0 0 14px 14px; /* match pill bottom corners */
+  border-top:1px solid rgba(17,24,39,.1);
+  border-radius:0 0 14px 14px;
 }
 .nv-item{position:relative;height:100%;display:flex;align-items:center;}
 .nv-link{
   display:flex;align-items:center;gap:6px;
   padding:0 16px;height:100%;
   font-size:13px;font-weight:600;
-  color:rgba(255,255,255,.7);letter-spacing:.1px;white-space:nowrap;
+  color:rgba(17,24,39,.75);letter-spacing:.1px;white-space:nowrap;
   transition:all var(--t);cursor:pointer;
 }
-.nv-link:hover,.nv-item:hover>.nv-link{color:var(--white);background:rgba(255,255,255,.08);}
-.nv-link.act{color:var(--y);}
+.nv-link:hover,.nv-item:hover>.nv-link{color:var(--ink);background:rgba(17,24,39,.08);}
+.nv-link.act{color:var(--ink);font-weight:800;}
 
 /* ── HERO ── */
 .hero{
@@ -974,11 +974,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   align-items: center;
   justify-content: center;
   width: 40px; height: 40px;
-  background: rgba(255,255,255,.1);
+  background: rgba(17,24,39,.08);
   border-radius: var(--r);
   cursor: pointer;
   border: none;
-  color: white;
+  color: var(--ink);
   flex-shrink: 0;
   position: relative;
   z-index: 10001;
@@ -1098,7 +1098,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
   /* Tighten pill: slightly more gap + smaller radius than 768px */
   header { top: 12px; padding: 0 12px; }
-  .h-shell { border-radius: 12px; }
+  .h-shell {
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,.35) 100%);
+  }
   .h-row { height: 52px; padding: 0 14px; }
 
   /* Reduce logo size */
@@ -1114,6 +1117,27 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Hero — top:12px + h-row:52px = 64px (h-nav hidden so only row in flow) */
   .hero { margin-top: -52px; padding: 64px 0 40px; }
   .hero-bar { top: 64px; }
+
+  /* Header: logo (left) + action icons + hamburger (right), all inside pill */
+  .h-row { grid-template-columns: auto 1fr auto; gap: 8px; column-gap: 8px; }
+  .h-row > .logo { grid-column: 1; justify-self: start; min-width: 0; }
+  .h-row > .h-acts { grid-column: 2; justify-self: end; gap: 4px; }
+  .h-row > .nav-hamburger { grid-column: 3; justify-self: end; width: 36px; height: 36px; }
+
+  /* Hide secondary controls to make space */
+  .h-saved, .h-locale { display: none; }
+  .h-cta-txt, .h-cta-chevron { display: none; }
+  .h-cta { padding: 0 10px; height: 34px; }
+
+  /* Search: expand to a full-width drop-down row BELOW the pill instead of pushing left into the logo */
+  .h-srch-wrap.open .h-srch-field {
+    position: fixed; left: 12px; right: 12px; top: 70px;
+    width: auto; transform: none;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: 6px 8px; z-index: 210;
+  }
+  .h-srch-input { height: 40px; font-size: 14px; }
 }
 
 /* ── 576px: Large mobile ── */
@@ -1123,10 +1147,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Header */
   header { gap: 8px; }
 
-  /* Hero */
-  h1.hero-h { font-size: 28px; }
+  /* Hero — center content on mobile */
+  h1.hero-h { font-size: 28px; text-align: center; }
   .hero-tag { font-size: 10px; padding: 4px 10px; }
-  .hero-ctas { gap: 8px; }
+  .hero-ctas { gap: 8px; flex-wrap: wrap; justify-content: center; }
+  .hero-sub, .hero-lead { text-align: center; }
 
   /* Category grid */
   .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -1143,7 +1168,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .trust-grid { grid-template-columns: 1fr 1fr; }
 
   /* Footer */
-  .ft-top { grid-template-columns: 1fr; gap: 28px; }
+  .ft-top { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+  .ft-col { text-align: center; }
+  .ft-col ul, .ft-col li { list-style: none; padding: 0; }
 
   /* QS card (hidden on mobile anyway, but ensure it doesn't float) */
   .hero-qs { display: none; }
@@ -1310,7 +1337,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   background: #fff; border-radius: 6px; padding: 5px 10px;
   text-decoration: none; flex-shrink: 0;
 }
-.nav-drawer-logo img { height: 28px; width: auto; display: block; }
+.nav-drawer-logo img { height: 34px; width: auto; display: block; }
 .nav-drawer-logo-fb { font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
 .nav-drawer-logo-fb em { color: var(--y-deeper); font-style: normal; }
 .nav-drawer-close {
@@ -2070,7 +2097,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 <div class="nav-drawer" id="navDrawer">
   <div class="nav-drawer-header">
     <a href="Homepage.html" class="nav-drawer-logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
       <span class="nav-drawer-logo-fb" style="display:none;">FAM<em>CO</em></span>
     </a>
@@ -2104,7 +2131,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <!-- Row 1: logo + action icons -->
   <div class="h-row">
     <a href="#" class="logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <div class="logo-fb">
         <div class="logo-brand">FAM<em>CO</em></div>
@@ -2439,7 +2466,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
           <h2 class="feature-title">Arabic-first platform</h2>
         </div>
         <div class="feature-item" data-idx="2">
-          <h2 class="feature-title">WhatsApp Commerce Enabled (with Arabic)</h2>
+          <h2 class="feature-title">WhatsApp Commerce Enabled</h2>
         </div>
         <div class="feature-item is-last" data-idx="3">
           <h2 class="feature-title">Rebuilt in GCC, Shipping to the World</h2>
@@ -2483,21 +2510,21 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   </div>
   <!-- logo row 1 -->
   <div class="bl-row bl-logos">
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/068a2f65-9c18-4a91-8092-21e602901178/renditions/6df4f546-45f2-4ebd-a150-0f1d2696b7a1?binary=true&mformat=true" alt="Partner brand 1"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/658ba8f9-eaa1-4337-a24a-e4512674aa90/renditions/ec8ae134-0d58-41b5-a7f4-e2d409f54dd0?binary=true&mformat=true" alt="Partner brand 2"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/9be25b36-ba82-4417-9eca-665842b68d82/renditions/afef6c48-f4a7-4fac-b548-b76a5844beb1?binary=true&mformat=true" alt="Partner brand 3"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/c69a31b8-7a8c-4c84-bd20-cdecb35cf7e1/renditions/6d253ae8-7fe0-4d18-a756-5dc4e67c5464?binary=true&mformat=true" alt="Partner brand 4"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/a1fb37da-bd51-4902-a343-94edddd75e75/items/0be41eec-81c4-4e3e-a550-e04bfbca730a/renditions/af68f2d8-28b7-4647-aed4-3dbce5a1afc8?binary=true&mformat=true" alt="Partner brand 5"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/ceebfb26-1689-4831-ad11-a076b49ebca3/renditions/01e1932d-22a6-432f-bd3b-e38328048413?binary=true&mformat=true" alt="Partner brand 6"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/9be25b36-ba82-4417-9eca-665842b68d82/renditions/afef6c48-f4a7-4fac-b548-b76a5844beb1?binary=true&mformat=true" alt="SDLG"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_dTBqgiSi0DX5l0kNA2nfRLFZfaChCZ6bNg&s" alt="Renault Trucks"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://media.man.eu/is/image/MAN/man_logo-1?wid=116&hei=66&fit=stretch&fmt=webp-alpha" alt="MAN"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Mercedes_Benz_Logo_11.jpg" alt="Mercedes-Benz"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://s7d2.scene7.com/is/image/Caterpillar/CM20220222-5c3c2-280a8?fmt=png-alpha" alt="Caterpillar"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpl-akG106vmGD0uWEhr88xi7CK5d4ht7JLQ&s" alt="Partner brand"></div>
   </div>
-  <!-- logo row 2 (6 logos, Volvo twice + brand 5 repeated for grid balance) -->
+  <!-- logo row 2 -->
   <div class="bl-row bl-logos bl-logos-row2">
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/068a2f65-9c18-4a91-8092-21e602901178/renditions/6df4f546-45f2-4ebd-a150-0f1d2696b7a1?binary=true&mformat=true" alt="Partner brand Volvo"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/1be7556f-c29d-4466-adec-6f6f6023f287/renditions/aa702db0-f1eb-4117-a8e3-be2b2fbb6d80?binary=true&mformat=true" alt="Partner brand 7"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/a1fb37da-bd51-4902-a343-94edddd75e75/items/0be41eec-81c4-4e3e-a550-e04bfbca730a/renditions/af68f2d8-28b7-4647-aed4-3dbce5a1afc8?binary=true&mformat=true" alt="Partner brand 5"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/79013610-8df2-4986-9c39-6d70c09fce04/renditions/9ed0e1a5-d742-4b9c-bd1b-ad9e031e1f56?binary=true&mformat=true" alt="Partner brand 8"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/451536a3-abc1-4b46-b265-3b9d23148e73/renditions/d31c941b-2395-4ca6-93af-bf4dbdcb267e?binary=true&mformat=true" alt="Partner brand 9"></div>
-    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/ceebfb26-1689-4831-ad11-a076b49ebca3/renditions/01e1932d-22a6-432f-bd3b-e38328048413?binary=true&mformat=true" alt="Partner brand 6"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/068a2f65-9c18-4a91-8092-21e602901178/renditions/6df4f546-45f2-4ebd-a150-0f1d2696b7a1?binary=true&mformat=true" alt="Volvo"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/a1fb37da-bd51-4902-a343-94edddd75e75/items/0be41eec-81c4-4e3e-a550-e04bfbca730a/renditions/af68f2d8-28b7-4647-aed4-3dbce5a1afc8?binary=true&mformat=true" alt="ATF"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/79013610-8df2-4986-9c39-6d70c09fce04/renditions/9ed0e1a5-d742-4b9c-bd1b-ad9e031e1f56?binary=true&mformat=true" alt="Yanmar"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/451536a3-abc1-4b46-b265-3b9d23148e73/renditions/d31c941b-2395-4ca6-93af-bf4dbdcb267e?binary=true&mformat=true" alt="Ingersoll Rand"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/ceebfb26-1689-4831-ad11-a076b49ebca3/renditions/01e1932d-22a6-432f-bd3b-e38328048413?binary=true&mformat=true" alt="Bobcat"></div>
+    <div class="bl-cell"><img class="bl-logo" src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/c69a31b8-7a8c-4c84-bd20-cdecb35cf7e1/renditions/6d253ae8-7fe0-4d18-a756-5dc4e67c5464?binary=true&mformat=true" alt="Partner brand"></div>
   </div>
   <!-- bottom structural row -->
   <div class="bl-row bl-empty" aria-hidden="true">
@@ -2761,15 +2788,27 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     wrap.classList.remove('open');
     input.value='';
   }
+  function submit(){
+    var q = (input.value || '').trim();
+    if(!q) return;
+    window.location.href = 'BrowseEquipment.html?q=' + encodeURIComponent(q);
+  }
   btn.addEventListener('click',function(e){
     e.stopPropagation();
-    wrap.classList.contains('open') ? close_() : open();
+    if(wrap.classList.contains('open')){
+      if((input.value || '').trim()) submit(); else close_();
+    } else {
+      open();
+    }
   });
   close.addEventListener('click',function(e){e.stopPropagation();close_();});
   document.addEventListener('click',function(e){
     if(!wrap.contains(e.target)) close_();
   },{passive:true});
-  input.addEventListener('keydown',function(e){if(e.key==='Escape') close_();});
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Escape') close_();
+    else if(e.key==='Enter'){ e.preventDefault(); submit(); }
+  });
 })();
 </script>
 

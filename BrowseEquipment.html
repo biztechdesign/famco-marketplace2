@@ -48,10 +48,11 @@ header {
   background: transparent; padding: 0 var(--px);
 }
 .h-shell {
-  background: rgba(40,48,60,.62);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.35);
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.82) 120px, rgba(255,255,255,.65) 260px, rgba(255,255,255,.48) 400px, rgba(255,255,255,.38) 560px, rgba(255,255,255,.35) 100%);
+  backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
 }
 .h-row {
   padding: 0 20px; height: 60px;
@@ -62,7 +63,7 @@ header {
 .h-row > .h-acts { grid-column: 3; justify-self: end; margin-left: 0; }
 .h-row > .nav-hamburger { grid-column: 3; justify-self: end; }
 .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.logo img { height: 34px; width: auto; filter: brightness(0) invert(1); }
+.logo img { height: 40px; width: auto; }
 .logo-fb { display: none; flex-direction: column; justify-content: center; }
 .logo-brand { font-size: 20px; font-weight: 900; color: var(--white); letter-spacing: -1px; line-height: 1; }
 .logo-brand em { color: var(--y); font-style: normal; }
@@ -94,6 +95,24 @@ header {
 .nv-link { display: flex; align-items: center; gap: 6px; padding: 0 16px; height: 100%; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7); letter-spacing: .1px; white-space: nowrap; transition: all var(--t); cursor: pointer; }
 .nv-link:hover, .nv-item:hover>.nv-link { color: var(--white); background: rgba(255,255,255,.08); }
 .nv-link.act { color: var(--y); }
+
+/* ── Light header override (for Al-Futtaim blue logo contrast) ── */
+.h-act{color:rgba(17,24,39,.75);}
+.h-act:hover{background:rgba(17,24,39,.06);color:var(--ink);}
+.h-srch-field{background:rgba(17,24,39,.05);}
+.h-srch-input{color:var(--ink);}
+.h-srch-input::placeholder{color:rgba(17,24,39,.45);}
+.h-srch-close{color:rgba(17,24,39,.5);}
+.h-srch-close:hover{color:var(--ink);}
+.h-nav{border-top-color:rgba(17,24,39,.08);}
+.nv-link{color:rgba(17,24,39,.72);}
+.nv-link:hover,.nv-item:hover>.nv-link{color:var(--ink);background:rgba(17,24,39,.06);}
+.nv-link.act{color:var(--ink);font-weight:800;}
+.h-locale{border-left-color:rgba(17,24,39,.12);}
+.h-locale .switch{background:rgba(17,24,39,.06);}
+.h-locale .sw-btn{color:rgba(17,24,39,.55);}
+.h-locale .sw-btn.on{background:var(--ink);color:var(--white);}
+.nav-hamburger{background:rgba(17,24,39,.06);color:var(--ink);}
 
 /* ── CARD STYLES ── */
 .lc{background:var(--white);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;transition:box-shadow .25s,transform .25s;cursor:pointer;}
@@ -178,6 +197,11 @@ header {
     rgba(10,14,20,.55) 100%
   );
 }
+.page-banner::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0;
+  height: 120px; pointer-events: none; z-index: 2;
+  background: linear-gradient(180deg, rgba(248,250,253,.96) 0%, rgba(248,250,253,.82) 45%, rgba(248,250,253,.4) 80%, rgba(248,250,253,0) 100%);
+}
 .pb-pattern {
   position: absolute; inset: 0;
   background-image: radial-gradient(circle, rgba(255,209,0,.04) 1px, transparent 1px);
@@ -239,6 +263,28 @@ header {
 .results-count{font-size:13px;color:var(--body);}
 .results-count strong{color:var(--ink);font-weight:700;}
 .results-sort-wrap{display:flex;align-items:center;gap:10px;}
+
+/* Empty state when search yields no products */
+.no-results{
+  grid-column:1/-1;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:72px 24px;text-align:center;
+  background:var(--white);border:1.5px dashed var(--border);border-radius:16px;
+}
+.no-results-icon{
+  width:64px;height:64px;border-radius:50%;
+  background:#FEF3C7;color:#C9A400;
+  display:flex;align-items:center;justify-content:center;
+}
+.no-results-title{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.3px;}
+.no-results-sub{font-size:14px;color:var(--body);max-width:420px;line-height:1.55;}
+.no-results-cta{
+  margin-top:6px;display:inline-flex;align-items:center;gap:8px;
+  background:var(--y);color:var(--ink);font-size:13px;font-weight:700;
+  padding:10px 18px;border-radius:8px;border:none;cursor:pointer;
+  text-decoration:none;transition:background var(--t);
+}
+.no-results-cta:hover{background:var(--y-dark);}
 
 /* Save Search CTA */
 .btn-save-search{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;font-size:12px;font-weight:700;font-family:inherit;color:var(--y-deeper);background:transparent;border:1.5px solid var(--y-deeper);border-radius:6px;cursor:pointer;transition:all var(--t);white-space:nowrap;}
@@ -519,7 +565,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .h-nav { display: none; }
   .nav-hamburger { display: flex; }
   header { top: 12px; padding: 0 12px; }
-  .h-shell { border-radius: 12px; }
+  .h-shell {
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,.35) 100%);
+  }
   .h-row { height: 52px; padding: 0 14px; }
   .logo img { height: 24px; }
   .logo-brand { font-size: 15px; }
@@ -528,8 +577,26 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .h-cta-chevron { display: none; }
   .h-cta { padding: 0 10px; gap: 0; height: 34px; }
   .page-banner { margin-top: -52px; padding-top: 92px; }
+  .page-banner::before { height: 90px; }
   .pb-bar { top: 64px; }
-  .pb-title { font-size: 20px; }
+  .pb-title { font-size: 20px; text-align: center; }
+  .pb-inner { text-align: center; }
+  .pb-crumb { justify-content: center; }
+  .h-row { grid-template-columns: auto 1fr auto; gap: 8px; column-gap: 8px; }
+  .h-row > .logo { grid-column: 1; justify-self: start; min-width: 0; }
+  .h-row > .h-acts { grid-column: 2; justify-self: end; gap: 4px; }
+  .h-row > .nav-hamburger { grid-column: 3; justify-self: end; width: 36px; height: 36px; }
+  .h-saved, .h-locale { display: none; }
+  .h-cta-txt, .h-cta-chevron { display: none; }
+  .h-cta { padding: 0 10px; height: 34px; }
+  .h-srch-wrap.open .h-srch-field {
+    position: fixed; left: 12px; right: 12px; top: 70px;
+    width: auto; transform: none;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: 6px 8px; z-index: 210;
+  }
+  .h-srch-input { height: 40px; font-size: 14px; }
 }
 
 /* ── 576px ── */
@@ -543,7 +610,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .sidebar { grid-template-columns: 1fr; }
 
   /* Footer */
-  .ft-top { grid-template-columns: 1fr; gap: 24px; }
+  .ft-top { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+  .ft-col { text-align: center; }
+  .ft-col ul, .ft-col li { list-style: none; padding: 0; }
 
   .fab-wrap { bottom: 20px; right: 16px; }
 }
@@ -639,7 +708,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   background: #fff; border-radius: 6px; padding: 5px 10px;
   text-decoration: none; flex-shrink: 0;
 }
-.nav-drawer-logo img { height: 28px; width: auto; display: block; }
+.nav-drawer-logo img { height: 34px; width: auto; display: block; }
 .nav-drawer-logo-fb { font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
 .nav-drawer-logo-fb em { color: var(--y-deeper); font-style: normal; }
 .nav-drawer-close {
@@ -666,7 +735,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 <div class="nav-drawer" id="navDrawer">
   <div class="nav-drawer-header">
     <a href="Homepage.html" class="nav-drawer-logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
       <span class="nav-drawer-logo-fb" style="display:none;">FAM<em>CO</em></span>
     </a>
@@ -688,7 +757,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 <div class="h-shell">
   <div class="h-row">
     <a href="Homepage.html" class="logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <div class="logo-fb">
         <div class="logo-brand">FAM<em>CO</em></div>
@@ -1336,6 +1405,29 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Hide pagination when filtered */
   var pag = document.querySelector('.pagination');
   if (pag) pag.style.display = visible < 9 ? 'none' : '';
+
+  /* Show "Product not available" empty state when nothing matches */
+  if (visible === 0) {
+    var grid = document.querySelector('.browse-grid');
+    if (grid && !grid.querySelector('.no-results')) {
+      var empty = document.createElement('div');
+      empty.className = 'no-results';
+      empty.innerHTML =
+        '<div class="no-results-icon">' +
+          '<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>' +
+          '</svg>' +
+        '</div>' +
+        '<div class="no-results-title">Product not available</div>' +
+        '<div class="no-results-sub">We couldn’t find any equipment matching “<strong>' + q.replace(/</g,'&lt;') + '</strong>” right now. Save this search and we’ll email you the moment a matching unit arrives in our inventory.</div>' +
+        '<button type="button" class="no-results-cta" onclick="openSaveSearch()">' +
+          '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
+          'Notify me when available' +
+        '</button>' +
+        '<a href="BrowseEquipment.html" style="margin-top:4px;font-size:12.5px;color:var(--body);text-decoration:underline;">Or browse all equipment</a>';
+      grid.appendChild(empty);
+    }
+  }
 })();
 </script>
 
@@ -1494,15 +1586,27 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     wrap.classList.remove('open');
     input.value='';
   }
+  function submit(){
+    var q = (input.value || '').trim();
+    if(!q) return;
+    window.location.href = 'BrowseEquipment.html?q=' + encodeURIComponent(q);
+  }
   btn.addEventListener('click',function(e){
     e.stopPropagation();
-    wrap.classList.contains('open') ? close_() : open();
+    if(wrap.classList.contains('open')){
+      if((input.value || '').trim()) submit(); else close_();
+    } else {
+      open();
+    }
   });
   close.addEventListener('click',function(e){e.stopPropagation();close_();});
   document.addEventListener('click',function(e){
     if(!wrap.contains(e.target)) close_();
   },{passive:true});
-  input.addEventListener('keydown',function(e){if(e.key==='Escape') close_();});
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Escape') close_();
+    else if(e.key==='Enter'){ e.preventDefault(); submit(); }
+  });
 })();
 </script>
 </body>

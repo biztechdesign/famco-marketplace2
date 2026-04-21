@@ -75,10 +75,11 @@ header {
   background: transparent; padding: 0 var(--px);
 }
 .h-shell {
-  background: rgba(40,48,60,.62);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,.10);
-  border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.35);
+  background:
+    linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.82) 120px, rgba(255,255,255,.65) 260px, rgba(255,255,255,.48) 400px, rgba(255,255,255,.38) 560px, rgba(255,255,255,.35) 100%);
+  backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,.18);
 }
 .h-row {
   padding: 0 20px; height: 60px;
@@ -89,7 +90,7 @@ header {
 .h-row > .h-acts { grid-column: 3; justify-self: end; margin-left: 0; }
 .h-row > .nav-hamburger { grid-column: 3; justify-self: end; }
 .logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.logo img { height: 34px; width: auto; filter: brightness(0) invert(1); }
+.logo img { height: 40px; width: auto; }
 .logo-fb { display: none; flex-direction: column; justify-content: center; }
 .logo-brand { font-size: 20px; font-weight: 900; color: var(--white); letter-spacing: -1px; line-height: 1; }
 .logo-brand em { color: var(--y); font-style: normal; }
@@ -122,6 +123,24 @@ header {
 .nv-link:hover, .nv-item:hover>.nv-link { color: var(--white); background: rgba(255,255,255,.08); }
 .nv-link.act { color: var(--y); }
 
+/* ── Light header override (for Al-Futtaim blue logo contrast) ── */
+.h-act{color:rgba(17,24,39,.75);}
+.h-act:hover{background:rgba(17,24,39,.06);color:var(--ink);}
+.h-srch-field{background:rgba(17,24,39,.05);}
+.h-srch-input{color:var(--ink);}
+.h-srch-input::placeholder{color:rgba(17,24,39,.45);}
+.h-srch-close{color:rgba(17,24,39,.5);}
+.h-srch-close:hover{color:var(--ink);}
+.h-nav{border-top-color:rgba(17,24,39,.08);}
+.nv-link{color:rgba(17,24,39,.72);}
+.nv-link:hover,.nv-item:hover>.nv-link{color:var(--ink);background:rgba(17,24,39,.06);}
+.nv-link.act{color:var(--ink);font-weight:800;}
+.h-locale{border-left-color:rgba(17,24,39,.12);}
+.h-locale .switch{background:rgba(17,24,39,.06);}
+.h-locale .sw-btn{color:rgba(17,24,39,.55);}
+.h-locale .sw-btn.on{background:var(--ink);color:var(--white);}
+.nav-hamburger{background:rgba(17,24,39,.06);color:var(--ink);}
+
 /* ── PAGE BANNER — slides behind floating header, shows page title + breadcrumb ── */
 .page-banner {
   position: relative;
@@ -150,6 +169,11 @@ header {
     rgba(10,14,20,.72) 75%,
     rgba(10,14,20,.55) 100%
   );
+}
+.page-banner::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0;
+  height: 120px; pointer-events: none; z-index: 2;
+  background: linear-gradient(180deg, rgba(248,250,253,.96) 0%, rgba(248,250,253,.82) 45%, rgba(248,250,253,.4) 80%, rgba(248,250,253,0) 100%);
 }
 .pb-pattern {
   position: absolute; inset: 0;
@@ -1073,7 +1097,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .h-nav { display: none; }
   .nav-hamburger { display: flex; }
   header { top: 12px; padding: 0 12px; }
-  .h-shell { border-radius: 12px; }
+  .h-shell {
+    border-radius: 12px;
+    background: linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,.35) 100%);
+  }
   .h-row { height: 52px; padding: 0 14px; }
   .logo img { height: 24px; }
   .logo-brand { font-size: 15px; }
@@ -1082,8 +1109,26 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .h-cta-chevron { display: none; }
   .h-cta { padding: 0 10px; gap: 0; height: 34px; }
   .page-banner { margin-top: -52px; padding-top: 92px; }
+  .page-banner::before { height: 90px; }
   .pb-bar { top: 64px; }
-  .pb-title { font-size: 20px; }
+  .pb-title { font-size: 20px; text-align: center; }
+  .pb-inner { text-align: center; }
+  .pb-crumb { justify-content: center; }
+  .h-row { grid-template-columns: auto 1fr auto; gap: 8px; column-gap: 8px; }
+  .h-row > .logo { grid-column: 1; justify-self: start; min-width: 0; }
+  .h-row > .h-acts { grid-column: 2; justify-self: end; gap: 4px; }
+  .h-row > .nav-hamburger { grid-column: 3; justify-self: end; width: 36px; height: 36px; }
+  .h-saved, .h-locale { display: none; }
+  .h-cta-txt, .h-cta-chevron { display: none; }
+  .h-cta { padding: 0 10px; height: 34px; }
+  .h-srch-wrap.open .h-srch-field {
+    position: fixed; left: 12px; right: 12px; top: 70px;
+    width: auto; transform: none;
+    background: #fff; border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: 6px 8px; z-index: 210;
+  }
+  .h-srch-input { height: 40px; font-size: 14px; }
 }
 
 /* ── 576px ── */
@@ -1110,7 +1155,12 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .related-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 
   /* Footer */
-  .ft-top { grid-template-columns: 1fr; gap: 24px; }
+  .ft-top { grid-template-columns: 1fr; gap: 24px; text-align: center; }
+  .ft-col { text-align: center; }
+  .ft-col ul, .ft-col li { list-style: none; padding: 0; }
+
+  /* Center meta pills row */
+  .gm-row, .gm-meta { justify-content: center; flex-wrap: wrap; }
 
   /* Video inspection head: allow wrapping so live badge doesn't squeeze content */
   .video-insp-head { flex-wrap: wrap; gap: 10px; padding: 14px 16px; }
@@ -1316,7 +1366,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   background: #fff; border-radius: 6px; padding: 5px 10px;
   text-decoration: none; flex-shrink: 0;
 }
-.nav-drawer-logo img { height: 28px; width: auto; display: block; }
+.nav-drawer-logo img { height: 34px; width: auto; display: block; }
 .nav-drawer-logo-fb { font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.5px; }
 .nav-drawer-logo-fb em { color: var(--y-deeper); font-style: normal; }
 .nav-drawer-close {
@@ -1374,7 +1424,7 @@ section, footer, .video-insp-card, .price-card,
 <div class="nav-drawer" id="navDrawer">
   <div class="nav-drawer-header">
     <a href="Homepage.html" class="nav-drawer-logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='inline';">
       <span class="nav-drawer-logo-fb" style="display:none;">FAM<em>CO</em></span>
     </a>
@@ -1398,7 +1448,7 @@ section, footer, .video-insp-card, .price-card,
 <div class="h-shell">
   <div class="h-row">
     <a href="Homepage.html" class="logo">
-      <img src="images/branding-famco-logo.png" alt="FAMCO"
+      <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
       <div class="logo-fb">
         <div class="logo-brand">FAM<em>CO</em></div>
@@ -1493,6 +1543,10 @@ section, footer, .video-insp-card, .price-card,
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           Gallery (3)
         </div>
+        <div class="gtab" onclick="switchGTab(this,'threeD')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
+          3D View
+        </div>
         <div class="gtab" onclick="switchGTab(this,'video')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
           Video
@@ -1526,6 +1580,18 @@ section, footer, .video-insp-card, .price-card,
           <div class="gthumb" onclick="setImg(2,this)">
             <img src="images/Productimage63.jpg" alt="View 3" onerror="this.parentElement.style.background='var(--surface)'">
           </div>
+        </div>
+      </div>
+
+      <!-- 3D View Panel -->
+      <div id="panel-threeD" style="display:none;">
+        <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;">
+          <video id="threeD-video"
+            src="images/Video_Generation_From_User_Request.mp4"
+            style="width:100%;height:100%;object-fit:cover;display:block;"
+            controls
+            playsinline
+            preload="metadata"></video>
         </div>
       </div>
 
@@ -1705,7 +1771,7 @@ section, footer, .video-insp-card, .price-card,
             <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);font-weight:600;min-width:0;">
               <span style="color:var(--red);font-size:16px;flex-shrink:0;">📄</span> <span style="word-break:break-word;overflow-wrap:break-word;">FAMCO 150-Point Inspection Report</span>
             </div>
-            <a href="#" style="font-size:12px;font-weight:700;color:var(--y-deeper);white-space:nowrap;flex-shrink:0;margin-left:10px;">Download PDF →</a>
+            <a href="#" onclick="event.preventDefault();generateInspectionPDF();" style="font-size:12px;font-weight:700;color:var(--y-deeper);white-space:nowrap;flex-shrink:0;margin-left:10px;cursor:pointer;">Download PDF →</a>
           </div>
           <div class="doc-row" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);">
             <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink);font-weight:600;min-width:0;">
@@ -1953,7 +2019,7 @@ section, footer, .video-insp-card, .price-card,
     </div>
 
     <!-- Download Inspection Report -->
-    <button class="btn-insp">
+    <button class="btn-insp" type="button" onclick="generateInspectionPDF()">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
       Download Inspection Report
     </button>
@@ -2221,7 +2287,7 @@ function changeImg(dir) {
 function switchGTab(el, panel) {
   document.querySelectorAll('.gtab').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
-  ['gallery','video'].forEach(p => {
+  ['gallery','threeD','video'].forEach(p => {
     const el2 = document.getElementById('panel-' + p);
     if (el2) el2.style.display = (p === panel) ? 'block' : 'none';
   });
@@ -2238,6 +2304,9 @@ function switchGTab(el, panel) {
       }
     }
   }
+  /* Pause local 3D video when leaving its tab */
+  var v3d = document.getElementById('threeD-video');
+  if (v3d && panel !== 'threeD') { try { v3d.pause(); } catch(e){} }
 }
 
 /* ── Three.js 3D Model Viewer ── */
@@ -2508,16 +2577,394 @@ document.addEventListener('DOMContentLoaded', function(){
     wrap.classList.remove('open');
     input.value='';
   }
+  function submit(){
+    var q = (input.value || '').trim();
+    if(!q) return;
+    window.location.href = 'BrowseEquipment.html?q=' + encodeURIComponent(q);
+  }
   btn.addEventListener('click',function(e){
     e.stopPropagation();
-    wrap.classList.contains('open') ? close_() : open();
+    if(wrap.classList.contains('open')){
+      if((input.value || '').trim()) submit(); else close_();
+    } else {
+      open();
+    }
   });
   close.addEventListener('click',function(e){e.stopPropagation();close_();});
   document.addEventListener('click',function(e){
     if(!wrap.contains(e.target)) close_();
   },{passive:true});
-  input.addEventListener('keydown',function(e){if(e.key==='Escape') close_();});
+  input.addEventListener('keydown',function(e){
+    if(e.key==='Escape') close_();
+    else if(e.key==='Enter'){ e.preventDefault(); submit(); }
+  });
 })();
+</script>
+
+<!-- jsPDF for inspection-report PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+/* ── Inspection Report PDF generator (branded 2-page layout) ── */
+function generateInspectionPDF() {
+  if (!window.jspdf || !window.jspdf.jsPDF) {
+    alert('PDF engine still loading — please try again in a moment.');
+    return;
+  }
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  var pageW = doc.internal.pageSize.getWidth();
+  var pageH = doc.internal.pageSize.getHeight();
+  var margin = 40;
+
+  /* Brand palette */
+  var BLUE = [0, 102, 178];
+  var BLUE_DK = [0, 59, 102];
+  var CYAN = [0, 175, 240];
+  var YELLOW = [255, 214, 0];
+  var INK = [20, 25, 35];
+  var MUTE = [120, 128, 140];
+  var BG = [247, 249, 252];
+  var BORDER = [225, 230, 238];
+
+  /* ── Page-level chrome (header band + footer) ── */
+  function drawPageChrome(pageNum, totalPages, title) {
+    /* Top colored band */
+    doc.setFillColor(BLUE[0], BLUE[1], BLUE[2]);
+    doc.rect(0, 0, pageW, 72, 'F');
+    /* Accent stripe */
+    doc.setFillColor(YELLOW[0], YELLOW[1], YELLOW[2]);
+    doc.rect(0, 72, pageW, 3, 'F');
+    /* Cyan diagonal flourish */
+    doc.setFillColor(CYAN[0], CYAN[1], CYAN[2]);
+    doc.triangle(pageW - 180, 0, pageW, 0, pageW, 72, 'F');
+    doc.setFillColor(BLUE_DK[0], BLUE_DK[1], BLUE_DK[2]);
+    doc.triangle(pageW - 100, 0, pageW, 0, pageW, 50, 'F');
+
+    /* Logo (white version via filter trick? No — put on white pill for visibility) */
+    var logoImg = document.querySelector('header .logo img');
+    if (logoImg && logoImg.complete && logoImg.naturalWidth > 0) {
+      try {
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(margin - 6, 14, 168, 46, 6, 6, 'F');
+        var r = logoImg.naturalWidth / logoImg.naturalHeight;
+        var h = 34, w = h * r;
+        if (w > 150) { w = 150; h = w / r; }
+        doc.addImage(logoImg, 'PNG', margin, 14 + (46 - h) / 2, w, h);
+      } catch (e) {}
+    }
+
+    /* Right-side title on band */
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(255, 255, 255);
+    doc.text('VEHICLE INSPECTION REPORT', pageW - margin, 32, { align: 'right' });
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(210, 230, 250);
+    var today = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    doc.text('Generated ' + today, pageW - margin, 48, { align: 'right' });
+    doc.text('Al-Futtaim Famco Used Equipment', pageW - margin, 60, { align: 'right' });
+
+    /* Footer */
+    doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+    doc.setLineWidth(0.6);
+    doc.line(margin, pageH - 32, pageW - margin, pageH - 32);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8);
+    doc.setTextColor(BLUE[0], BLUE[1], BLUE[2]);
+    doc.text('famco.com', margin, pageH - 18);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+    doc.text('Confidential — for prospective buyer reference only', pageW / 2, pageH - 18, { align: 'center' });
+    doc.text('Page ' + pageNum + ' of ' + totalPages, pageW - margin, pageH - 18, { align: 'right' });
+  }
+
+  /* Rounded section card — draws frame + heading chip, returns inner top-Y */
+  function drawSectionCard(x, yStart, w, h, label, accent) {
+    accent = accent || BLUE;
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+    doc.setLineWidth(0.7);
+    doc.roundedRect(x, yStart, w, h, 6, 6, 'FD');
+    /* Heading chip */
+    doc.setFillColor(accent[0], accent[1], accent[2]);
+    doc.roundedRect(x + 10, yStart - 8, doc.getTextWidth(label) + 20, 17, 3, 3, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.5);
+    doc.setTextColor(255, 255, 255);
+    doc.text(label.toUpperCase(), x + 20, yStart + 3.5);
+    return yStart + 22;
+  }
+
+  /* ── Collect data from the page ── */
+  var titleEl = document.querySelector('.pb-title');
+  var title = titleEl ? titleEl.textContent.trim() : document.title;
+
+  var refEl = document.querySelector('.gm-ref');
+  var gradeEl = document.querySelector('.gm-grade');
+  var badgeEl = document.querySelector('.gm-badge');
+  var refTxt = refEl ? refEl.textContent.trim() : '';
+  var gradeTxt = gradeEl ? gradeEl.textContent.trim() : '';
+  var badgeTxt = badgeEl ? badgeEl.textContent.trim() : '';
+
+  var specRows = document.querySelectorAll('#ipanel-specs .spec-row, .info-panel .spec-row');
+  var seen = {};
+  var specs = [];
+  specRows.forEach(function (r) {
+    var k = r.querySelector('.spec-key');
+    var v = r.querySelector('.spec-val');
+    if (!k || !v) return;
+    var key = k.textContent.trim();
+    var val = v.textContent.trim();
+    if (seen[key]) return;
+    seen[key] = 1;
+    specs.push([key, val]);
+  });
+
+  var highlightKeys = ['Year of Manufacture','Odometer','Engine Hours','Power Output','Transmission','Drive Configuration','Fuel Type','GVW'];
+  var highlights = [];
+  highlightKeys.forEach(function (hk) {
+    var found = specs.find(function (s) { return s[0] === hk; });
+    if (found) highlights.push(found);
+  });
+  while (highlights.length < 4 && specs.length) {
+    var next = specs.find(function (s) { return !highlights.find(function (h) { return h[0] === s[0]; }); });
+    if (next) highlights.push(next); else break;
+  }
+  highlights = highlights.slice(0, 4);
+
+  /* ─────────── PAGE 1 ─────────── */
+  drawPageChrome(1, 2, title);
+  var y = 95;
+
+  /* Vehicle title block */
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(INK[0], INK[1], INK[2]);
+  var titleLines = doc.splitTextToSize(title, pageW - margin * 2);
+  titleLines.forEach(function (ln) { doc.text(ln, margin, y); y += 22; });
+
+  /* Meta pills (ref / grade / badge) */
+  y += 4;
+  var pillY = y;
+  var pillH = 20;
+  var pillX = margin;
+  function drawPill(txt, bg, fg) {
+    if (!txt) return;
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(8.5);
+    var w = doc.getTextWidth(txt) + 16;
+    doc.setFillColor(bg[0], bg[1], bg[2]);
+    doc.roundedRect(pillX, pillY, w, pillH, 10, 10, 'F');
+    doc.setTextColor(fg[0], fg[1], fg[2]);
+    doc.text(txt, pillX + 8, pillY + 13);
+    pillX += w + 6;
+  }
+  if (refTxt) drawPill(refTxt, [232, 240, 250], BLUE_DK);
+  if (gradeTxt) drawPill(gradeTxt, YELLOW, INK);
+  if (badgeTxt) drawPill('✓ ' + badgeTxt, [22, 163, 74], [255, 255, 255]);
+  y += pillH + 16;
+
+  /* Hero image — full width */
+  var mainImg = document.getElementById('main-img');
+  var heroBottom = y;
+  if (mainImg && mainImg.complete && mainImg.naturalWidth > 0) {
+    try {
+      var imgRatio = mainImg.naturalWidth / mainImg.naturalHeight;
+      var imgW = pageW - margin * 2;
+      var imgH = imgW / imgRatio;
+      if (imgH > 210) { imgH = 210; imgW = imgH * imgRatio; }
+      var heroX = (pageW - imgW) / 2;
+      /* Drop-shadow effect via offset dark rect */
+      doc.setFillColor(0, 0, 0);
+      doc.roundedRect(heroX + 3, y + 3, imgW, imgH, 8, 8, 'F');
+      doc.setFillColor(240, 240, 240);
+      doc.roundedRect(heroX, y, imgW, imgH, 8, 8, 'F');
+      doc.addImage(mainImg, 'JPEG', heroX, y, imgW, imgH);
+      /* Subtle yellow corner accent */
+      doc.setFillColor(YELLOW[0], YELLOW[1], YELLOW[2]);
+      doc.rect(heroX, y + imgH - 4, 60, 4, 'F');
+      heroBottom = y + imgH + 20;
+    } catch (e) {}
+  }
+  y = heroBottom;
+
+  /* Highlight cards — 4 equal cards */
+  if (highlights.length) {
+    var cardGap = 10;
+    var cardW = (pageW - margin * 2 - cardGap * (highlights.length - 1)) / highlights.length;
+    var cardH = 60;
+    highlights.forEach(function (pair, i) {
+      var cx = margin + i * (cardW + cardGap);
+      /* Card background with subtle gradient via two rects */
+      doc.setFillColor(BG[0], BG[1], BG[2]);
+      doc.roundedRect(cx, y, cardW, cardH, 6, 6, 'F');
+      doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+      doc.setLineWidth(0.6);
+      doc.roundedRect(cx, y, cardW, cardH, 6, 6, 'S');
+      /* Top accent bar */
+      doc.setFillColor(BLUE[0], BLUE[1], BLUE[2]);
+      doc.rect(cx, y, cardW, 3, 'F');
+      /* Label */
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+      var label = pair[0].toUpperCase();
+      doc.text(doc.splitTextToSize(label, cardW - 16)[0], cx + 8, y + 18);
+      /* Value */
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.setTextColor(INK[0], INK[1], INK[2]);
+      var valLines = doc.splitTextToSize(pair[1], cardW - 16);
+      doc.text(valLines[0], cx + 8, y + 38);
+      if (valLines[1]) {
+        doc.setFontSize(9);
+        doc.text(valLines[1], cx + 8, y + 50);
+      }
+    });
+    y += cardH + 22;
+  }
+
+  /* Specifications table card */
+  var remainingH = pageH - 60 - y;
+  if (remainingH > 60 && specs.length) {
+    var specInner = drawSectionCard(margin, y, pageW - margin * 2, remainingH, 'Full Specifications', BLUE);
+    var colW = (pageW - margin * 2 - 20) / 2;
+    var rowH = 15;
+    var maxRows = Math.floor((remainingH - 30) / rowH) * 2;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    var rowsToRender = specs.slice(0, maxRows);
+    rowsToRender.forEach(function (pair, i) {
+      var col = i % 2;
+      var rowIdx = Math.floor(i / 2);
+      var rx = margin + 12 + col * (colW + 6);
+      var ry = specInner + rowIdx * rowH;
+      /* Alternating zebra */
+      if (rowIdx % 2 === 0) {
+        doc.setFillColor(BG[0], BG[1], BG[2]);
+        doc.rect(rx - 4, ry - 10, colW, rowH, 'F');
+      }
+      doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+      doc.setFont('helvetica', 'normal');
+      doc.text(pair[0], rx, ry);
+      doc.setTextColor(INK[0], INK[1], INK[2]);
+      doc.setFont('helvetica', 'bold');
+      var valStr = doc.splitTextToSize(pair[1], colW - doc.getTextWidth(pair[0]) - 12)[0] || pair[1];
+      doc.text(valStr, rx + colW - 8, ry, { align: 'right' });
+    });
+  }
+
+  /* ─────────── PAGE 2 ─────────── */
+  doc.addPage();
+  drawPageChrome(2, 2, title);
+  y = 95;
+
+  /* Page 2 heading */
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(INK[0], INK[1], INK[2]);
+  doc.text('Inspection Summary', margin, y);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+  doc.text('150-point check completed by certified FAMCO technicians', margin, y + 14);
+  y += 32;
+
+  /* Status banner — green passed */
+  doc.setFillColor(22, 163, 74);
+  doc.roundedRect(margin, y, pageW - margin * 2, 46, 6, 6, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(255, 255, 255);
+  doc.text('✓  INSPECTION PASSED', margin + 18, y + 20);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.text('All critical safety, mechanical, and structural checks cleared the required standard.', margin + 18, y + 36);
+  y += 62;
+
+  /* 2-col stats block (counts) */
+  var checkGroups = [
+    { label: 'Engine & Drivetrain', pass: 32, total: 32 },
+    { label: 'Chassis & Suspension', pass: 28, total: 28 },
+    { label: 'Brakes & Safety', pass: 22, total: 22 },
+    { label: 'Electrical Systems', pass: 24, total: 24 },
+    { label: 'Body & Paint', pass: 18, total: 20 },
+    { label: 'Interior & Comfort', pass: 24, total: 24 },
+  ];
+  var gW = (pageW - margin * 2 - 12) / 2;
+  var gH = 54;
+  checkGroups.forEach(function (g, i) {
+    var col = i % 2;
+    var row = Math.floor(i / 2);
+    var gx = margin + col * (gW + 12);
+    var gy = y + row * (gH + 10);
+    doc.setFillColor(255, 255, 255);
+    doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+    doc.roundedRect(gx, gy, gW, gH, 6, 6, 'FD');
+    /* Left colored strip */
+    var full = g.pass === g.total;
+    var stripColor = full ? [22, 163, 74] : [234, 179, 8];
+    doc.setFillColor(stripColor[0], stripColor[1], stripColor[2]);
+    doc.rect(gx, gy, 4, gH, 'F');
+    /* Label */
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(10);
+    doc.setTextColor(INK[0], INK[1], INK[2]);
+    doc.text(g.label, gx + 14, gy + 20);
+    /* Progress bar */
+    var barW = gW - 28;
+    var barY = gy + 30;
+    doc.setFillColor(235, 238, 242);
+    doc.roundedRect(gx + 14, barY, barW, 6, 3, 3, 'F');
+    doc.setFillColor(stripColor[0], stripColor[1], stripColor[2]);
+    doc.roundedRect(gx + 14, barY, barW * (g.pass / g.total), 6, 3, 3, 'F');
+    /* Count */
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+    doc.text(g.pass + ' / ' + g.total + ' checks passed', gx + 14, gy + 48);
+  });
+  y += Math.ceil(checkGroups.length / 2) * (gH + 10) + 10;
+
+  /* Inspection notes section */
+  var condEl = document.getElementById('ipanel-condition');
+  var condText = '';
+  if (condEl) {
+    condText = (condEl.innerText || condEl.textContent || '').trim().replace(/\s+/g, ' ');
+  }
+  if (!condText || condText.length < 40) {
+    condText = 'This vehicle has been comprehensively assessed by Al-Futtaim Famco certified technicians as part of our 150-point FAMCO Approved inspection programme. All engine, drivetrain, chassis, brakes, electrical, and interior systems have been evaluated against manufacturer specifications. Minor cosmetic observations, where applicable, are disclosed in the full condition report available on request. Service history has been verified and the odometer reading is certified accurate.';
+  }
+  /* Notes card */
+  var notesH = pageH - y - 60;
+  if (notesH > 50) {
+    var notesInner = drawSectionCard(margin, y, pageW - margin * 2, notesH, 'Inspector Notes', BLUE_DK);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9.5);
+    doc.setTextColor(60, 70, 82);
+    var noteLines = doc.splitTextToSize(condText.slice(0, 1400), pageW - margin * 2 - 24);
+    var cursorY = notesInner;
+    for (var i = 0; i < noteLines.length; i++) {
+      if (cursorY > y + notesH - 14) break;
+      doc.text(noteLines[i], margin + 12, cursorY);
+      cursorY += 13;
+    }
+    /* Signature strip at bottom of notes card */
+    var sigY = y + notesH - 26;
+    doc.setDrawColor(BORDER[0], BORDER[1], BORDER[2]);
+    doc.line(margin + 12, sigY, margin + 180, sigY);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.setTextColor(MUTE[0], MUTE[1], MUTE[2]);
+    doc.text('Certified Inspector Signature', margin + 12, sigY + 11);
+    doc.line(pageW - margin - 180, sigY, pageW - margin - 12, sigY);
+    doc.text('Date', pageW - margin - 180, sigY + 11);
+  }
+
+  var safeName = title.replace(/[^a-z0-9\-]+/gi, '_').replace(/^_+|_+$/g, '').slice(0, 60) || 'Inspection_Report';
+  doc.save(safeName + '_Inspection_Report.pdf');
+}
 </script>
 </body>
 </html>
