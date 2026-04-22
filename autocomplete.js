@@ -111,12 +111,12 @@
       href:     'EquipmentDetail.html'
     },
     {
-      name:     'Volvo EC300E Hydraulic Crawler Excavator',
+      name:     'Volvo EC380EL Crawler Excavator',
       category: 'Construction Equipment',
       brand:    'Volvo',
-      year:     '2022',
-      grade:    'B',
-      meta:     '2022 · 3,200 hrs · Dubai, UAE',
+      year:     '2021',
+      grade:    'A',
+      meta:     '2021 · 4,850 hrs · D13J 302 HP · Dubai, UAE',
       href:     'EquipmentDetail.html'
     }
   ];

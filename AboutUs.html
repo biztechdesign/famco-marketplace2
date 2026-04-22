@@ -79,6 +79,12 @@ header{position:sticky;top:20px;z-index:200;background:transparent;padding:0 var
 
 /* ── PAGE BANNER ── */
 .page-banner{position:relative;background:var(--ink);margin-top:-104px;padding:164px var(--px) 80px;z-index:1;overflow:hidden;}
+
+/* Decorative background lines + traveling yellow glow dots */
+.tq-lines{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;}
+.tq-lines path{fill:none;stroke:rgba(255,255,255,.1);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.tq-lines circle.tq-dot{fill:#FFD100;filter:drop-shadow(0 0 3px rgba(255,209,0,.45)) drop-shadow(0 0 7px rgba(255,209,0,.2));}
+@media (prefers-reduced-motion:reduce){.tq-lines circle.tq-dot{display:none;}}
 .pb-bg{position:absolute;inset:0;background:url('https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/c57193e1-325b-4f34-91d9-e1e5d4a00955/renditions/5a054f9b-e9df-4215-b775-be0a880b22fd?binary=true&mformat=true') center/cover no-repeat;}
 .pb-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,14,20,.95) 0%,rgba(10,14,20,.78) 50%,rgba(10,14,20,.55) 100%);}
 .page-banner::before{content:"";position:absolute;left:0;right:0;top:0;height:120px;pointer-events:none;z-index:2;background:linear-gradient(180deg,rgba(248,250,253,.96) 0%,rgba(248,250,253,.82) 45%,rgba(248,250,253,.4) 80%,rgba(248,250,253,0) 100%);}
@@ -291,6 +297,18 @@ footer{background:var(--ink-2);color:rgba(255,255,255,.55);padding:64px var(--px
 <section class="page-banner">
   <div class="pb-bg"></div>
   <div class="pb-overlay"></div>
+  <svg class="tq-lines" viewBox="0 0 1600 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path id="abtLine1" d="M -20 120 L 260 120 Q 320 120 320 180 L 320 340 Q 320 400 380 400 L 780 400"/>
+    <path id="abtLine2" d="M 1620 80 L 1240 80 Q 1180 80 1180 140 L 1180 260 Q 1180 320 1240 320 L 1520 320"/>
+    <path id="abtLine3" d="M -20 460 L 200 460 Q 260 460 260 520 L 260 660"/>
+    <path id="abtLine4" d="M 1620 540 L 1380 540 Q 1320 540 1320 480 L 1320 340"/>
+    <path d="M 800 -20 L 800 80 Q 800 140 860 140 L 1020 140" style="stroke:rgba(255,255,255,.06);"/>
+    <path d="M 560 660 L 560 580 Q 560 520 620 520 L 760 520" style="stroke:rgba(255,255,255,.06);"/>
+    <circle class="tq-dot" r="3"><animateMotion dur="9s" repeatCount="indefinite" rotate="auto"><mpath href="#abtLine1"/></animateMotion></circle>
+    <circle class="tq-dot" r="3"><animateMotion dur="8s" repeatCount="indefinite" begin="-3s" rotate="auto"><mpath href="#abtLine2"/></animateMotion></circle>
+    <circle class="tq-dot" r="3"><animateMotion dur="7s" repeatCount="indefinite" begin="-1s" rotate="auto"><mpath href="#abtLine3"/></animateMotion></circle>
+    <circle class="tq-dot" r="3"><animateMotion dur="7.5s" repeatCount="indefinite" begin="-4s" rotate="auto"><mpath href="#abtLine4"/></animateMotion></circle>
+  </svg>
   <div class="pb-inner">
     <div class="pb-ey">Our Story</div>
     <h1 class="pb-title">Driving the GCC's <em>growth since 1978</em></h1>
