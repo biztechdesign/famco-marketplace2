@@ -137,6 +137,7 @@ header {
 .media-badges{position:absolute;bottom:10px;left:10px;display:flex;gap:6px;z-index:2;}
 .mb{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.5px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);}
 .mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(var(--y-rgb),.35);}
+.mb-video{background:rgba(17,24,39,.78);color:#fff;border-color:rgba(255,255,255,.25);}
 .lc-badge{position:absolute;top:10px;left:10px;background:var(--green);color:var(--white);font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.2);}
 .lc-badge-new{background:var(--y-deeper);color:var(--white);}
 .lc-badge-hot{background:var(--red);}
@@ -174,6 +175,9 @@ header {
 .browse-grid .lc-badge-new  { display: none; }
 .browse-grid .lc-badge-hot  { display: none; }
 .browse-grid .media-badges  { display: none; }
+/* Show media badges on cards that have a real 3D Sketchfab embed OR a hover video */
+.browse-grid .lc-thumb-sf .media-badges,
+.browse-grid .lc[data-hover-video] .media-badges { display: flex; }
 .browse-grid .lc-compare    { display: none; }
 .browse-grid .lc-body       { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; row-gap: 12px; }
 .browse-grid .lc-name       { grid-column: 1/-1; grid-row: 1; margin-bottom: 0; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
@@ -1090,13 +1094,13 @@ function bbSubmitSearch(e) {
         </div>
       </div>
 
-      <!-- Card 3 – Volvo A25G 3D model -->
+      <!-- Card 3 – Volvo EC380EL 3D model (mirrors Homepage card 3) -->
       <div class="lc" onclick="location.href='EquipmentDetail.html'">
         <div class="lc-thumb lc-thumb-sf">
           <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
-            <iframe title="Volvo A25G" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/be7e61496aa249b8a10e642a2288a94d/embed?camera=0"></iframe>
+            <iframe title="Volvo EC380EL" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/670325cfb1534d4aa19d5b2c38d1034e/embed?camera=0&autostart=1&autospin=0.2"></iframe>
           </div>
-          <span class="lc-badge lc-badge-new">New Listing</span>
+          <span class="lc-badge">FAMCO Approved</span>
           <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
             <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
@@ -1104,15 +1108,15 @@ function bbSubmitSearch(e) {
           <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
-          <span class="lc-cat">Construction</span>
-          <div class="lc-name">Volvo A25G Articulated Dump Truck</div>
+          <span class="lc-cat">Excavator</span>
+          <div class="lc-name">Volvo EC380EL Crawler Excavator</div>
           <div class="lc-specs">
-            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
-            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">2,450 hrs</span></div>
-            <div class="sp"><span class="sp-k">Payload</span><span class="sp-v">24,000 kg</span></div>
+            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2021</span></div>
+            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">4,850 hrs</span></div>
+            <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13J, 302 HP</span></div>
             <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
           </div>
-          <div class="lc-price"><span class="lc-cur">AED</span>895,000</div>
+          <div class="lc-price"><span class="lc-cur">AED</span>485,000</div>
           <div class="lc-ft">
             <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
             <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -1438,12 +1442,21 @@ function bbSubmitSearch(e) {
 </script>
 
 <script>
-/* ── HOVER VIDEO ON CARDS ── */
+/* ── HOVER VIDEO ON CARDS + inject a VIDEO media-badge ── */
 (function(){
+  var videoBadgeHTML =
+    '<span class="mb mb-video">' +
+      '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+        '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>' +
+      '</svg> VIDEO' +
+    '</span>';
+
   document.querySelectorAll('.lc[data-hover-video]').forEach(function(card){
     var src=card.getAttribute('data-hover-video');
     var thumb=card.querySelector('.lc-thumb');
     if(!thumb||!src)return;
+
+    /* Hover video */
     var vid=document.createElement('video');
     vid.className='lc-hover-video';
     vid.src=src;
@@ -1453,6 +1466,15 @@ function bbSubmitSearch(e) {
     thumb.appendChild(vid);
     card.addEventListener('mouseenter',function(){vid.play().catch(function(){});});
     card.addEventListener('mouseleave',function(){vid.pause();vid.currentTime=0;});
+
+    /* Inject VIDEO badge */
+    var mb = thumb.querySelector('.media-badges');
+    if (!mb) {
+      mb = document.createElement('div');
+      mb.className = 'media-badges';
+      thumb.appendChild(mb);
+    }
+    if (!mb.querySelector('.mb-video')) mb.insertAdjacentHTML('beforeend', videoBadgeHTML);
   });
 })();
 </script>

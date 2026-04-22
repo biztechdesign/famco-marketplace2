@@ -370,43 +370,6 @@ h2.sec-t.on-dk{
 .sec-sub{font-size:15px;color:var(--body);margin-top:8px;max-width:520px;line-height:1.65;}
 .sec-sub.on-dk{color:rgba(255,255,255,.5);}
 
-/* 360° View Showcase — 50/50 title vs 3D viewer.
-   Section background matches Sketchfab's default grey viewer gradient so
-   the iframe edges blend invisibly into the page. */
-.sec-3d{
-  padding-top:64px;padding-bottom:80px;
-  background:radial-gradient(ellipse at center, #e5e9ec 0%, #d2d7dc 65%, #c6cbd1 100%);
-}
-.s3d-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:48px;
-  align-items:center;
-}
-.s3d-copy{display:flex;align-items:center;}
-.s3d-t{
-  font-size:56px;font-weight:800;letter-spacing:-1.6px;line-height:1.05;color:var(--ink);
-}
-.s3d-t span{color:var(--y-deeper);}
-.s3d-viewer{
-  position:relative;
-  width:100%;aspect-ratio:16/10;
-  overflow:hidden;
-  background:transparent;
-}
-.s3d-viewer .sketchfab-embed-wrapper,
-.s3d-viewer .sketchfab-embed-wrapper iframe{
-  position:absolute;inset:0;width:100%;height:100%;border:0;
-}
-@media (max-width:900px){
-  .s3d-grid{grid-template-columns:1fr;gap:28px;}
-  .s3d-t{font-size:40px;letter-spacing:-1px;text-align:center;}
-  .s3d-copy{justify-content:center;}
-}
-@media (max-width:480px){
-  .s3d-t{font-size:32px;}
-  .sec-3d{padding-top:24px;padding-bottom:48px;}
-}
 .va{
   display:inline-flex;align-items:center;gap:6px;
   font-size:13px;font-weight:700;color:var(--y-deeper);
@@ -514,6 +477,10 @@ h2.sec-t.on-dk{
 .mb-3d{
   background:rgba(17,24,39,.75);color:var(--y);
   border-color:rgba(var(--y-rgb),.35);
+}
+.mb-video{
+  background:rgba(17,24,39,.78);color:#fff;
+  border-color:rgba(255,255,255,.25);
 }
 
 /* Approval badge */
@@ -1551,6 +1518,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 .lc-badge-new{display:none;}
 .lc-badge-hot{display:none;}
 .media-badges{display:none;}
+/* Show media badges on cards with a 3D Sketchfab embed or a hover video */
+.lc-thumb-sf .media-badges,
+.lc[data-hover-video] .media-badges{display:flex;}
 .lc-compare{display:none;}
 .lc-body{display:grid;grid-template-columns:1fr auto;align-items:center;column-gap:12px;row-gap:12px;}
 .lc-name{grid-column:1/-1;grid-row:1;margin-bottom:0;padding-bottom:12px;border-bottom:1px solid var(--border);}
@@ -2036,7 +2006,8 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 ═══════════════════════════════ */
 .features-section{
   position:relative;
-  height:600vh;
+  /* 5 feature items × ~125vh dwell + 100vh sticky viewport ≈ 725vh */
+  height:725vh;
   background:#FAFAF8;
 }
 .features-pin{
@@ -2081,7 +2052,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   top:50%;
   transform:translate3d(0,0,0);
   will-change:transform,opacity,color;
-  pointer-events:auto;
+  pointer-events:none;
 }
 .feature-title{
   font-family:'Inter',sans-serif;
@@ -2174,7 +2145,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   color:#fff !important;
   transform:none !important;
 }
-.feature-video{
+.feature-video,.feature-media{
   position:absolute;
   inset:0;
   width:100%;
@@ -2185,11 +2156,16 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   transform-origin:center center;
   transition:opacity .35s cubic-bezier(.22,.61,.36,1), transform .45s cubic-bezier(.22,.61,.36,1);
   will-change:opacity,transform;
+  pointer-events:none;
 }
-.feature-video.active{
+.feature-video.active,.feature-media.active{
   opacity:1;
   transform:scale(1);
+  pointer-events:auto;
 }
+/* Sketchfab iframe in the first slot: fill the panel cleanly */
+.feature-iframe{background:#dfe3e7;overflow:hidden;}
+.feature-iframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;}
 .features-progress{
   position:absolute;
   left:var(--px);
@@ -2461,7 +2437,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
   <div class="listings-grid">
 
-    <!-- Card 1 – Video + 3D -->
+    <!-- Card 1 – Video hover preview -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'" data-hover-video="images/Video_Generation_From_User_Request.mp4">
       <div class="lc-thumb">
         <img src="images/Detailimage1.png"
@@ -2478,7 +2454,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
         <span class="lc-grade">Grade A</span>
         <div class="media-badges">
-          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
+          <span class="mb mb-video"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> VIDEO</span>
         </div>
       </div>
       <div class="lc-body">
@@ -2498,7 +2474,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       </div>
     </div>
 
-    <!-- Card 2 – Video only -->
+    <!-- Card 2 – Video hover preview -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'" data-hover-video="images/thumbvideo.mp4">
       <div class="lc-thumb">
         <img src="images/Volvo FE 280.jpg"
@@ -2514,7 +2490,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
         <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
         <span class="lc-grade">Grade B</span>
         <div class="media-badges">
-          <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
+          <span class="mb mb-video"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> VIDEO</span>
         </div>
       </div>
       <div class="lc-body">
@@ -2598,22 +2574,6 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 </section>
 
 
-<!-- ═══════════════════════════════
-     360° VIEW SHOWCASE — title on left, interactive 3D model on right
-═══════════════════════════════ -->
-<section class="sec sec-3d">
-  <div class="s3d-grid">
-    <div class="s3d-copy">
-      <h2 class="s3d-t"><span>360°</span> View of Equipment</h2>
-    </div>
-    <div class="s3d-viewer">
-      <div class="sketchfab-embed-wrapper">
-        <iframe title="Volvo L220H" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/ae722dd38bf5491590cb5df4df800871/embed?camera=0"></iframe>
-      </div>
-    </div>
-  </div>
-</section>
-
 
 <!-- ═══════════════════════════════
      FEATURES — pinned scroll-swap (left text / right video)
@@ -2624,30 +2584,37 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
       <div class="features-left">
         <div class="feature-item" data-idx="0">
-          <h2 class="feature-title">OEM backed certifications</h2>
+          <h2 class="feature-title">360&deg; View of Equipment</h2>
         </div>
         <div class="feature-item" data-idx="1">
-          <h2 class="feature-title">Arabic-first platform</h2>
+          <h2 class="feature-title">OEM backed certifications</h2>
         </div>
         <div class="feature-item" data-idx="2">
+          <h2 class="feature-title">Arabic-first platform</h2>
+        </div>
+        <div class="feature-item" data-idx="3">
           <h2 class="feature-title">WhatsApp Commerce Enabled</h2>
         </div>
-        <div class="feature-item is-last" data-idx="3">
+        <div class="feature-item is-last" data-idx="4">
           <h2 class="feature-title">Rebuilt in GCC, Shipping to the World</h2>
         </div>
       </div>
 
       <div class="features-right">
-        <video class="feature-video active" data-idx="0" muted playsinline loop autoplay>
+        <!-- idx 0: interactive 3D Sketchfab viewer -->
+        <div class="feature-media feature-iframe active" data-idx="0">
+          <iframe title="Volvo L220H" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/ae722dd38bf5491590cb5df4df800871/embed?camera=0"></iframe>
+        </div>
+        <video class="feature-media feature-video" data-idx="1" muted playsinline loop>
           <source src="OEM%20Certification.mp4" type="video/mp4">
         </video>
-        <video class="feature-video" data-idx="1" muted playsinline loop>
+        <video class="feature-media feature-video" data-idx="2" muted playsinline loop>
           <source src="Arabic-first%20platform.mp4" type="video/mp4">
         </video>
-        <video class="feature-video" data-idx="2" muted playsinline loop>
+        <video class="feature-media feature-video" data-idx="3" muted playsinline loop>
           <source src="WhatsApp%20(Arabic).mp4" type="video/mp4">
         </video>
-        <video class="feature-video" data-idx="3" muted playsinline loop>
+        <video class="feature-media feature-video" data-idx="4" muted playsinline loop>
           <source src="Ship%20Worldwide.mp4" type="video/mp4">
         </video>
       </div>
@@ -2659,6 +2626,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       <div class="features-dot" data-idx="1"></div>
       <div class="features-dot" data-idx="2"></div>
       <div class="features-dot" data-idx="3"></div>
+      <div class="features-dot" data-idx="4"></div>
     </div>
   </div>
 </section>
@@ -2952,12 +2920,21 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 </script>
 
 <script>
-/* ── HOVER VIDEO ON CARDS ── */
+/* ── HOVER VIDEO ON CARDS + inject a VIDEO media-badge ── */
 (function(){
+  var videoBadgeHTML =
+    '<span class="mb mb-video">' +
+      '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
+        '<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>' +
+      '</svg> VIDEO' +
+    '</span>';
+
   document.querySelectorAll('.lc[data-hover-video]').forEach(function(card){
     var src=card.getAttribute('data-hover-video');
     var thumb=card.querySelector('.lc-thumb');
     if(!thumb||!src)return;
+
+    /* Hover video */
     var vid=document.createElement('video');
     vid.className='lc-hover-video';
     vid.src=src;
@@ -2967,6 +2944,15 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     thumb.appendChild(vid);
     card.addEventListener('mouseenter',function(){vid.play().catch(function(){});});
     card.addEventListener('mouseleave',function(){vid.pause();vid.currentTime=0;});
+
+    /* Inject VIDEO badge into the card's .media-badges bar (create one if missing) */
+    var mb = thumb.querySelector('.media-badges');
+    if (!mb) {
+      mb = document.createElement('div');
+      mb.className = 'media-badges';
+      thumb.appendChild(mb);
+    }
+    if (!mb.querySelector('.mb-video')) mb.insertAdjacentHTML('beforeend', videoBadgeHTML);
   });
 })();
 </script>
@@ -3409,7 +3395,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   var inner  = section.querySelector('.features-inner');
   var rightPanel = section.querySelector('.features-right');
   var items  = section.querySelectorAll('.feature-item');
-  var videos = section.querySelectorAll('.feature-video');
+  var medias = section.querySelectorAll('.feature-media');
   var dots   = section.querySelectorAll('.features-dot');
   var count  = items.length;
   var currentIdx = -1;
@@ -3479,12 +3465,15 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     if(idx === currentIdx) return;
     currentIdx = idx;
 
-    videos.forEach(function(v, i){
-      v.classList.toggle('active', i === idx);
-      if(i === idx){
-        v.play().catch(function(){});
-      } else {
-        v.pause();
+    medias.forEach(function(m, i){
+      m.classList.toggle('active', i === idx);
+      /* Only videos need play/pause — iframes (Sketchfab) handle their own state */
+      if (m.tagName === 'VIDEO') {
+        if(i === idx){
+          m.play().catch(function(){});
+        } else {
+          m.pause();
+        }
       }
     });
     dots.forEach(function(d, i){
@@ -3525,6 +3514,16 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       if(!(isLast && inner && inner.classList.contains('expanded'))){
         el.style.transform = 'translate3d(0,' + y.toFixed(1) + 'px,0) scale(1)';
       }
+
+      /* Fade items out when they're not near the active centre so only the
+         current title is readable — prevents adjacent titles from overlapping
+         now that we have 5 items in the same sticky viewport. */
+      var dist = Math.abs(clamped - 0.5);  /* 0 = active centre, 0.5 = item edge */
+      var op;
+      if (dist <= 0.15)       op = 1;
+      else if (dist >= 0.5)   op = 0;
+      else                    op = 1 - (dist - 0.15) / 0.35;
+      el.style.opacity = op.toFixed(3);
 
       var chars = titleChars[i];
       if(!chars) return;

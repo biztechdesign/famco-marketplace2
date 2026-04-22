@@ -73,7 +73,7 @@ header{position:sticky;top:20px;z-index:200;background:transparent;padding:0 var
 .nav-hamburger{display:none;width:40px;height:40px;border-radius:var(--r);align-items:center;justify-content:center;color:var(--ink);cursor:pointer;}
 
 /* ── HERO ── */
-.page-banner{position:relative;background:var(--ink);margin-top:-104px;padding:164px var(--px) 90px;z-index:1;overflow:hidden;}
+.page-banner{position:relative;background:var(--ink);margin-top:-104px;padding:140px var(--px) 60px;z-index:1;overflow:hidden;}
 .pb-bg{position:absolute;inset:0;background:url('https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/9bc37f3b-b417-4f83-a4c3-077dec5c053b/renditions/af0e6015-9bb0-42a3-9793-61d04d656eed?binary=true&mformat=true') center/cover no-repeat;}
 .pb-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,14,20,.96) 0%,rgba(10,14,20,.82) 45%,rgba(10,14,20,.55) 100%);}
 .page-banner::before{content:"";position:absolute;left:0;right:0;top:0;height:120px;pointer-events:none;z-index:2;background:linear-gradient(180deg,rgba(248,250,253,.96) 0%,rgba(248,250,253,.82) 45%,rgba(248,250,253,.4) 80%,rgba(248,250,253,0) 100%);}
@@ -91,7 +91,7 @@ header{position:sticky;top:20px;z-index:200;background:transparent;padding:0 var
 .btn-gh:hover{background:rgba(255,255,255,.1);border-color:var(--white);}
 
 /* ── QUICK VALUE STRIP ── */
-.value-strip{background:var(--y);padding:28px var(--px);display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;align-items:center;gap:32px;}
+.value-strip{background:var(--y);padding:22px var(--px);display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;align-items:center;gap:32px;}
 .vs-item{display:flex;align-items:center;gap:12px;}
 .vs-ic{width:38px;height:38px;background:var(--ink);color:var(--y);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .vs-t{font-size:15px;font-weight:800;color:var(--ink);line-height:1.2;}
@@ -114,7 +114,7 @@ h2.sec-t em{color:var(--y-deeper);font-style:normal;}
 
 /* ── WHY SELL (6 card grid) ── */
 .why-hd{text-align:center;max-width:720px;margin:0 auto 52px;}
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
 .why-card{
   background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
   padding:30px 28px;transition:transform var(--t),box-shadow var(--t),border-color var(--t);
@@ -362,38 +362,27 @@ footer{background:var(--ink-2);color:rgba(255,255,255,.55);padding:64px var(--px
   <div class="why-hd">
     <div class="sec-ey">Your Trusted Partner</div>
     <h2 class="sec-t">Why sell <em>with us?</em></h2>
-    <p class="sec-sub">Six reasons our customers keep coming back — and why you'll walk away with more than just a fair price.</p>
   </div>
   <div class="why-grid">
     <div class="why-card">
       <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
       <div class="why-t">Maximum Value</div>
-      <div class="why-s">Our expert appraisers ensure you get the best market rate for your equipment, based on real-time GCC market data and FAMCO's 47 years of pricing intelligence.</div>
+      <div class="why-s">Best market rate, based on real-time GCC data and 47 years of pricing intelligence.</div>
     </div>
     <div class="why-card">
       <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <div class="why-t">Hassle-Free Process</div>
-      <div class="why-s">From on-site inspection to listing and final sale, we handle all the paperwork, marketing, and buyer negotiations so you can focus on running your business.</div>
+      <div class="why-t">Hassle-Free</div>
+      <div class="why-s">We handle paperwork, marketing and negotiations end-to-end.</div>
     </div>
     <div class="why-card">
       <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
       <div class="why-t">Massive Reach</div>
-      <div class="why-s">Your equipment will be seen by thousands of verified buyers, contractors, and fleet operators across the UAE, KSA, Qatar, Bahrain, and East Africa.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
-      <div class="why-t">Secure Transactions</div>
-      <div class="why-s">Enjoy peace of mind with guaranteed secure payments, escrow protection, and transparent legal documentation backed by the Al-Futtaim Group.</div>
+      <div class="why-s">Seen by thousands of verified buyers across UAE, KSA, Qatar and Bahrain.</div>
     </div>
     <div class="why-card">
       <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></div>
       <div class="why-t">Expert Appraisal</div>
-      <div class="why-s">Our certified engineers conduct thorough 150-point inspections to accurately value and certify your machinery — boosting its market price by up to 22%.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <div class="why-t">Dedicated Support</div>
-      <div class="why-s">A dedicated account manager will guide you through every step of the selling process — from first call to funds in your account, ensuring a smooth experience.</div>
+      <div class="why-s">Certified 150-point inspection that can lift resale by up to 22%.</div>
     </div>
   </div>
 </section>
@@ -433,54 +422,6 @@ footer{background:var(--ink-2);color:rgba(255,255,255,.55);padding:64px var(--px
   </div>
 </section>
 
-<!-- ── BENEFITS (image + checklist) ── -->
-<section class="sec">
-  <div class="benefits">
-    <div class="benefits-img">
-      <img src="https://dam.alfuttaim.com/dx/api/dam/v1/collections/fe6f98a7-c9c7-4efb-bec2-e1269a91f35c/items/32e4e43e-dc94-46a1-bb45-471979527e5a/renditions/77f2cf9e-a23e-4efb-a4c5-4cc29f4d2479?binary=true" alt="FAMCO engineers appraising heavy equipment">
-    </div>
-    <div>
-      <div class="sec-ey">The FAMCO Advantage</div>
-      <h2 class="sec-t">Benefits of listing your equipment <em>with us</em></h2>
-      <div class="benefits-list">
-        <div class="b-item">
-          <div class="b-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><div class="b-t">The Al-Futtaim Trust</div><div class="b-s">Leverage the credibility of one of the region's most respected corporate groups to attract serious, pre-qualified buyers — not tire-kickers.</div></div>
-        </div>
-        <div class="b-item">
-          <div class="b-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><div class="b-t">Targeted Digital Marketing</div><div class="b-s">We invest heavily in premium digital campaigns — Google, Meta, and industry publications — ensuring your listing appears at the top of relevant search results.</div></div>
-        </div>
-        <div class="b-item">
-          <div class="b-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><div class="b-t">Qualified Buyer Network</div><div class="b-s">We don't just wait for buyers — we actively match your equipment with our database of pre-approved contractors and fleet managers across 20+ countries.</div></div>
-        </div>
-        <div class="b-item">
-          <div class="b-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          <div><div class="b-t">Trade-In Opportunities</div><div class="b-s">Looking to upgrade? We offer seamless trade-in options — credit the value of your old unit directly against a new or FAMCO Approved pre-owned purchase.</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── STATS BAND ── -->
-<section class="stats-band">
-  <div class="stats-band-inner">
-    <div class="stats-band-lead">
-      <h2>Numbers that prove <em>the reach</em></h2>
-      <p>The pre-owned market moves fast. FAMCO's digital and offline reach combined means your listing gets seen — and sold — quicker than anywhere else in the region.</p>
-    </div>
-    <div class="stats-band-grid">
-      <div class="sb-stat"><div class="sb-n">14 days</div><div class="sb-l">Avg. Time to Sale</div></div>
-      <div class="sb-stat"><div class="sb-n">+22%</div><div class="sb-l">Avg. Uplift vs. Private</div></div>
-      <div class="sb-stat"><div class="sb-n">600K+</div><div class="sb-l">Qualified Buyer Reach</div></div>
-      <div class="sb-stat"><div class="sb-n">4</div><div class="sb-l">GCC Countries Served</div></div>
-      <div class="sb-stat"><div class="sb-n">150-pt</div><div class="sb-l">Inspection Standard</div></div>
-      <div class="sb-stat"><div class="sb-n">0%</div><div class="sb-l">Upfront Listing Fee</div></div>
-    </div>
-  </div>
-</section>
 
 <!-- ── LEAD CAPTURE FORM ── -->
 <section class="form-sec" id="appraisal">
@@ -580,16 +521,6 @@ footer{background:var(--ink-2);color:rgba(255,255,255,.55);padding:64px var(--px
   </div>
 </section>
 
-<!-- ── FINAL CTA ── -->
-<section class="final-cta">
-  <div class="final-cta-inner">
-    <div class="final-cta-t">Ready to get started? <em>Let's talk.</em></div>
-    <div class="final-cta-ctas">
-      <a href="tel:80032626" class="btn-dk"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call 800 FAMCO</a>
-      <a href="mailto:sell@famco-used.com" class="btn-ln"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg> Email Us</a>
-    </div>
-  </div>
-</section>
 
 <!-- ── FOOTER ── -->
 <footer>
