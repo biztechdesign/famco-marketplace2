@@ -1535,57 +1535,53 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
    On hover, a single glowing yellow beam travels clockwise around the
    cell's border (top → right → bottom → left → back to top), looping.
    Inspired by terminal-industries.com. */
-.bl-logos .bl-cell .bl-trace{
-  position:absolute;inset:-1px;pointer-events:none;z-index:10;
-  opacity:0;transition:opacity .2s ease;
-}
-.bl-logos .bl-cell:hover .bl-trace{opacity:1;}
-/* Each of the 4 edges gets its own absolutely-positioned span that we
-   animate the length/position of. Width/height = 2px, color = yellow glow. */
-.bl-logos .bl-cell .bl-edge{
-  position:absolute;background:var(--y);
+/* Two glowing beams auto-trace the full .bl-logos rectangle starting from
+   opposite corners (top-left and bottom-right), each running clockwise around
+   the perimeter. ~4.8s per lap (5x the old 24s hover trace). */
+.bl-logos{position:relative;}
+.bl-logos .bl-beam{
+  position:absolute;pointer-events:none;z-index:10;
+  background:var(--y);
   box-shadow:0 0 3px rgba(var(--y-rgb),.45), 0 0 7px rgba(var(--y-rgb),.2);
   border-radius:2px;opacity:0;
 }
-.bl-logos .bl-cell .bl-edge.et{top:0;left:0;height:1px;width:0;}
-.bl-logos .bl-cell .bl-edge.er{top:0;right:0;width:1px;height:0;}
-.bl-logos .bl-cell .bl-edge.eb{bottom:0;right:0;height:1px;width:0;}
-.bl-logos .bl-cell .bl-edge.el{bottom:0;left:0;width:1px;height:0;}
+/* Beam A — starts at the top-left corner, sweeps across the top edge */
+.bl-logos .bl-beam.a1{top:-1px;left:0;height:1px;width:0;animation:blAT 4.8s linear infinite;}
+.bl-logos .bl-beam.a2{top:0;right:-1px;width:1px;height:0;animation:blAR 4.8s linear infinite;}
+.bl-logos .bl-beam.a3{bottom:-1px;right:0;height:1px;width:0;animation:blAB 4.8s linear infinite;}
+.bl-logos .bl-beam.a4{bottom:0;left:-1px;width:1px;height:0;animation:blAL 4.8s linear infinite;}
+/* Beam B — starts at the bottom-right corner (mirror entry point) */
+.bl-logos .bl-beam.b1{bottom:-1px;right:0;height:1px;width:0;animation:blAT 4.8s linear infinite;}
+.bl-logos .bl-beam.b2{bottom:0;left:-1px;width:1px;height:0;animation:blAR 4.8s linear infinite;}
+.bl-logos .bl-beam.b3{top:-1px;left:0;height:1px;width:0;animation:blAB 4.8s linear infinite;}
+.bl-logos .bl-beam.b4{top:0;right:-1px;width:1px;height:0;animation:blAL 4.8s linear infinite;}
 
-.bl-logos .bl-cell:hover .bl-edge{
-  animation:blEdge 24s linear infinite;
-}
-.bl-logos .bl-cell:hover .bl-edge.et{animation-name:blEdgeTop;}
-.bl-logos .bl-cell:hover .bl-edge.er{animation-name:blEdgeRight;animation-delay:6s;}
-.bl-logos .bl-cell:hover .bl-edge.eb{animation-name:blEdgeBottom;animation-delay:12s;}
-.bl-logos .bl-cell:hover .bl-edge.el{animation-name:blEdgeLeft;animation-delay:18s;}
-
-@keyframes blEdgeTop{
+@keyframes blAT{
   0%,100%{opacity:0;width:0;}
-  5% {opacity:1;}
-  25%{width:100%;opacity:1;}
-  30%{width:100%;opacity:0;}
+  2% {opacity:1;}
+  23%{width:100%;opacity:1;}
+  25%{width:100%;opacity:0;}
 }
-@keyframes blEdgeRight{
-  0%,100%{opacity:0;height:0;}
-  5% {opacity:1;}
-  25%{height:100%;opacity:1;}
-  30%{height:100%;opacity:0;}
+@keyframes blAR{
+  0%,25%{opacity:0;height:0;}
+  27%{opacity:1;}
+  48%{height:100%;opacity:1;}
+  50%{height:100%;opacity:0;}
 }
-@keyframes blEdgeBottom{
-  0%,100%{opacity:0;width:0;}
-  5% {opacity:1;}
-  25%{width:100%;opacity:1;}
-  30%{width:100%;opacity:0;}
+@keyframes blAB{
+  0%,50%{opacity:0;width:0;}
+  52%{opacity:1;}
+  73%{width:100%;opacity:1;}
+  75%{width:100%;opacity:0;}
 }
-@keyframes blEdgeLeft{
-  0%,100%{opacity:0;height:0;}
-  5% {opacity:1;}
-  25%{height:100%;opacity:1;}
-  30%{height:100%;opacity:0;}
+@keyframes blAL{
+  0%,75%{opacity:0;height:0;}
+  77%{opacity:1;}
+  98%{height:100%;opacity:1;}
+  100%{height:100%;opacity:0;}
 }
 @media (prefers-reduced-motion:reduce){
-  .bl-logos .bl-cell .bl-trace{display:none;}
+  .bl-logos .bl-beam{display:none;}
 }
 .bl-lbl{
   padding:72px var(--px) 0;text-align:center;
@@ -3595,20 +3591,23 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 </script>
 
 <script>
-/* Inject the hover-trace overlay into each partner-grid cell.
-   Each cell gets a .bl-trace wrapper with 4 edge spans (top/right/bottom/left)
-   that light up in clockwise sequence while hovered. */
+/* Inject the auto-running beam trace into each partner-logo row.
+   Two beams travel clockwise around the row perimeter starting from
+   opposite corners (top-left + bottom-right), each completing a full
+   lap every 4.8s. */
 (function(){
-  document.querySelectorAll('.bl-logos .bl-cell').forEach(function(cell){
-    if (cell.querySelector('.bl-trace')) return;
-    var trace = document.createElement('span');
-    trace.className = 'bl-trace';
-    trace.innerHTML =
-      '<span class="bl-edge et"></span>' +
-      '<span class="bl-edge er"></span>' +
-      '<span class="bl-edge eb"></span>' +
-      '<span class="bl-edge el"></span>';
-    cell.appendChild(trace);
+  document.querySelectorAll('.bl-logos').forEach(function(row){
+    if (row.querySelector('.bl-beam')) return;
+    var html =
+      '<span class="bl-beam a1"></span>' +
+      '<span class="bl-beam a2"></span>' +
+      '<span class="bl-beam a3"></span>' +
+      '<span class="bl-beam a4"></span>' +
+      '<span class="bl-beam b1"></span>' +
+      '<span class="bl-beam b2"></span>' +
+      '<span class="bl-beam b3"></span>' +
+      '<span class="bl-beam b4"></span>';
+    row.insertAdjacentHTML('beforeend', html);
   });
 })();
 </script>
