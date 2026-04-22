@@ -107,6 +107,8 @@ header{
 
 /* Header actions */
 .h-acts{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.h-sep-after{position:relative;padding-right:10px;margin-right:6px;}
+.h-sep-after::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:22px;background:rgba(17,24,39,.18);}
 
 /* Icon buttons */
 .h-act{
@@ -2142,7 +2144,7 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
     <div class="h-acts">
       <!-- Expandable search -->
-      <div class="h-srch-wrap" id="hSrchWrap">
+      <div class="h-srch-wrap h-sep-after" id="hSrchWrap">
         <div class="h-srch-field" id="hSrchField">
           <input type="text" class="h-srch-input" placeholder="Search equipment…" id="hSrchInput" autocomplete="off">
           <button class="h-srch-close" id="hSrchClose" aria-label="Close search">
