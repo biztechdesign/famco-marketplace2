@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact Us — FAMCO Used Equipment</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --y:#FFD100;--y-rgb:255,209,0;--y-dark:#E6BC00;--y-deeper:#C9A400;--y-light:#FFFBE6;--y-pale:#FFFDF0;
+  --ink:#111827;--ink-2:#1F2937;--ink-3:#374151;--body:#4B5563;--muted:#9CA3AF;
+  --border:#E5E7EB;--surface:#F9FAFB;--white:#FFFFFF;
+  --green:#16A34A;--red:#DC2626;--orange:#EA580C;
+  --px:clamp(80px,7vw,140px);--r:8px;--rl:14px;
+  --sh-sm:0 1px 4px rgba(0,0,0,.07);--sh-md:0 4px 20px rgba(0,0,0,.11);--sh-lg:0 10px 40px rgba(0,0,0,.14);
+  --t:.22s ease;
+}
+
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--white);color:var(--ink);width:100%;font-size:14px;line-height:1.6;}
+a{text-decoration:none;color:inherit;}
+img{display:block;max-width:100%;}
+ul{list-style:none;}
+button{cursor:pointer;border:none;background:none;font-family:inherit;}
+
+/* ── LOCALE SWITCH ── */
+.switch{display:flex;align-items:center;gap:2px;background:rgba(17,24,39,.07);border-radius:20px;padding:3px 4px;}
+.sw-btn{font-size:11px;font-weight:600;color:var(--muted);padding:2px 9px;border-radius:16px;cursor:pointer;transition:all var(--t);letter-spacing:.3px;}
+.sw-btn.on{background:var(--ink);color:var(--white);font-weight:700;}
+
+/* ── HEADER ── */
+header{position:sticky;top:20px;z-index:200;background:transparent;padding:0 var(--px);}
+.h-shell{
+  background:linear-gradient(90deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.82) 120px, rgba(255,255,255,.65) 260px, rgba(255,255,255,.48) 400px, rgba(255,255,255,.38) 560px, rgba(255,255,255,.35) 100%);
+  backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.35);border-radius:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,.18);
+}
+.h-row{padding:0 20px;height:60px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;}
+.h-row>.logo{grid-column:1;justify-self:start;}
+.h-row>.h-acts{grid-column:3;justify-self:end;margin-left:0;}
+.h-row>.nav-hamburger{grid-column:3;justify-self:end;}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo img{height:40px;width:auto;}
+.h-acts{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.h-sep-after{position:relative;padding-right:10px;margin-right:6px;}
+.h-sep-after::after{content:"";position:absolute;right:0;top:50%;transform:translateY(-50%);width:1px;height:22px;background:rgba(17,24,39,.18);}
+.h-act{width:38px;height:38px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;transition:background var(--t);color:rgba(17,24,39,.8);cursor:pointer;flex-shrink:0;}
+.h-act:hover{background:rgba(17,24,39,.08);color:var(--ink);}
+.h-srch-wrap{position:relative;display:flex;align-items:center;}
+.h-srch-field{position:absolute;right:100%;top:50%;transform:translateY(-50%);width:0;overflow:hidden;transition:width .26s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;background:rgba(17,24,39,.06);border:1.5px solid transparent;border-radius:var(--r);margin-right:4px;visibility:hidden;}
+.h-srch-wrap.open .h-srch-field{width:300px;border-color:var(--y-deeper);visibility:visible;}
+.h-srch-input{flex:1;height:36px;border:none;background:transparent;padding:0 10px;font-size:13px;font-family:inherit;color:var(--ink);outline:none;}
+.h-srch-input::placeholder{color:rgba(17,24,39,.45);}
+.h-srch-close{flex-shrink:0;width:34px;height:36px;display:flex;align-items:center;justify-content:center;color:rgba(17,24,39,.5);cursor:pointer;background:none;border:none;}
+.h-acct{position:relative;margin-left:4px;}
+.h-cta{background:var(--y);color:var(--ink);padding:0 16px;height:38px;border-radius:var(--r);font-size:12.5px;font-weight:800;display:flex;align-items:center;gap:6px;transition:background var(--t);white-space:nowrap;cursor:pointer;border:none;}
+.h-cta-icon{width:38px;height:38px;padding:0;justify-content:center;gap:0;}
+.h-cta:hover{background:var(--y-dark);}
+.h-acct-drop{position:absolute;top:calc(100% + 6px);right:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh-md);min-width:160px;padding:6px;opacity:0;pointer-events:none;transform:translateY(-6px);transition:opacity .15s,transform .15s;z-index:300;}
+.h-acct:hover .h-acct-drop,.h-acct:focus-within .h-acct-drop{opacity:1;pointer-events:all;transform:translateY(0);}
+.h-acct-link{display:block;padding:9px 14px;border-radius:6px;font-size:13px;font-weight:600;color:var(--ink);}
+.h-acct-link:hover{background:var(--surface);}
+.h-locale{display:flex;align-items:center;gap:5px;padding-left:10px;margin-left:4px;border-left:1px solid rgba(17,24,39,.15);}
+.h-nav{padding:0 12px;display:flex;align-items:center;justify-content:center;height:44px;gap:2px;border-top:1px solid rgba(17,24,39,.08);border-radius:0 0 14px 14px;}
+.nv-item{position:relative;height:100%;display:flex;align-items:center;}
+.nv-link{display:flex;align-items:center;gap:6px;padding:0 16px;height:100%;font-size:15px;font-weight:600;color:rgba(17,24,39,.72);letter-spacing:.1px;white-space:nowrap;transition:all var(--t);cursor:pointer;position:relative;}
+.nv-link:hover,.nv-item:hover>.nv-link{color:var(--ink);background:rgba(17,24,39,.06);}
+.nv-link.act{color:var(--ink);font-weight:800;}
+.nv-link.act::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:var(--y);border-radius:2px 2px 0 0;}
+.nav-hamburger{display:none;width:40px;height:40px;border-radius:var(--r);align-items:center;justify-content:center;color:var(--ink);cursor:pointer;}
+
+/* ── HERO ── */
+.page-banner{position:relative;background:var(--ink);margin-top:-104px;padding:164px var(--px) 90px;z-index:1;overflow:hidden;}
+.pb-bg{position:absolute;inset:0;background:url('https://dam.alfuttaim.com/dx/api/dam/v1/collections/47c6a278-a1a1-46d5-b97f-c66ddf21731e/items/c57193e1-325b-4f34-91d9-e1e5d4a00955/renditions/5a054f9b-e9df-4215-b775-be0a880b22fd?binary=true&mformat=true') center/cover no-repeat;}
+.pb-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(10,14,20,.95) 0%,rgba(10,14,20,.78) 50%,rgba(10,14,20,.6) 100%);}
+.page-banner::before{content:"";position:absolute;left:0;right:0;top:0;height:120px;pointer-events:none;z-index:2;background:linear-gradient(180deg,rgba(248,250,253,.96) 0%,rgba(248,250,253,.82) 45%,rgba(248,250,253,.4) 80%,rgba(248,250,253,0) 100%);}
+.pb-inner{position:relative;z-index:3;max-width:820px;}
+.pb-chip{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;background:rgba(255,209,0,.12);border:1px solid rgba(255,209,0,.35);color:var(--y);font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px;}
+.pb-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--y);animation:chip-pulse 1.6s ease-in-out infinite;}
+@keyframes chip-pulse{0%,100%{opacity:.35;}50%{opacity:1;}}
+.pb-title{font-size:48px;font-weight:800;color:var(--white);letter-spacing:-1.2px;line-height:1.1;max-width:820px;}
+.pb-title em{color:var(--y);font-style:normal;}
+.pb-lead{font-size:16px;color:rgba(255,255,255,.76);margin-top:20px;max-width:680px;line-height:1.7;}
+
+/* ── CONTACT MAIN GRID ── */
+.contact-wrap{padding:80px var(--px);background:var(--surface);}
+.contact-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:36px;max-width:1300px;margin:0 auto;}
+
+/* LEFT: info cards */
+.info-col h2{font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.4px;margin-bottom:8px;}
+.info-col>p{font-size:14px;color:var(--body);margin-bottom:24px;line-height:1.7;}
+.info-card{
+  background:var(--white);border-radius:var(--rl);padding:20px 22px;
+  display:flex;align-items:flex-start;gap:16px;
+  border:1px solid var(--border);
+  border-left:4px solid var(--y);
+  margin-bottom:14px;
+  transition:box-shadow var(--t),transform var(--t);
+}
+.info-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px);}
+.info-ic{width:42px;height:42px;border-radius:10px;background:var(--y-pale);color:var(--y-deeper);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.info-ct{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.info-sub{font-size:12px;color:var(--body);margin-top:3px;}
+.info-val{font-size:16px;font-weight:800;color:var(--ink);margin-top:6px;}
+.info-val a{color:var(--ink);transition:color var(--t);}
+.info-val a:hover{color:var(--y-deeper);}
+
+/* Socials on info col */
+.info-soc{margin-top:20px;}
+.info-soc-t{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.info-soc-row{display:flex;gap:8px;}
+.info-soc-b{width:40px;height:40px;border-radius:10px;background:var(--white);border:1px solid var(--border);color:var(--ink);display:flex;align-items:center;justify-content:center;transition:all var(--t);}
+.info-soc-b:hover{background:var(--y);border-color:var(--y);color:var(--ink);transform:translateY(-2px);}
+
+/* RIGHT: form card */
+.form-card{
+  background:var(--white);border-radius:var(--rl);padding:40px;
+  box-shadow:0 12px 48px rgba(17,24,39,.09);border:1px solid var(--border);
+  position:relative;
+}
+.form-card::before{content:"";position:absolute;left:0;top:0;width:100%;height:5px;background:linear-gradient(90deg,var(--y) 0%,var(--y-deeper) 100%);border-radius:var(--rl) var(--rl) 0 0;}
+.form-hd{display:flex;align-items:center;gap:14px;margin-bottom:4px;}
+.form-hd-ic{width:44px;height:44px;border-radius:12px;background:var(--y);color:var(--ink);display:flex;align-items:center;justify-content:center;}
+.form-hd h2{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.5px;}
+.form-sub{font-size:13.5px;color:var(--body);margin:0 0 28px 58px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-label{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.3px;}
+.form-label .req{color:var(--red);}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:12px 14px;font-size:14px;font-family:inherit;color:var(--ink);
+  background:var(--surface);border:1.5px solid transparent;border-radius:var(--r);
+  transition:border-color var(--t),background var(--t),box-shadow var(--t);
+  outline:none;
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  background:var(--white);border-color:var(--y-deeper);
+  box-shadow:0 0 0 3px rgba(var(--y-rgb),.2);
+}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--muted);}
+.form-select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23111' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
+.form-textarea{resize:vertical;min-height:130px;}
+.form-submit{
+  margin-top:12px;width:100%;
+  background:var(--y);color:var(--ink);
+  padding:15px 24px;border-radius:var(--r);
+  font-size:14.5px;font-weight:800;letter-spacing:.3px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  cursor:pointer;border:none;
+  transition:background var(--t),transform var(--t),box-shadow var(--t);
+}
+.form-submit:hover{background:var(--y-dark);transform:translateY(-1px);box-shadow:0 8px 20px rgba(var(--y-rgb),.35);}
+.form-privacy{font-size:12px;color:var(--muted);margin-top:14px;text-align:center;line-height:1.6;}
+.form-privacy a{color:var(--y-deeper);font-weight:700;}
+.form-privacy a:hover{text-decoration:underline;}
+
+/* ── REGIONAL OFFICES ── */
+.offices-sec{padding:88px var(--px);background:var(--white);}
+.offices-hd{text-align:center;max-width:680px;margin:0 auto 48px;}
+.sec-ey{font-size:11px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--y-deeper);margin-bottom:14px;}
+h2.sec-t{font-size:36px;font-weight:800;letter-spacing:-.8px;line-height:1.15;color:var(--ink);}
+h2.sec-t em{color:var(--y-deeper);font-style:normal;}
+.sec-sub{font-size:15.5px;color:var(--body);margin-top:14px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.75;}
+.offices-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.office-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--rl);
+  padding:26px 24px;position:relative;overflow:hidden;
+  transition:transform var(--t),box-shadow var(--t),border-color var(--t);
+}
+.office-card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg);border-color:var(--y);}
+.office-card::after{content:"";position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(var(--y-rgb),.12) 0%,transparent 70%);pointer-events:none;}
+.office-flag{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:4px;}
+.office-city{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.3px;margin-bottom:14px;}
+.office-hq{display:inline-block;margin-left:8px;font-size:9px;background:var(--y);color:var(--ink);padding:2px 6px;border-radius:4px;letter-spacing:1px;vertical-align:middle;font-weight:800;}
+.office-addr{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;font-size:13px;color:var(--body);line-height:1.65;}
+.office-addr-ic{width:16px;height:16px;color:var(--y-deeper);flex-shrink:0;margin-top:3px;}
+.office-phone{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid var(--border);}
+.office-phone-ic{width:16px;height:16px;color:var(--y-deeper);flex-shrink:0;}
+.office-phone a{font-size:13.5px;font-weight:700;color:var(--ink);transition:color var(--t);}
+.office-phone a:hover{color:var(--y-deeper);}
+
+/* ── FAQ / QUICK QUESTIONS ── */
+.faq-sec{padding:80px var(--px);background:var(--surface);}
+.faq-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:60px;max-width:1200px;margin:0 auto;}
+.faq-left h2.sec-t{font-size:34px;}
+.faq-items{display:flex;flex-direction:column;gap:12px;}
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color var(--t),box-shadow var(--t);}
+.faq-item[open]{border-color:var(--y);box-shadow:var(--sh-sm);}
+.faq-item summary{padding:18px 22px;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:14px;list-style:none;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:"+";font-size:22px;font-weight:400;color:var(--y-deeper);transition:transform var(--t);flex-shrink:0;}
+.faq-item[open] summary::after{content:"−";}
+.faq-item p{padding:0 22px 20px;font-size:14px;color:var(--body);line-height:1.75;}
+
+/* ── FOOTER ── */
+footer{background:var(--ink-2);color:rgba(255,255,255,.55);padding:64px var(--px) 24px;}
+.ft-top{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;margin-bottom:44px;}
+.ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ft-logo-pill{display:inline-flex;align-items:center;justify-content:center;background:#fff;padding:10px 14px;border-radius:10px;}
+.ft-logo-pill img{height:42px;width:auto;display:block;}
+.ft-tag{font-size:13px;line-height:1.7;color:rgba(255,255,255,.5);max-width:320px;}
+.ft-soc{display:flex;gap:10px;margin-top:18px;}
+.soc-b{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);color:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;transition:background var(--t),color var(--t);}
+.soc-b:hover{background:var(--y);color:var(--ink);}
+.ft-ct{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--white);margin-bottom:16px;}
+.ft-ls{display:flex;flex-direction:column;gap:10px;}
+.ft-ls a{font-size:13px;color:rgba(255,255,255,.5);transition:color var(--t);}
+.ft-ls a:hover{color:var(--y);}
+.ft-bot{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:12px;color:rgba(255,255,255,.4);}
+.ft-legal{display:flex;gap:18px;}
+.ft-legal a:hover{color:var(--y);}
+
+/* ── RESPONSIVE ── */
+@media (max-width:1024px){
+  .h-nav{display:none;}
+  .nav-hamburger{display:flex;}
+  .contact-grid{grid-template-columns:1fr;}
+  .offices-grid{grid-template-columns:repeat(2,1fr);}
+  .faq-grid{grid-template-columns:1fr;gap:32px;}
+  .ft-top{grid-template-columns:1fr 1fr;gap:32px;}
+}
+@media (max-width:640px){
+  .page-banner{padding:120px var(--px) 60px;}
+  .pb-title{font-size:34px;}
+  .pb-lead{font-size:15px;}
+  .contact-wrap,.offices-sec,.faq-sec{padding:56px var(--px);}
+  .form-row{grid-template-columns:1fr;gap:14px;margin-bottom:14px;}
+  .form-card{padding:28px 22px;}
+  .form-sub{margin-left:0;margin-bottom:20px;}
+  h2.sec-t{font-size:28px;}
+  .offices-grid{grid-template-columns:1fr;}
+  .ft-top{grid-template-columns:1fr;}
+}
+
+/* ── Nav drawer ── */
+.nav-drawer-overlay{position:fixed;inset:0;background:rgba(17,24,39,.6);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s;z-index:400;}
+.nav-drawer-overlay.open{opacity:1;pointer-events:all;}
+.nav-drawer{position:fixed;top:0;right:0;bottom:0;width:300px;max-width:85vw;background:var(--white);transform:translateX(100%);transition:transform .28s ease;z-index:401;display:flex;flex-direction:column;padding:20px;overflow-y:auto;}
+.nav-drawer.open{transform:translateX(0);}
+.nav-drawer-logo{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.nav-drawer-logo img{height:34px;}
+.nav-drawer-link{padding:12px 0;font-size:15px;font-weight:600;color:var(--ink);border-bottom:1px solid var(--border);}
+.nav-drawer-link:last-of-type{border-bottom:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-shell">
+    <div class="h-row">
+      <a href="Homepage.html" class="logo">
+        <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used" onerror="this.style.display='none'">
+      </a>
+      <div class="h-acts">
+        <div class="h-srch-wrap h-sep-after" id="hSrchWrap">
+          <div class="h-srch-field" id="hSrchField">
+            <input type="text" class="h-srch-input" placeholder="Search equipment…" id="hSrchInput" autocomplete="off">
+            <button class="h-srch-close" id="hSrchClose" aria-label="Close search"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+          </div>
+          <button class="h-act" id="hSrchBtn" aria-label="Search"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="13" r="5"/><path d="M19 23l-4.5-4.5"/><path d="M17.5 1.5l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z" fill="currentColor" stroke="none"/></svg></button>
+        </div>
+        <button class="h-act h-saved" aria-label="Saved"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <div class="h-acct">
+          <button class="h-cta h-cta-icon" aria-label="Account"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></button>
+          <div class="h-acct-drop"><a href="#" class="h-acct-link">Sign In</a><a href="#" class="h-acct-link">Create Account</a></div>
+        </div>
+        <div class="h-locale"><div class="switch"><span class="sw-btn on">AED</span><span class="sw-btn">USD</span></div></div>
+      </div>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+    <nav class="h-nav">
+      <div class="nv-item"><a href="Homepage.html" class="nv-link">Home</a></div>
+      <div class="nv-item"><a href="BrowseEquipment.html" class="nv-link">Browse Equipment</a></div>
+      <div class="nv-item"><a href="SellYourEquipment.html" class="nv-link">Sell Your Equipment</a></div>
+      <div class="nv-item"><a href="AboutUs.html" class="nv-link">About Us</a></div>
+      <div class="nv-item"><a href="ContactUs.html" class="nv-link act">Contact</a></div>
+    </nav>
+  </div>
+</header>
+
+<div class="nav-drawer-overlay" id="navOverlay"></div>
+<aside class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-logo"><img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used"></div>
+  <a href="Homepage.html" class="nav-drawer-link">Home</a>
+  <a href="BrowseEquipment.html" class="nav-drawer-link">Browse Equipment</a>
+  <a href="SellYourEquipment.html" class="nav-drawer-link">Sell Your Equipment</a>
+  <a href="AboutUs.html" class="nav-drawer-link">About Us</a>
+  <a href="ContactUs.html" class="nav-drawer-link">Contact</a>
+</aside>
+
+<!-- ── HERO ── -->
+<section class="page-banner">
+  <div class="pb-bg"></div>
+  <div class="pb-overlay"></div>
+  <div class="pb-inner">
+    <div class="pb-chip"><span class="pb-chip-dot"></span>We're Here to Help</div>
+    <h1 class="pb-title">Get in <em>touch</em></h1>
+    <p class="pb-lead">Whether you're looking to buy, sell, or finance equipment, our team of experts is ready to assist you across the GCC — usually back to you within one business hour.</p>
+  </div>
+</section>
+
+<!-- ── CONTACT MAIN ── -->
+<section class="contact-wrap">
+  <div class="contact-grid">
+
+    <!-- Left column: info cards -->
+    <div class="info-col">
+      <h2>Contact Information</h2>
+      <p>Reach out to our dedicated support team. We aim to respond to all inquiries within 24 business hours, typically within the same working day.</p>
+
+      <div class="info-card">
+        <div class="info-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+        <div>
+          <div class="info-ct">Call Us</div>
+          <div class="info-sub">Toll-free across the UAE</div>
+          <div class="info-val"><a href="tel:80032626">800 FAMCO (32626)</a></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></div>
+        <div>
+          <div class="info-ct">Email Us</div>
+          <div class="info-sub">For general inquiries</div>
+          <div class="info-val"><a href="mailto:info@famco-used.com">info@famco-used.com</a></div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div>
+          <div class="info-ct">Business Hours</div>
+          <div class="info-sub">GCC Standard Time (GST)</div>
+          <div class="info-val" style="font-size:14px;font-weight:700;line-height:1.6;">
+            Mon – Fri · 8:00 AM – 6:00 PM<br>
+            Sat – Sun · Closed
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+        <div>
+          <div class="info-ct">WhatsApp</div>
+          <div class="info-sub">Chat in English or Arabic</div>
+          <div class="info-val"><a href="https://wa.me/97180032626" target="_blank">+971 800 32626</a></div>
+        </div>
+      </div>
+
+      <div class="info-soc">
+        <div class="info-soc-t">Follow Us</div>
+        <div class="info-soc-row">
+          <a href="#" class="info-soc-b" aria-label="LinkedIn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+          <a href="#" class="info-soc-b" aria-label="Instagram"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+          <a href="#" class="info-soc-b" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="#" class="info-soc-b" aria-label="YouTube"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: form -->
+    <form class="form-card" onsubmit="event.preventDefault();alert('Thanks! Our team will be in touch within 24 hours.');this.reset();">
+      <div class="form-hd">
+        <div class="form-hd-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg></div>
+        <h2>Send us a message</h2>
+      </div>
+      <p class="form-sub">Fill out the form and a FAMCO advisor will reach out within one business hour.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="fname">First Name <span class="req">*</span></label>
+          <input id="fname" class="form-input" type="text" placeholder="John" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lname">Last Name <span class="req">*</span></label>
+          <input id="lname" class="form-input" type="text" placeholder="Doe" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address <span class="req">*</span></label>
+          <input id="email" class="form-input" type="email" placeholder="john@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone Number <span class="req">*</span></label>
+          <input id="phone" class="form-input" type="tel" placeholder="+971 50 000 0000" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="inquiry">Inquiry Type <span class="req">*</span></label>
+          <select id="inquiry" class="form-select" required>
+            <option value="">Select an option</option>
+            <option>Buy Equipment</option>
+            <option>Sell Equipment</option>
+            <option>Finance &amp; Leasing</option>
+            <option>Parts &amp; Service</option>
+            <option>Corporate / Fleet Inquiry</option>
+            <option>Media &amp; Press</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="country">Country</label>
+          <select id="country" class="form-select">
+            <option value="">Select country</option>
+            <option>United Arab Emirates</option>
+            <option>Saudi Arabia</option>
+            <option>Qatar</option>
+            <option>Bahrain</option>
+            <option>Kuwait</option>
+            <option>Oman</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:4px;">
+        <label class="form-label" for="msg">Message <span class="req">*</span></label>
+        <textarea id="msg" class="form-textarea" placeholder="Tell us about the equipment you're interested in or how we can help…" required></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">
+        Send Message
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+      <p class="form-privacy">By submitting this form you agree to our <a href="#">Privacy Policy</a>. We never share your details with third parties.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ── REGIONAL OFFICES ── -->
+<section class="offices-sec">
+  <div class="offices-hd">
+    <div class="sec-ey">GCC Presence</div>
+    <h2 class="sec-t">Our <em>regional offices</em></h2>
+    <p class="sec-sub">Four countries, one standard. Visit any of our GCC branches for in-person inspections, financing discussions, or aftersales support.</p>
+  </div>
+
+  <div class="offices-grid">
+    <div class="office-card">
+      <div class="office-flag">🇦🇪 United Arab Emirates</div>
+      <div class="office-city">Dubai <span class="office-hq">HQ</span></div>
+      <div class="office-addr">
+        <svg class="office-addr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Dubai Investment Park (DIP)<br>Sheikh Mohammed Bin Zayed Road</span>
+      </div>
+      <div class="office-phone">
+        <svg class="office-phone-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:80032626">800 32626</a>
+      </div>
+    </div>
+
+    <div class="office-card">
+      <div class="office-flag">🇸🇦 Saudi Arabia</div>
+      <div class="office-city">Riyadh</div>
+      <div class="office-addr">
+        <svg class="office-addr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Olaya District, King Fahd Road<br>P.O. Box 12345</span>
+      </div>
+      <div class="office-phone">
+        <svg class="office-phone-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:+966112000000">+966 11 XXX XXXX</a>
+      </div>
+    </div>
+
+    <div class="office-card">
+      <div class="office-flag">🇶🇦 Qatar</div>
+      <div class="office-city">Doha</div>
+      <div class="office-addr">
+        <svg class="office-addr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Industrial Area<br>Street 15, Gate 42</span>
+      </div>
+      <div class="office-phone">
+        <svg class="office-phone-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:+9744400000">+974 44XX XXXX</a>
+      </div>
+    </div>
+
+    <div class="office-card">
+      <div class="office-flag">🇧🇭 Bahrain</div>
+      <div class="office-city">Manama</div>
+      <div class="office-addr">
+        <svg class="office-addr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>Sitra Industrial Area<br>Block 601</span>
+      </div>
+      <div class="office-phone">
+        <svg class="office-phone-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:+9731700000">+973 17XX XXXX</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section class="faq-sec">
+  <div class="faq-grid">
+    <div class="faq-left">
+      <div class="sec-ey">Before You Ask</div>
+      <h2 class="sec-t">Quick <em>questions</em>, faster answers</h2>
+      <p class="sec-sub" style="margin-left:0;">Most buyers have the same few questions — here's what our team gets asked every day. Can't find yours? Scroll back up and drop us a message.</p>
+    </div>
+    <div class="faq-items">
+      <details class="faq-item">
+        <summary>How quickly will someone get back to me?</summary>
+        <p>Every form submission goes straight to a FAMCO advisor during business hours (Sun–Thu, 8 AM–6 PM GST). We aim to respond within one business hour, and always within 24 hours on weekends.</p>
+      </details>
+      <details class="faq-item" open>
+        <summary>Can I visit the yard to inspect equipment in person?</summary>
+        <p>Absolutely — in fact we encourage it. Use the form to request a physical inspection slot at our Dubai, Riyadh, Doha, or Manama yards. We'll run the machine for you, share the inspection report, and walk you through the condition grading.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do you offer finance or leasing on used equipment?</summary>
+        <p>Yes. Through Al-Futtaim Finance we offer term loans and operating-lease structures for qualifying businesses across the GCC. Select "Finance &amp; Leasing" as your inquiry type and we'll pair you with a specialist.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Is there warranty coverage on pre-owned machines?</summary>
+        <p>FAMCO Approved units come with a minimum 3-month / 500-hour powertrain warranty, extendable up to 12 months. The exact coverage depends on the unit's grade (A / B / C) and service history — all listed on each listing page.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can you ship outside the GCC?</summary>
+        <p>Yes. We regularly ship to East Africa, South Asia, and CIS markets. Our logistics team handles customs documentation, inland freight to the nearest port, and container loading — just mention your destination in the message field.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-logo"><span class="ft-logo-pill"><img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used" onerror="this.style.display='none'"></span></div>
+      <p class="ft-tag">UAE's trusted source for certified used heavy equipment since 1978. An Al-Futtaim Group company and sole UAE distributor for Volvo CE, Trucks, and Buses.</p>
+      <div class="ft-soc">
+        <a href="#" class="soc-b" aria-label="Facebook"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="#" class="soc-b" aria-label="LinkedIn"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+        <a href="#" class="soc-b" aria-label="Instagram"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="#" class="soc-b" aria-label="YouTube"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-ct">Browse</div>
+      <div class="ft-ls">
+        <a href="BrowseEquipment.html?category=Construction">Construction Equipment</a>
+        <a href="BrowseEquipment.html?category=Trucks">Trucks &amp; Commercial</a>
+        <a href="BrowseEquipment.html?category=Material Handling">Material Handling</a>
+        <a href="BrowseEquipment.html?category=Trailers">Trailers</a>
+        <a href="BrowseEquipment.html">View All Listings</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-ct">Company</div>
+      <div class="ft-ls">
+        <a href="AboutUs.html">About FAMCO Approved</a>
+        <a href="#">FAMCO Approved Process</a>
+        <a href="SellYourEquipment.html">Sell Your Equipment</a>
+        <a href="#">Finance</a>
+        <a href="#">News &amp; Insights</a>
+        <a href="ContactUs.html">Contact Us</a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-ct">GCC Offices</div>
+      <div class="ft-ls">
+        <a href="#"><strong style="color:rgba(255,255,255,.8)">UAE — Dubai</strong><br>Sheikh Zayed Road<br>800 32626</a>
+        <a href="#" style="margin-top:10px;"><strong style="color:rgba(255,255,255,.8)">KSA — Riyadh</strong><br>Olaya District<br>+966 11 XXX XXXX</a>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <div>&copy; 2026 Al-Futtaim FAMCO. All Rights Reserved.</div>
+    <div class="ft-legal"><a href="#">Privacy Policy</a><a href="#">Terms &amp; Conditions</a><a href="#">Cookie Policy</a><a href="#">Sitemap</a></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Header search toggle */
+  var wrap=document.getElementById('hSrchWrap');
+  var btn=document.getElementById('hSrchBtn');
+  var close=document.getElementById('hSrchClose');
+  var input=document.getElementById('hSrchInput');
+  if(btn){btn.addEventListener('click',function(e){e.stopPropagation();wrap.classList.toggle('open');if(wrap.classList.contains('open')) setTimeout(function(){input.focus();},200);});}
+  if(close){close.addEventListener('click',function(e){e.stopPropagation();wrap.classList.remove('open');});}
+  document.addEventListener('click',function(e){if(!wrap.contains(e.target)) wrap.classList.remove('open');});
+  /* Nav drawer */
+  var ham=document.getElementById('navHamburger');
+  var drawer=document.getElementById('navDrawer');
+  var overlay=document.getElementById('navOverlay');
+  if(ham) ham.addEventListener('click',function(){drawer.classList.add('open');overlay.classList.add('open');});
+  if(overlay) overlay.addEventListener('click',function(){drawer.classList.remove('open');overlay.classList.remove('open');});
+})();
+</script>
+
+</body>
+</html>

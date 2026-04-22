@@ -130,7 +130,9 @@ header{
   border:1.5px solid transparent;
   border-radius:var(--r);
   margin-right:4px;
+  visibility:hidden;
 }
+.h-srch-wrap.open .h-srch-field{visibility:visible;}
 .h-srch-wrap.open .h-srch-field{
   width:300px;
   border-color:var(--y-deeper);
@@ -367,6 +369,44 @@ h2.sec-t.on-dk{
 }
 .sec-sub{font-size:15px;color:var(--body);margin-top:8px;max-width:520px;line-height:1.65;}
 .sec-sub.on-dk{color:rgba(255,255,255,.5);}
+
+/* 360° View Showcase — 50/50 title vs 3D viewer.
+   Section background matches Sketchfab's default grey viewer gradient so
+   the iframe edges blend invisibly into the page. */
+.sec-3d{
+  padding-top:64px;padding-bottom:80px;
+  background:radial-gradient(ellipse at center, #e5e9ec 0%, #d2d7dc 65%, #c6cbd1 100%);
+}
+.s3d-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:center;
+}
+.s3d-copy{display:flex;align-items:center;}
+.s3d-t{
+  font-size:56px;font-weight:800;letter-spacing:-1.6px;line-height:1.05;color:var(--ink);
+}
+.s3d-t span{color:var(--y-deeper);}
+.s3d-viewer{
+  position:relative;
+  width:100%;aspect-ratio:16/10;
+  overflow:hidden;
+  background:transparent;
+}
+.s3d-viewer .sketchfab-embed-wrapper,
+.s3d-viewer .sketchfab-embed-wrapper iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:0;
+}
+@media (max-width:900px){
+  .s3d-grid{grid-template-columns:1fr;gap:28px;}
+  .s3d-t{font-size:40px;letter-spacing:-1px;text-align:center;}
+  .s3d-copy{justify-content:center;}
+}
+@media (max-width:480px){
+  .s3d-t{font-size:32px;}
+  .sec-3d{padding-top:24px;padding-bottom:48px;}
+}
 .va{
   display:inline-flex;align-items:center;gap:6px;
   font-size:13px;font-weight:700;color:var(--y-deeper);
@@ -442,6 +482,17 @@ h2.sec-t.on-dk{
   transition:transform .4s ease;
 }
 .lc:hover .lc-thumb img{transform:scale(1.04);}
+
+/* Sketchfab iframe fills the thumb edge-to-edge */
+.lc-thumb-sf{position:relative;overflow:hidden;}
+.lc-thumb-sf .sketchfab-embed-wrapper{position:absolute;inset:0;z-index:1;}
+.lc-thumb-sf .sketchfab-embed-wrapper iframe{width:100%;height:100%;display:block;border:0;}
+/* Keep our card overlays above the Sketchfab iframe */
+.lc-thumb-sf .lc-badge,
+.lc-thumb-sf .lc-save,
+.lc-thumb-sf .lc-grade,
+.lc-thumb-sf .media-badges{position:absolute;z-index:5 !important;}
+
 .lc-thumb-fallback{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
@@ -844,6 +895,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 }
 .ft-brand{}
 .ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ft-logo-pill{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;padding:10px 14px;border-radius:10px;
+}
+.ft-logo-pill img{height:42px;width:auto;display:block;}
 .ft-logo-t{font-size:22px;font-weight:900;color:var(--white);letter-spacing:-1px;}
 .ft-logo-t em{color:var(--y);font-style:normal;}
 .ft-logo-s{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;}
@@ -1504,6 +1560,63 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 
 /* ── BRAND LOGOS: terminal-style grid ── */
 .bl-sec{background:var(--white);overflow:hidden;position:relative;}
+
+/* ── Hover-triggered line-trace around each partner cell ──
+   On hover, a single glowing yellow beam travels clockwise around the
+   cell's border (top → right → bottom → left → back to top), looping.
+   Inspired by terminal-industries.com. */
+.bl-logos .bl-cell .bl-trace{
+  position:absolute;inset:-1px;pointer-events:none;z-index:10;
+  opacity:0;transition:opacity .2s ease;
+}
+.bl-logos .bl-cell:hover .bl-trace{opacity:1;}
+/* Each of the 4 edges gets its own absolutely-positioned span that we
+   animate the length/position of. Width/height = 2px, color = yellow glow. */
+.bl-logos .bl-cell .bl-edge{
+  position:absolute;background:var(--y);
+  box-shadow:0 0 3px rgba(var(--y-rgb),.45), 0 0 7px rgba(var(--y-rgb),.2);
+  border-radius:2px;opacity:0;
+}
+.bl-logos .bl-cell .bl-edge.et{top:0;left:0;height:1px;width:0;}
+.bl-logos .bl-cell .bl-edge.er{top:0;right:0;width:1px;height:0;}
+.bl-logos .bl-cell .bl-edge.eb{bottom:0;right:0;height:1px;width:0;}
+.bl-logos .bl-cell .bl-edge.el{bottom:0;left:0;width:1px;height:0;}
+
+.bl-logos .bl-cell:hover .bl-edge{
+  animation:blEdge 24s linear infinite;
+}
+.bl-logos .bl-cell:hover .bl-edge.et{animation-name:blEdgeTop;}
+.bl-logos .bl-cell:hover .bl-edge.er{animation-name:blEdgeRight;animation-delay:6s;}
+.bl-logos .bl-cell:hover .bl-edge.eb{animation-name:blEdgeBottom;animation-delay:12s;}
+.bl-logos .bl-cell:hover .bl-edge.el{animation-name:blEdgeLeft;animation-delay:18s;}
+
+@keyframes blEdgeTop{
+  0%,100%{opacity:0;width:0;}
+  5% {opacity:1;}
+  25%{width:100%;opacity:1;}
+  30%{width:100%;opacity:0;}
+}
+@keyframes blEdgeRight{
+  0%,100%{opacity:0;height:0;}
+  5% {opacity:1;}
+  25%{height:100%;opacity:1;}
+  30%{height:100%;opacity:0;}
+}
+@keyframes blEdgeBottom{
+  0%,100%{opacity:0;width:0;}
+  5% {opacity:1;}
+  25%{width:100%;opacity:1;}
+  30%{width:100%;opacity:0;}
+}
+@keyframes blEdgeLeft{
+  0%,100%{opacity:0;height:0;}
+  5% {opacity:1;}
+  25%{height:100%;opacity:1;}
+  30%{height:100%;opacity:0;}
+}
+@media (prefers-reduced-motion:reduce){
+  .bl-logos .bl-cell .bl-trace{display:none;}
+}
 .bl-lbl{
   padding:72px var(--px) 0;text-align:center;
   font-size:32px;font-weight:700;letter-spacing:-.8px;
@@ -1566,6 +1679,30 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   overflow:hidden;
   background:#0d1117;
 }
+
+/* ── Decorative background lines with traveling glow dots ──
+   Inspired by terminal-industries.com. Faint rounded-corner paths with
+   yellow glow lights that travel ALONG them via SVG animateMotion, so
+   the dots stay locked to the lines at every viewport size. */
+.tq-lines{
+  position:absolute;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+}
+.tq-lines path{
+  fill:none;
+  stroke:rgba(255,255,255,.1);
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.tq-lines circle.tq-dot{
+  fill:#FFD100;
+  filter:drop-shadow(0 0 3px rgba(255,209,0,.45)) drop-shadow(0 0 7px rgba(255,209,0,.2));
+}
+@media (prefers-reduced-motion:reduce){
+  .tq-lines circle.tq-dot{display:none;}
+}
+
 .tq-bg{
   position:absolute;inset:0;
   /* cover fills the section at every viewport; position keeps the truck (centre-right) in frame */
@@ -2111,11 +2248,11 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <nav class="nav-drawer-links">
     <a href="Homepage.html" class="nav-drawer-link act">Home</a>
     <a href="BrowseEquipment.html" class="nav-drawer-link">Browse Equipment</a>
-    <a href="#" class="nav-drawer-link">Sell Your Equipment</a>
+    <a href="SellYourEquipment.html" class="nav-drawer-link">Sell Your Equipment</a>
     <a href="#" class="nav-drawer-link">FAMCO Approved Process</a>
     <a href="#" class="nav-drawer-link">Finance</a>
-    <a href="#" class="nav-drawer-link">About Us</a>
-    <a href="#" class="nav-drawer-link">Contact</a>
+    <a href="AboutUs.html" class="nav-drawer-link">About Us</a>
+    <a href="ContactUs.html" class="nav-drawer-link">Contact</a>
     <div class="nav-drawer-sep"></div>
     <a href="#saved" class="nav-drawer-link-icon">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
@@ -2198,9 +2335,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <nav class="h-nav">
     <div class="nv-item"><a href="#" class="nv-link act">Home</a></div>
     <div class="nv-item"><a href="BrowseEquipment.html" class="nv-link">Browse Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Sell Your Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">About Us</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Contact</a></div>
+    <div class="nv-item"><a href="SellYourEquipment.html" class="nv-link">Sell Your Equipment</a></div>
+    <div class="nv-item"><a href="AboutUs.html" class="nv-link">About Us</a></div>
+    <div class="nv-item"><a href="ContactUs.html" class="nv-link">Contact</a></div>
   </nav><!-- /.h-nav -->
 </div><!-- /.h-shell -->
 </header>
@@ -2305,9 +2442,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   </div>
   <div class="cat-grid">
     <div class="cat-card"><div class="cat-bg c1"><img src="images/cat-construction.jpg" alt="Construction Equipment" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Construction Equipment</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c2"><img src="images/cat-truck.jpg" alt="Trucks & Trailers" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Trucks & Trailers</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c3"><img src="images/cat-forklift.jpg" alt="Material Handling" style="object-position:left center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Material Handling</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
-    <div class="cat-card"><div class="cat-bg c4"><img src="images/cat-bus.jpg" alt="Buses" style="object-position:center 65%;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Buses</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c2"><img src="https://s.alicdn.com/@sc04/kf/H05f1d844b8fe4b6cb2269e7bc6871622m/Good-Price-30-35-Tons-Sinotruk-Howo-Dumper-Truck-6x4-Used-Tipper-Dump-Truck-for-Sale-in-Dubai.jpg" alt="Trucks & Trailers" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Trucks & Trailers</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c3"><img src="https://img.linemedia.com/img/s/material-handling-equipment-diesel-forklift-Hyster-H12XM6---1771509045236459348_common--26021715514320960500.jpg" alt="Material Handling" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Material Handling</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
+    <div class="cat-card"><div class="cat-bg c4"><img src="https://m.usedtruckbus.com/photo/pt41801355-long_distance_bus_xmq6829_used_kinglong_coach_bus_34_seats_used_buses_for_sale_in_uae.jpg" alt="Buses" style="object-position:center center;" onerror="this.style.display='none';"></div><div class="cat-ov"></div><div class="cat-body"><div class="cat-name" style="margin-bottom:0;">Buses</div></div><div class="cat-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div>
   </div>
 </section>
 
@@ -2397,30 +2534,29 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       </div>
     </div>
 
-    <!-- Card 3 – 3D + 360 -->
+    <!-- Card 3 – Sketchfab 3D viewer (Volvo EC380EL) -->
     <div class="lc" onclick="location.href='EquipmentDetail.html'">
-      <div class="lc-thumb">
-        <img src="images/Productimage1.jpg"
-             alt="Volvo FH 460 Globetrotter XL"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">🏭</div>
+      <div class="lc-thumb lc-thumb-sf">
+        <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+          <iframe title="Volvo EC380EL" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/670325cfb1534d4aa19d5b2c38d1034e/embed?camera=0&autostart=1&autospin=0.2"> </iframe>
+        </div>
         <span class="lc-badge">FAMCO Approved</span>
-        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
         <span class="lc-grade">Grade A</span>
         <div class="media-badges">
           <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
         </div>
       </div>
       <div class="lc-body">
-        <span class="lc-cat">Truck</span>
-        <div class="lc-name">Volvo FH 460 Globetrotter XL</div>
+        <span class="lc-cat">Excavator</span>
+        <div class="lc-name">Volvo EC380EL Crawler Excavator</div>
         <div class="lc-specs">
-          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2020</span></div>
-          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">390,000 km</span></div>
-          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13, 460 HP</span></div>
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2021</span></div>
+          <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">4,850 hrs</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13J, 302 HP</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
         </div>
-        <div class="lc-price"><span class="lc-cur">AED</span>165,000</div>
+        <div class="lc-price"><span class="lc-cur">AED</span>485,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -2428,35 +2564,29 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       </div>
     </div>
 
-    <!-- Card 4 – Video + 3D + 360 -->
+    <!-- Card 4 – Sketchfab 3D viewer (Volvo L220H) -->
     <div class="lc" onclick="location.href='EquipmentDetail2.html'">
-      <div class="lc-thumb">
-        <img src="images/Productimage61.jpg"
-             alt="Volvo FH 2024 Flagship Model"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-        <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a2a1a,#0d1a0d);">🚌</div>
-        <div class="play-overlay">
-          <div class="play-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
+      <div class="lc-thumb lc-thumb-sf">
+        <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+          <iframe title="Volvo L220H" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/ae722dd38bf5491590cb5df4df800871/embed?camera=0"> </iframe>
         </div>
         <span class="lc-badge">FAMCO Approved</span>
-        <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
         <span class="lc-grade">Grade A</span>
         <div class="media-badges">
           <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
         </div>
       </div>
       <div class="lc-body">
-        <span class="lc-cat">Truck</span>
-        <div class="lc-name">Volvo FH 2024 — Flagship Model</div>
+        <span class="lc-cat">Wheel Loader</span>
+        <div class="lc-name">Volvo L220H Wheel Loader</div>
         <div class="lc-specs">
-          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2024</span></div>
-          <div class="sp"><span class="sp-k">Mileage</span><span class="sp-v">28,000 km</span></div>
-          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13TC, 540 HP</span></div>
+          <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
+          <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">3,120 hrs</span></div>
+          <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">D13J, 366 HP</span></div>
           <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Abu Dhabi, UAE</span></div>
         </div>
-        <div class="lc-price"><span class="lc-cur">AED</span>420,000</div>
+        <div class="lc-price"><span class="lc-cur">AED</span>650,000</div>
         <div class="lc-ft">
           <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
           <a href="EquipmentDetail2.html" class="lc-enq">View Details</a>
@@ -2464,6 +2594,23 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
       </div>
     </div>
 
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════
+     360° VIEW SHOWCASE — title on left, interactive 3D model on right
+═══════════════════════════════ -->
+<section class="sec sec-3d">
+  <div class="s3d-grid">
+    <div class="s3d-copy">
+      <h2 class="s3d-t"><span>360°</span> View of Equipment</h2>
+    </div>
+    <div class="s3d-viewer">
+      <div class="sketchfab-embed-wrapper">
+        <iframe title="Volvo L220H" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/ae722dd38bf5491590cb5df4df800871/embed?camera=0"></iframe>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2555,6 +2702,43 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
 <section class="tq-sec">
   <div class="tq-bg" id="tqBg"></div>
   <div class="tq-overlay"></div>
+
+  <!-- Decorative background lines + glow dots that travel along them.
+       SVG uses preserveAspectRatio="xMidYMid slice" so it fills the section
+       while keeping paths proportional — dots stay locked to the visible lines. -->
+  <svg class="tq-lines" viewBox="0 0 1600 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- Four main paths -->
+    <path id="tqPath1" d="M -20 120 L 260 120 Q 320 120 320 180 L 320 340 Q 320 400 380 400 L 780 400"/>
+    <path id="tqPath2" d="M 1620 80 L 1240 80 Q 1180 80 1180 140 L 1180 260 Q 1180 320 1240 320 L 1520 320"/>
+    <path id="tqPath3" d="M -20 460 L 200 460 Q 260 460 260 520 L 260 660"/>
+    <path id="tqPath4" d="M 1620 540 L 1380 540 Q 1320 540 1320 480 L 1320 340"/>
+    <!-- Extra faint wisps for visual density -->
+    <path d="M 800 -20 L 800 80 Q 800 140 860 140 L 1020 140" style="stroke:rgba(255,255,255,.06);"/>
+    <path d="M 560 660 L 560 580 Q 560 520 620 520 L 760 520" style="stroke:rgba(255,255,255,.06);"/>
+
+    <!-- Glow dots — each runs animateMotion along its paired path -->
+    <circle class="tq-dot" r="3">
+      <animateMotion dur="9s" repeatCount="indefinite" rotate="auto">
+        <mpath href="#tqPath1"/>
+      </animateMotion>
+    </circle>
+    <circle class="tq-dot" r="3">
+      <animateMotion dur="8s" repeatCount="indefinite" begin="-3s" rotate="auto">
+        <mpath href="#tqPath2"/>
+      </animateMotion>
+    </circle>
+    <circle class="tq-dot" r="3">
+      <animateMotion dur="7s" repeatCount="indefinite" begin="-1s" rotate="auto">
+        <mpath href="#tqPath3"/>
+      </animateMotion>
+    </circle>
+    <circle class="tq-dot" r="3">
+      <animateMotion dur="7.5s" repeatCount="indefinite" begin="-4s" rotate="auto">
+        <mpath href="#tqPath4"/>
+      </animateMotion>
+    </circle>
+  </svg>
+
   <div class="tq-inner">
     <span class="tq-mark" aria-hidden="true">&ldquo;</span>
     <p class="tq-quote">We needed certified, field-ready equipment fast. FAMCO's inspection standard and aftersales coverage gave us the confidence to commit — the machines arrived exactly as described.</p>
@@ -2650,7 +2834,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <div class="ft-top">
     <div class="ft-brand">
       <div class="ft-logo">
-        <img src="images/branding-famco-logo.png" alt="FAMCO" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:.9;" onerror="this.style.display='none'">
+        <span class="ft-logo-pill">
+          <img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used" onerror="this.style.display='none'">
+        </span>
       </div>
       <p class="ft-tag">UAE's trusted source for certified used heavy equipment since 1978. An Al-Futtaim Group company and sole UAE distributor for Volvo CE, Trucks, and Buses.</p>
       <div class="ft-soc">
@@ -3408,5 +3594,25 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   onScroll();
 })();
 </script>
+
+<script>
+/* Inject the hover-trace overlay into each partner-grid cell.
+   Each cell gets a .bl-trace wrapper with 4 edge spans (top/right/bottom/left)
+   that light up in clockwise sequence while hovered. */
+(function(){
+  document.querySelectorAll('.bl-logos .bl-cell').forEach(function(cell){
+    if (cell.querySelector('.bl-trace')) return;
+    var trace = document.createElement('span');
+    trace.className = 'bl-trace';
+    trace.innerHTML =
+      '<span class="bl-edge et"></span>' +
+      '<span class="bl-edge er"></span>' +
+      '<span class="bl-edge eb"></span>' +
+      '<span class="bl-edge el"></span>';
+    cell.appendChild(trace);
+  });
+})();
+</script>
+
 </body>
 </html>

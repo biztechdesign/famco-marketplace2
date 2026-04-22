@@ -74,7 +74,8 @@ header {
 .h-act { width: 38px; height: 38px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; transition: background var(--t); color: rgba(255,255,255,.8); cursor: pointer; flex-shrink: 0; }
 .h-act:hover { background: rgba(255,255,255,.12); color: var(--white); }
 .h-srch-wrap { position: relative; display: flex; align-items: center; }
-.h-srch-field { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); width: 0; overflow: hidden; transition: width .26s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; background: var(--ink-2); border: 1.5px solid transparent; border-radius: var(--r); margin-right: 4px; }
+.h-srch-field { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); width: 0; overflow: hidden; transition: width .26s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; background: var(--ink-2); border: 1.5px solid transparent; border-radius: var(--r); margin-right: 4px; visibility: hidden; }
+.h-srch-wrap.open .h-srch-field { visibility: visible; }
 .h-srch-wrap.open .h-srch-field { width: 300px; border-color: var(--y-deeper); box-shadow: 0 0 0 3px rgba(var(--y-rgb),.18); }
 .h-srch-input { flex: 1; height: 36px; border: none; background: transparent; padding: 0 10px; font-size: 13px; font-family: inherit; color: var(--white); outline: none; }
 .h-srch-input::placeholder { color: rgba(255,255,255,.38); }
@@ -124,6 +125,15 @@ header {
 .lc-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease;}
 .lc:hover .lc-thumb img{transform:scale(1.04);}
 .lc-thumb-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;}
+
+/* Sketchfab 3D iframe as thumbnail */
+.lc-thumb-sf{position:relative;overflow:hidden;}
+.lc-thumb-sf .sketchfab-embed-wrapper{position:absolute;inset:0;z-index:1;}
+.lc-thumb-sf .sketchfab-embed-wrapper iframe{width:100%;height:100%;display:block;border:0;}
+.lc-thumb-sf .lc-badge,
+.lc-thumb-sf .lc-save,
+.lc-thumb-sf .lc-grade,
+.lc-thumb-sf .media-badges{position:absolute;z-index:5 !important;}
 .media-badges{position:absolute;bottom:10px;left:10px;display:flex;gap:6px;z-index:2;}
 .mb{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:5px;font-size:10px;font-weight:800;letter-spacing:.5px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);}
 .mb-3d{background:rgba(17,24,39,.75);color:var(--y);border-color:rgba(var(--y-rgb),.35);}
@@ -396,6 +406,8 @@ header {
 footer{background:var(--ink);padding:64px var(--px) 0;}
 .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:40px;padding-bottom:52px;border-bottom:1px solid rgba(255,255,255,.08);}
 .ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ft-logo-pill{display:inline-flex;align-items:center;justify-content:center;background:#fff;padding:10px 14px;border-radius:10px;}
+.ft-logo-pill img{height:42px;width:auto;display:block;}
 .ft-logo-t{font-size:22px;font-weight:900;color:var(--white);letter-spacing:-1px;}
 .ft-logo-t em{color:var(--y);font-style:normal;}
 .ft-logo-s{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;}
@@ -795,9 +807,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <nav class="nav-drawer-links">
     <a href="Homepage.html" class="nav-drawer-link">Home</a>
     <a href="BrowseEquipment.html" class="nav-drawer-link act">Browse Equipment</a>
-    <a href="#" class="nav-drawer-link">Sell Your Equipment</a>
-    <a href="#" class="nav-drawer-link">About Us</a>
-    <a href="#" class="nav-drawer-link">Contact</a>
+    <a href="SellYourEquipment.html" class="nav-drawer-link">Sell Your Equipment</a>
+    <a href="AboutUs.html" class="nav-drawer-link">About Us</a>
+    <a href="ContactUs.html" class="nav-drawer-link">Contact</a>
   </nav>
 </div>
 
@@ -859,9 +871,9 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   <nav class="h-nav">
     <div class="nv-item"><a href="Homepage.html" class="nv-link">Home</a></div>
     <div class="nv-item"><a href="BrowseEquipment.html" class="nv-link act">Browse Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Sell Your Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">About Us</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Contact</a></div>
+    <div class="nv-item"><a href="SellYourEquipment.html" class="nv-link">Sell Your Equipment</a></div>
+    <div class="nv-item"><a href="AboutUs.html" class="nv-link">About Us</a></div>
+    <div class="nv-item"><a href="ContactUs.html" class="nv-link">Contact</a></div>
   </nav>
 </div><!-- /.h-shell -->
 </header>
@@ -1078,29 +1090,29 @@ function bbSubmitSearch(e) {
         </div>
       </div>
 
-      <!-- Card 3 -->
+      <!-- Card 3 – Volvo A25G 3D model -->
       <div class="lc" onclick="location.href='EquipmentDetail.html'">
-        <div class="lc-thumb">
-          <img src="images/Productimage1.jpg" alt="Toyota 8FG25 Forklift"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">🏭</div>
+        <div class="lc-thumb lc-thumb-sf">
+          <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+            <iframe title="Volvo A25G" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/be7e61496aa249b8a10e642a2288a94d/embed?camera=0"></iframe>
+          </div>
           <span class="lc-badge lc-badge-new">New Listing</span>
-          <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
             <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
           </div>
           <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
-          <span class="lc-cat">Material Handling</span>
-          <div class="lc-name">Toyota 8FG25 LPG Counterbalance Forklift</div>
+          <span class="lc-cat">Construction</span>
+          <div class="lc-name">Volvo A25G Articulated Dump Truck</div>
           <div class="lc-specs">
-            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2020</span></div>
-            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">3,800 hrs</span></div>
-            <div class="sp"><span class="sp-k">Capacity</span><span class="sp-v">2,500 kg</span></div>
+            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
+            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">2,450 hrs</span></div>
+            <div class="sp"><span class="sp-k">Payload</span><span class="sp-v">24,000 kg</span></div>
             <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
           </div>
-          <div class="lc-price"><span class="lc-cur">AED</span>45,000</div>
+          <div class="lc-price"><span class="lc-cur">AED</span>895,000</div>
           <div class="lc-ft">
             <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
             <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -1108,15 +1120,14 @@ function bbSubmitSearch(e) {
         </div>
       </div>
 
-      <!-- Card 4 -->
+      <!-- Card 4 – Volvo EC220EL 3D model -->
       <div class="lc" onclick="location.href='EquipmentDetail.html'">
-        <div class="lc-thumb">
-          <img src="images/Productimage21.jpg" alt="JCB 3CX Backhoe Loader"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#2a1a0e,#180f07);">🚜</div>
-          <div class="play-overlay"><div class="play-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="var(--ink)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg></div></div>
+        <div class="lc-thumb lc-thumb-sf">
+          <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+            <iframe title="Volvo EC220EL" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/a8662f301660432b94c6b1c80760aa86/embed?camera=0"></iframe>
+          </div>
           <span class="lc-badge">FAMCO Approved</span>
-          <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
             <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
           </div>
@@ -1124,14 +1135,14 @@ function bbSubmitSearch(e) {
         </div>
         <div class="lc-body">
           <span class="lc-cat">Construction</span>
-          <div class="lc-name">JCB 3CX Backhoe Loader — Site Master</div>
+          <div class="lc-name">Volvo EC220EL Crawler Excavator</div>
           <div class="lc-specs">
             <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2021</span></div>
             <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">5,100 hrs</span></div>
-            <div class="sp"><span class="sp-k">Engine</span><span class="sp-v">EcoMAX, 93 HP</span></div>
+            <div class="sp"><span class="sp-k">Weight</span><span class="sp-v">22,000 kg</span></div>
             <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Abu Dhabi, UAE</span></div>
           </div>
-          <div class="lc-price"><span class="lc-cur">AED</span>125,000</div>
+          <div class="lc-price"><span class="lc-cur">AED</span>295,000</div>
           <div class="lc-ft">
             <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
             <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -1139,29 +1150,29 @@ function bbSubmitSearch(e) {
         </div>
       </div>
 
-      <!-- Card 5 -->
+      <!-- Card 5 – Bulk Cement Tanker Trailer 3D model -->
       <div class="lc" onclick="location.href='EquipmentDetail.html'">
-        <div class="lc-thumb">
-          <img src="images/Productimage31.jpg" alt="Hyster H5.0FT"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1e2a1a,#111a0d);">⚙️</div>
+        <div class="lc-thumb lc-thumb-sf">
+          <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+            <iframe title="Bulk Cement Tanker Trailer" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/c2d64a9ba3764af5aedd38512eca9bd2/embed?camera=0"></iframe>
+          </div>
           <span class="lc-badge lc-badge-hot">Hot Deal</span>
-          <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
             <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
           </div>
           <span class="lc-grade">Grade C</span>
         </div>
         <div class="lc-body">
-          <span class="lc-cat">Material Handling</span>
-          <div class="lc-name">Hyster H5.0FT Counterbalance Forklift</div>
+          <span class="lc-cat">Trailers</span>
+          <div class="lc-name">Bulk Cement Tanker Trailer 40 m³</div>
           <div class="lc-specs">
             <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2019</span></div>
-            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">6,200 hrs</span></div>
-            <div class="sp"><span class="sp-k">Capacity</span><span class="sp-v">5,000 kg</span></div>
+            <div class="sp"><span class="sp-k">Capacity</span><span class="sp-v">40,000 L</span></div>
+            <div class="sp"><span class="sp-k">Axles</span><span class="sp-v">3</span></div>
             <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Dubai, UAE</span></div>
           </div>
-          <div class="lc-price"><span class="lc-cur">AED</span>58,000</div>
+          <div class="lc-price"><span class="lc-cur">AED</span>78,000</div>
           <div class="lc-ft">
             <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
             <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -1169,29 +1180,29 @@ function bbSubmitSearch(e) {
         </div>
       </div>
 
-      <!-- Card 6 -->
+      <!-- Card 6 – Articulated Electric City Bus 3D model -->
       <div class="lc" onclick="location.href='EquipmentDetail.html'">
-        <div class="lc-thumb">
-          <img src="images/Productimage41.jpg" alt="Komatsu PC200-8"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-          <div class="lc-thumb-fallback" style="display:none;background:linear-gradient(135deg,#2a200e,#1a140a);">🏗</div>
+        <div class="lc-thumb lc-thumb-sf">
+          <div class="sketchfab-embed-wrapper" onclick="event.stopPropagation()">
+            <iframe title="Articulated Electric City Bus" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/7143fe0b272f47b497ed855e7bf76825/embed?camera=0"></iframe>
+          </div>
           <span class="lc-badge">FAMCO Approved</span>
-          <button class="lc-save"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <button class="lc-save" onclick="event.stopPropagation()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
           <div class="media-badges">
             <span class="mb mb-3d"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/><path d="M12 22V12"/><path d="M22 7L12 12 2 7"/></svg> 360 VIEW</span>
           </div>
           <span class="lc-grade">Grade A</span>
         </div>
         <div class="lc-body">
-          <span class="lc-cat">Construction</span>
-          <div class="lc-name">Komatsu PC200-8 Hydraulic Excavator</div>
+          <span class="lc-cat">Buses</span>
+          <div class="lc-name">Articulated Electric City Bus with Pantograph</div>
           <div class="lc-specs">
-            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2020</span></div>
-            <div class="sp"><span class="sp-k">Hours</span><span class="sp-v">4,900 hrs</span></div>
-            <div class="sp"><span class="sp-k">Weight</span><span class="sp-v">20,200 kg</span></div>
+            <div class="sp"><span class="sp-k">Year</span><span class="sp-v">2022</span></div>
+            <div class="sp"><span class="sp-k">Range</span><span class="sp-v">250 km</span></div>
+            <div class="sp"><span class="sp-k">Capacity</span><span class="sp-v">120 pax</span></div>
             <div class="sp"><span class="sp-k">Location</span><span class="sp-v">Sharjah, UAE</span></div>
           </div>
-          <div class="lc-price"><span class="lc-cur">AED</span>275,000</div>
+          <div class="lc-price"><span class="lc-cur">AED</span>1,850,000</div>
           <div class="lc-ft">
             <button class="lc-compare" onclick="event.stopPropagation()">Compare</button>
             <a href="EquipmentDetail.html" class="lc-enq">View Details</a>
@@ -1314,7 +1325,7 @@ function bbSubmitSearch(e) {
   <div class="ft-top">
     <div>
       <div class="ft-logo">
-        <img src="images/branding-famco-logo.png" alt="FAMCO" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:.9;" onerror="this.style.display='none'">
+        <span class="ft-logo-pill"><img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used" onerror="this.style.display='none'"></span>
       </div>
       <p class="ft-tag">UAE's trusted source for certified used heavy equipment since 1978. An Al-Futtaim Group company and sole UAE distributor for Volvo CE, Trucks, and Buses.</p>
       <div class="ft-soc">

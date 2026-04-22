@@ -101,7 +101,8 @@ header {
 .h-act { width: 38px; height: 38px; border-radius: var(--r); display: flex; align-items: center; justify-content: center; transition: background var(--t); color: rgba(255,255,255,.8); cursor: pointer; flex-shrink: 0; }
 .h-act:hover { background: rgba(255,255,255,.12); color: var(--white); }
 .h-srch-wrap { position: relative; display: flex; align-items: center; }
-.h-srch-field { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); width: 0; overflow: hidden; transition: width .26s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; background: var(--ink-2); border: 1.5px solid transparent; border-radius: var(--r); margin-right: 4px; }
+.h-srch-field { position: absolute; right: 100%; top: 50%; transform: translateY(-50%); width: 0; overflow: hidden; transition: width .26s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; background: var(--ink-2); border: 1.5px solid transparent; border-radius: var(--r); margin-right: 4px; visibility: hidden; }
+.h-srch-wrap.open .h-srch-field { visibility: visible; }
 .h-srch-wrap.open .h-srch-field { width: 300px; border-color: var(--y-deeper); box-shadow: 0 0 0 3px rgba(var(--y-rgb),.18); }
 .h-srch-input { flex: 1; height: 36px; border: none; background: transparent; padding: 0 10px; font-size: 13px; font-family: inherit; color: var(--white); outline: none; }
 .h-srch-input::placeholder { color: rgba(255,255,255,.38); }
@@ -754,6 +755,8 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .ft-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.ft-logo-pill{display:inline-flex;align-items:center;justify-content:center;background:#fff;padding:10px 14px;border-radius:10px;}
+.ft-logo-pill img{height:42px;width:auto;display:block;}
 .ft-logo-t{font-size:22px;font-weight:900;color:var(--white);letter-spacing:-1px;}
 .ft-logo-t em{color:var(--y);font-style:normal;}
 .ft-logo-s{font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;}
@@ -1438,11 +1441,11 @@ section, footer, .video-insp-card, .price-card,
   <nav class="nav-drawer-links">
     <a href="Homepage.html" class="nav-drawer-link">Home</a>
     <a href="BrowseEquipment.html" class="nav-drawer-link act">Browse Equipment</a>
-    <a href="#" class="nav-drawer-link">Sell Your Equipment</a>
+    <a href="SellYourEquipment.html" class="nav-drawer-link">Sell Your Equipment</a>
     <a href="#" class="nav-drawer-link">FAMCO Approved Process</a>
     <a href="#" class="nav-drawer-link">Finance</a>
-    <a href="#" class="nav-drawer-link">About Us</a>
-    <a href="#" class="nav-drawer-link">Contact</a>
+    <a href="AboutUs.html" class="nav-drawer-link">About Us</a>
+    <a href="ContactUs.html" class="nav-drawer-link">Contact</a>
   </nav>
 </div>
 
@@ -1504,9 +1507,9 @@ section, footer, .video-insp-card, .price-card,
   <nav class="h-nav">
     <div class="nv-item"><a href="Homepage.html" class="nv-link">Home</a></div>
     <div class="nv-item"><a href="BrowseEquipment.html" class="nv-link act">Browse Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Sell Your Equipment</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">About Us</a></div>
-    <div class="nv-item"><a href="#" class="nv-link">Contact</a></div>
+    <div class="nv-item"><a href="SellYourEquipment.html" class="nv-link">Sell Your Equipment</a></div>
+    <div class="nv-item"><a href="AboutUs.html" class="nv-link">About Us</a></div>
+    <div class="nv-item"><a href="ContactUs.html" class="nv-link">Contact</a></div>
   </nav>
 </div><!-- /.h-shell -->
 </header>
@@ -1544,13 +1547,15 @@ section, footer, .video-insp-card, .price-card,
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
           Gallery (3)
         </div>
-        <div class="gtab" onclick="switchGTab(this,'threeD')">
+        <div class="gtab" onclick="switchGTab(this,'sf360')">
+          <!-- 3D cube icon for the interactive 360° Sketchfab model -->
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.27 6.96 12 12.01l8.73-5.05"/><path d="M12 22.08V12"/></svg>
-          3D View
+          360° View
         </div>
-        <div class="gtab" onclick="switchGTab(this,'video')">
+        <div class="gtab" onclick="switchGTab(this,'threeD')">
+          <!-- Video/play icon for the 3D rotation video -->
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-          Video
+          3D View
         </div>
       </div>
 
@@ -1584,7 +1589,21 @@ section, footer, .video-insp-card, .price-card,
         </div>
       </div>
 
-      <!-- 3D View Panel -->
+      <!-- 360° View Panel (Sketchfab iframe) -->
+      <div id="panel-sf360" style="display:none;">
+        <div class="gallery-main" style="padding:0;overflow:hidden;">
+          <iframe id="sf360-frame"
+            title="Volvo FH series Truck"
+            src="https://sketchfab.com/models/748a51c9d1034efa896a2c917cad434f/embed?camera=0&autostart=1&autospin=0.2"
+            frameborder="0"
+            allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share
+            style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block;"></iframe>
+        </div>
+      </div>
+
+      <!-- 3D View Panel (rotating video of the truck) -->
       <div id="panel-threeD" style="display:none;">
         <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;">
           <video id="threeD-video"
@@ -1593,18 +1612,6 @@ section, footer, .video-insp-card, .price-card,
             controls
             playsinline
             preload="metadata"></video>
-        </div>
-      </div>
-
-      <!-- Video Panel -->
-      <div id="panel-video" style="display:none;">
-        <div class="gallery-main" style="background:#000;padding:0;overflow:hidden;">
-          <iframe id="yt-video"
-            data-src="https://www.youtube.com/embed/1mwVA_fJuF4?rel=0&amp;modestbranding=1&amp;mute=1&amp;showinfo=0&amp;iv_load_policy=3&amp;playsinline=1"
-            style="width:100%;height:100%;border:none;display:block;"
-            allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-            allowfullscreen
-            title="3d Preview"></iframe>
         </div>
       </div>
 
@@ -2175,7 +2182,7 @@ section, footer, .video-insp-card, .price-card,
   <div class="ft-top">
     <div class="ft-brand">
       <div class="ft-logo">
-        <img src="images/branding-famco-logo.png" alt="FAMCO" style="height:44px;width:auto;filter:brightness(0) invert(1);opacity:.9;" onerror="this.style.display='none'">
+        <span class="ft-logo-pill"><img src="AF Famco Used L.png" alt="Al-Futtaim Famco Used" onerror="this.style.display='none'"></span>
       </div>
       <p class="ft-tag">UAE's trusted source for certified used heavy equipment since 1978. An Al-Futtaim Group company and sole UAE distributor for Volvo CE, Trucks, and Buses.</p>
       <div class="ft-soc">
@@ -2288,23 +2295,10 @@ function changeImg(dir) {
 function switchGTab(el, panel) {
   document.querySelectorAll('.gtab').forEach(t => t.classList.remove('on'));
   el.classList.add('on');
-  ['gallery','threeD','video'].forEach(p => {
+  ['gallery','sf360','threeD'].forEach(p => {
     const el2 = document.getElementById('panel-' + p);
     if (el2) el2.style.display = (p === panel) ? 'block' : 'none';
   });
-  /* Pause/resume YouTube iframe */
-  var iframe = document.getElementById('yt-video');
-  if (iframe) {
-    if (panel === 'video') {
-      if (!iframe.src || iframe.src === window.location.href) {
-        iframe.src = iframe.getAttribute('data-src');
-      }
-    } else {
-      if (iframe.src && iframe.src !== window.location.href) {
-        iframe.src = '';
-      }
-    }
-  }
   /* Pause local 3D video when leaving its tab */
   var v3d = document.getElementById('threeD-video');
   if (v3d && panel !== 'threeD') { try { v3d.pause(); } catch(e){} }
