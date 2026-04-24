@@ -2232,19 +2232,42 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .features-pin.visible .features-right{clip-path:inset(0 0 0 0 round 20px);}
   .features-progress{left:50%;transform:translateX(-50%);bottom:30px;}
 
-  /* Clip the feature-title area on mobile so when items cross-fade during the
-     pin-scroll, no title leaks downward into the video tile below. */
-  .features-left{overflow:hidden;}
-  /* Raise the video above any text bleed just in case */
+  /* ── Mobile: show only the ACTIVE feature-item; hide all others.
+     The JS already toggles .active on the current item — on desktop all items
+     are stacked + cross-faded via opacity, but on mobile that cross-fade shows
+     two titles simultaneously. Using display:none/block eliminates the overlap
+     cleanly and keeps the video area clear. ── */
+  .features-left{overflow:hidden;position:relative;}
   .features-right{position:relative;z-index:5;}
-  /* Ensure each feature item stays inside .features-left's height.
-     Titles are centered and clipped to the container. */
   .feature-item{
-    top:50%;
-    transform:translate3d(0,-50%,0) !important;
-    max-height:100%;
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:flex-start;
+    transform:none !important;
+    opacity:0;visibility:hidden;
+    transition:opacity .25s ease;
+    pointer-events:none;
   }
-  .feature-title{line-height:1.15;}
+  .feature-item.active{
+    opacity:1;visibility:visible;
+  }
+  /* Reset all per-char color/opacity transforms so the active title renders cleanly */
+  .feature-item .feature-title{
+    color:var(--ink) !important;
+    line-height:1.15;
+    text-align:left;
+  }
+  .feature-item .feature-title .char{
+    color:inherit !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
+  /* Fallback: if no item has .active yet (before first scroll trigger), show the first one */
+  .features-inner .feature-item:first-child:not(.active) ~ .feature-item:not(.active){
+    opacity:0;
+  }
+  .features-inner:not(:has(.feature-item.active)) .feature-item:first-child{
+    opacity:1;visibility:visible;
+  }
 }
 @media(max-width:480px){
   .feature-title{font-size:clamp(28px,8vw,36px);}
@@ -3524,6 +3547,10 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
     });
   }, {threshold:0.01, rootMargin:'0px 0px -10% 0px'});
   io.observe(section);
+
+  /* Seed the active class on item 0 so mobile (which hides non-active items)
+     shows a title before the first scroll trigger. */
+  if (items[0]) items[0].classList.add('active');
 
   function setActive(idx){
     items.forEach(function(el, i){
