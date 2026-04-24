@@ -1193,10 +1193,41 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   /* Trust */
   .trust-grid { grid-template-columns: 1fr 1fr; }
 
-  /* Footer */
-  .ft-top { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-  .ft-col { text-align: center; }
+  /* Footer — left aligned, columns become accordions (see accordion block below) */
+  .ft-top { grid-template-columns: 1fr; gap: 0; text-align: left; }
+  .ft-col { text-align: left; }
   .ft-col ul, .ft-col li { list-style: none; padding: 0; }
+
+  /* ── Mobile accordion: each .ft-col collapses; tap the title to toggle ── */
+  .ft-col { border-top: 1px solid rgba(255,255,255,.08); padding: 0; }
+  .ft-col:last-child { border-bottom: 1px solid rgba(255,255,255,.08); }
+  /* The first "brand" block (logo + tag + socials) keeps no accordion */
+  .ft-brand { border-top: none !important; padding-bottom: 24px; }
+
+  .ft-ct {
+    position: relative; cursor: pointer; user-select: none;
+    padding: 18px 0; margin: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; letter-spacing: 2px;
+    pointer-events: auto;
+  }
+  .ft-ct * { pointer-events: none; }
+  .ft-ct::after {
+    content: ""; width: 10px; height: 10px;
+    border-right: 2px solid rgba(255,255,255,.55);
+    border-bottom: 2px solid rgba(255,255,255,.55);
+    transform: rotate(45deg); transition: transform .25s ease;
+    margin-right: 4px;
+  }
+  .ft-col.is-open .ft-ct::after { transform: rotate(-135deg); }
+
+  .ft-col > .ft-ls,
+  .ft-col > .ft-ci,
+  .ft-col > .ft-lang { display: none; }
+  .ft-col.is-open > .ft-ls { display: flex; padding: 4px 0 20px; }
+  .ft-col.is-open > .ft-ci { display: flex; }
+  .ft-col.is-open > .ft-ci:last-of-type { padding-bottom: 8px; }
+  .ft-col.is-open > .ft-lang { display: flex; padding-bottom: 20px; }
 
   /* QS card (hidden on mobile anyway, but ensure it doesn't float) */
   .hero-qs { display: none; }
@@ -2200,6 +2231,20 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   .features-right{max-height:50vh;height:50vh;border-radius:20px;clip-path:inset(100% 0 0 100% round 20px);}
   .features-pin.visible .features-right{clip-path:inset(0 0 0 0 round 20px);}
   .features-progress{left:50%;transform:translateX(-50%);bottom:30px;}
+
+  /* Clip the feature-title area on mobile so when items cross-fade during the
+     pin-scroll, no title leaks downward into the video tile below. */
+  .features-left{overflow:hidden;}
+  /* Raise the video above any text bleed just in case */
+  .features-right{position:relative;z-index:5;}
+  /* Ensure each feature item stays inside .features-left's height.
+     Titles are centered and clipped to the container. */
+  .feature-item{
+    top:50%;
+    transform:translate3d(0,-50%,0) !important;
+    max-height:100%;
+  }
+  .feature-title{line-height:1.15;}
 }
 @media(max-width:480px){
   .feature-title{font-size:clamp(28px,8vw,36px);}
@@ -2888,6 +2933,26 @@ footer{background:var(--ink);padding:64px var(--px) 0;}
   if(!btn) return;
   window.addEventListener('scroll',function(){btn.classList.toggle('show',window.scrollY>320);},{passive:true});
   btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+
+/* ── Mobile footer accordion: tap a column title to toggle ── */
+(function(){
+  function bind(){
+    var cols = document.querySelectorAll('footer .ft-col');
+    cols.forEach(function(col){
+      var ct = col.querySelector('.ft-ct');
+      if (!ct || ct.dataset.accBound) return;
+      ct.dataset.accBound = '1';
+      ct.addEventListener('click', function(){
+        col.classList.toggle('is-open');
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
 })();
 </script>
 
